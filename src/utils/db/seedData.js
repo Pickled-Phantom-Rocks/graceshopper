@@ -7,14 +7,15 @@ async function dropTables() {
     console.log('Dropping All Tables...');
     // drop all tables, in the correct order
     client.query(`
+    DROP TABLE IF EXISTS product_categories;
+    DROP TABLE IF EXISTS categories;
     DROP TABLE IF EXISTS order_products;
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS cart_products;
     DROP TABLE IF EXISTS carts;
-    DROP TABLE IF EXISTS users;
-    DROP TABLE IF EXISTS product_categories;
     DROP TABLE IF EXISTS products;
-    DROP TABLE IF EXISTS categories;
+    DROP TABLE IF EXISTS users;
+
     `);
     console.log('Finished dropping tables!');
     } catch (error) {
@@ -30,25 +31,6 @@ async function createTables() {
     // create all tables, in the correct order
 
     await client.query(`
-    CREATE TABLE categories(
-        id SERIAL PRIMARY KEY,
-        name VARHCHAR(255) UNIQUE NOT NULL
-    );
-
-    CREATE TABLE products(
-        id SERIAL PRIMARY KEY,
-        name VARHCHAR(255) UNIQUE NOT NULL,
-        description VARCHAR (255),
-        "quantityAvailable" INTEGER DEFAULT 0,
-        price INTEGER NOT NULL,
-        "photoUrl" VARCHAR(255) DEFAULT "Missing Photo!"
-    );
-
-    CREATE TABLE product_categories(
-        id SERIAL PRIMARY KEY,
-        "productId" INTEGER REFERENCES products(id),
-        "categoryId" INTEGER REFERENCES categories(id)
-    );
 
     CREATE TABLE users(
         id SERIAL PRIMARY KEY,
@@ -57,6 +39,15 @@ async function createTables() {
         name VARCHAR(255) UNIQUE NOT NULL,
         address VARCHAR(255),
         "billingInfo" VARCHAR(255)
+    );
+
+    CREATE TABLE products(
+        id SERIAL PRIMARY KEY,
+        name VARHCHAR(255) UNIQUE NOT NULL,
+        description VARCHAR (255),
+        "quantityAvailable" INTEGER DEFAULT 0,
+        price DECIMAL NOT NULL,
+        "photoName" VARCHAR(255) DEFAULT "Missing Photo!"
     );
 
     CREATE TABLE carts(
@@ -70,16 +61,16 @@ async function createTables() {
         id SERIAL PRIMARY KEY,
         "cartId" INTEGER REFERENCES carts(id),
         "productId" INTEGER REFERENCES products(id),
-        "productPrice" INTEGER NOT NULL,
+        "productPrice" DECIMAL NOT NULL,
         "quantityOfItem" INTEGER
     );
 
     CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
-        "orderDate" INTEGER.
-        "deliveryDate" INTEGER,
-        "totalPrice" INTEGER
+        "orderDate" DATE NOT NULL,
+        "deliveryDate" DATE DEFAULT NULL,
+        "totalPrice" DECIMAL
     );
 
     CREATE TABLE order_products(
@@ -88,9 +79,19 @@ async function createTables() {
         "productId" INTEGER REFERENCES products(id),
         "cartProductsId" INTEGER REFERENCES cart_products(id),
         "quantityOrdered" INTEGER REFERENCES cart_products("quantityOfItem"),
-        "priceWhenOrdered" INTEGER REFERENCES card_products("productPrice")
+        "priceWhenOrdered" DECIMAL REFERENCES card_products("productPrice")
     );
 
+    CREATE TABLE categories(
+        id SERIAL PRIMARY KEY,
+        name VARHCHAR(255) UNIQUE NOT NULL
+    );
+
+    CREATE TABLE product_categories(
+        id SERIAL PRIMARY KEY,
+        "productId" INTEGER REFERENCES products(id),
+        "categoryId" INTEGER REFERENCES categories(id)
+    );
     
     `)
     
@@ -127,120 +128,188 @@ async function createInitialUsers() {
     throw error;
     }
 }
-/*
-async function createInitialActivities() {
-    try {
-    console.log('Starting to create activities...');
 
-    const activitiesToCreate = [
-        { name: 'wide-grip standing barbell curl', description: 'Lift that barbell!' },
-        { name: 'Incline Dumbbell Hammer Curl', description: 'Lie down face up on an incline bench and lift thee barbells slowly upward toward chest' },
-        { name: 'bench press', description: 'Lift a safe amount, but push yourself!' },
-        { name: 'Push Ups', description: 'Pretty sure you know what to do!' },
-        { name: 'squats', description: 'Heavy lifting.' },
-        { name: 'treadmill', description: 'running' },
-        { name: 'stairs', description: 'climb those stairs' },
+async function createInitialProducts() {
+    try {
+    console.log('Starting to create products...');
+
+    const productsToCreate = [
+        { name: 'first born child...', description: 'for legal purposes, this is fake! serious inquiries only ;)', quantityAvailable: 47, price: 666, photoName: 'FirstBorn'},
+        { name: 'Burger Pickle!', description: "deluxe stack of our most premium pickle slivers, freshly peeled off of someone's burger", quantityAvailable: 300, price: 0.75, photoName: 'BurgerPickle'},
+        { name: 'Pete (the rock)', description: "very friendly, doesn't require much work. They love doritos. Looking for a forever home!", quantityAvailable: 19, price: 44.95, photoName: 'Pete_the_rock'}
     ]
 
-    const activities = await Promise.all(activitiesToCreate.map(createActivity));
+    const products = await Promise.all(productsToCreate.map(createProducts));
 
-    console.log('activities created:');
-    console.log(activities);
+    console.log('products created: ');
+    console.log(products);
 
-    console.log('Finished creating activities!');
+    console.log('Finished creating products!');
     } catch (error) {
-    console.error('Error creating activities!');
+    console.error('Error creating products!');
     throw error;
     }
 }
 
 
-async function createInitialRoutines() {
+async function createInitialCarts() {
     try {
-    console.log('starting to create routines...');
+    console.log('starting to create carts...');
 
-    const routinesToCreate = [
-        {creatorId: 2, isPublic: false, name: 'Bicep Day', goal: 'Work the Back and Biceps.'},
-        {creatorId: 1, isPublic: true, name: 'Chest Day', goal: 'To beef up the Chest and Triceps!'},
-        {creatorId: 1, isPublic: false, name: 'Leg Day', goal: 'Running, stairs, squats'},
-        {creatorId: 2, isPublic: true, name: 'Cardio Day', goal: 'Running, stairs. Stuff that gets your heart pumping!'},
+    const cartsToCreate = [
+        { userId: 1, age: 4, isActive: true },
+        { userId: 2, age: 2, isActive: false },
+        { userId: 3, age: 7, isActive: true }
     ]
-    const routines = await Promise.all(routinesToCreate.map(routine => createRoutine(routine)));
-    console.log('Routines Created: ', routines)
-    console.log('Finished creating routines.')
+    const carts = await Promise.all(cartsToCreate.map(createCarts));
+    console.log('Carts Created: ', carts)
+
+    console.log('Finished creating carts!')
     } catch (error) {
+    console.error('Error creating carts!')
     throw error;
     }
 }
 
-async function createInitialRoutineActivities() {
+async function createInitialCartProducts() {
     try {
-    console.log('starting to create routine_activities...');
-    const [bicepRoutine, chestRoutine, legRoutine, cardioRoutine] = await getRoutinesWithoutActivities();
-    const [bicep1, bicep2, chest1, chest2, leg1, leg2, leg3] = await getAllActivities();
+    console.log('starting to create cart_products...');
+    const [albertsCart, sandrasCart, glamgalsCart] = await getCartsWithoutProducts();
+    const [firstBornChild, burgerPickle, peteTheRock] = await getAllProducts();
 
-    const routineActivitiesToCreate = [
+    const cartProductsToCreate = [
         {
-        routineId: bicepRoutine.id,
-        activityId: bicep1.id,
-        count: 10,
-        duration: 5 
+        cartId: albertsCart.id,
+        productId: firstBornChild.id,
+        productPrice: firstBornChild.price,
+        quantityOfItem: 1 
         },
         {
-        routineId: bicepRoutine.id,
-        activityId: bicep2.id,
-        count: 10,
-        duration: 8 
+        cartId: albertsCart.id,
+        productId: burgerPickle.id,
+        productPrice: burgerPickle.price,
+        quantityOfItem: 31
         },
         {
-        routineId: chestRoutine.id,
-        activityId: chest1.id,
-        count: 10,
-        duration: 8 
+        cartId: sandrasCart.id,
+        productId: burgerPickle.id,
+        productPrice: burgerPickle.price,
+        quantityOfItem: 19
         },
         {
-        routineId: chestRoutine.id,
-        activityId: chest2.id,
-        count: 10,
-        duration: 7 
+        cartId: sandrasCart.id,
+        productId: firstBornChild.id,
+        productPrice: firstBornChild.price,
+        quantityOfItem: 2
         },
         {
-        routineId: legRoutine.id,
-        activityId: leg1.id,
-        count: 10,
-        duration: 9 
+        cartId: glamgalsCart.id,
+        productId: firstBornChild.id,
+        productPrice: firstBornChild.price,
+        quantityOfItem: 1
         },
         {
-        routineId: legRoutine.id,
-        activityId: leg2.id,
-        count: 10,
-        duration: 10 
+        cartId: glamgalsCart.id,
+        productId: burgerPickle.id,
+        productPrice: burgerPickle.price,
+        quantityOfItem: 73
         },
         {
-        routineId: legRoutine.id,
-        activityId: leg3.id,
-        count: 10,
-        duration: 7 
-        },
-        {
-        routineId: cardioRoutine.id,
-        activityId: leg2.id,
-        count: 10,
-        duration: 10 
-        },
-        {
-        routineId: cardioRoutine.id,
-        activityId: leg3.id,
-        count: 10,
-        duration: 15 
-        },
+        cartId: glamgalsCart.id,
+        productId: peteTheRock.id,
+        productPrice: peteTheRock.price,
+        quantityOfItem: 3
+        }
     ]
-    const routineActivities = await Promise.all(routineActivitiesToCreate.map(addActivityToRoutine));
-    console.log('routine_activities created: ', routineActivities)
-    console.log('Finished creating routine_activities!')
+    const cartProducts = await Promise.all(cartProductsToCreate.map(addProductToCart));
+
+
+    console.log('cart_products created: ', cartProducts)
+    console.log('Finished creating cart_products!')
     } catch (error) {
-    console.log("Error while creating routine_activities")
+    console.log("Error while creating cart_products")
     throw error;
+    }
+}
+
+async function createInitialOrders() {
+    try {
+        console.log('starting to create orders!')
+
+        const ordersToCreate = [
+            { userId: 2, orderDate: '2020-08-15', deliveryDate: '2020-08-23', totalPrice: 1346.25 }
+        ]
+
+        const orders = await Promise.all(ordersToCreate.map(createOrdersManualDate))
+        console.log('orders created: ', orders)
+
+        console.log('Finished creating orders')
+    } catch(error) {
+        console.log("Error creating initial orders!")
+        throw error
+    }
+}
+
+async function createInitialOrderProducts() {
+    try {
+        console.log("Starting to create order_products!")
+        const [firstBorn, burgerPickle, petRock] = await getAllProducts()
+        const [albert1, albert2, sandra1, sandra2, glamgal1, glamgal2, glamgal3] = await getAllCartProducts()
+
+        const orderProductsToCreate = [
+            { orderId: 1, productId: burgerPickle.id, cartProductsId: sandra1.id, quantityOrdered: sandra1.quantityOfItem, priceWhenOrdered: sandra1.productPrice },
+            { orderId: 1, productId: firstBorn, cartProductsId: sandra2.id, quantityOrdered: sandra2.quantityOfItem, priceWhenOrdered: sandra2.productPrice }
+        ]
+
+        const orderProducts = await Promise.all(orderProductsToCreate.map(addProductToOrder))
+
+        console.log("Order_products created: ", orderProducts)
+        console.log("Finished creating order_products!")
+    } catch (error) {
+        console.log("Error creating initial order_products!")
+        throw error
+    }
+}
+
+async function createInitialCategories() {
+    try {
+        console.log("Starting to create initial categories!")
+
+        const categoriesToCreate = [
+            { name: 'Fantasy?' },
+            { name: 'Everything Pickles' },
+            { name: 'Pet Rocks' }
+        ]
+
+        const categories = await Promise.all(categoriesToCreate.map(createCategory))
+        console.log("Categories created: ", categories)
+
+        console.log("Finished creating initial categories!")
+    } catch (error) {
+        console.log("Error while creating intial categories!")
+        throw error
+    }
+}
+
+async function createInitialProductCategories() {
+    try {
+        console.log("Starting to create initial product_categories")
+        const [firstBorn, burgerPickle, petRock] = await getAllProducts()
+        const [fantasy, pickles, rocks] = await getAllCategories()
+
+        const productCategoriesToCreate = [
+            { productId: firstBorn.id, categoryId: fantasy.id },
+            { productId: burgerPickle.id, categoryId: pickles.id },
+            { productId: petRock.id, categoryId: rocks.id}
+        ]
+
+        const productCategories = await Promise.all(productCategoriesToCreate.map(addProductToCategory))
+        console.log("Added products to categories: ", productCategories)
+
+        console.log("Finished creating product_categories!")
+    } catch (error) {
+        console.log("Error while creating initial product_categories")
+        throw error
     }
 }
 
@@ -250,9 +319,14 @@ async function rebuildDB() {
     await dropTables();
     await createTables();
     await createInitialUsers();
-    await createInitialActivities();
-    await createInitialRoutines();
-    await createInitialRoutineActivities();
+    await createInitialProducts();
+    await createInitialCarts();
+    await createInitialCartProducts();
+    await createInitialOrders();
+    await createInitialOrderProducts();
+    await createInitialCategories();
+    await createInitialProductCategories();
+
     console.log("RebuildDB function was successfull!")
     } catch (error) {
     console.log('Error during rebuildDB')
@@ -263,4 +337,3 @@ async function rebuildDB() {
 module.exports = {
     rebuildDB
 };
-*/
