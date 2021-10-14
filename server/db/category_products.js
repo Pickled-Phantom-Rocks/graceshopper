@@ -28,7 +28,7 @@ async function getCategoryProductById(id) {
 	}
 }
 
-async function getCategoryProductByCategory(categoryId) {
+async function getCategoryProductsByCategory(categoryId) {
 	try {
 		const { rows: categoryProducts } = await client.query(`
 			SELECT *
@@ -82,7 +82,7 @@ async function deleteCategoryProduct(id) {
 module.exports = {
 	addProductToCategory,
 	getCategoryProductById,
-	getCategoryProductByCategory,
+	getCategoryProductsByCategory,
 	updateCategoryProduct,
 	deleteCategoryProduct
 }

@@ -2,7 +2,7 @@ module.exports = {
 	...require('./users'),
 	...require('./products'),
 	...require('./categories'),
-	...require('./product_categories'),
+	...require('./category_products'),
 	...require('./carts'),
 	...require('./cart_products'),
 	...require('./orders'),
