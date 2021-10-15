@@ -5,10 +5,13 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 
 const categoriesRouter = require('./categories');
-apiRouter.use('/name', categoriesRouter);
+apiRouter.use('/categories', categoriesRouter);
 
 const categoryProductsRouter = require('./category_products');
-apiRouter.use('/name', categoryProductsRouter);
+apiRouter.use('/category_products', categoryProductsRouter);
+
+const ordersRouter = require('./orders');
+apiRouter.use('/orders', ordersRouter);
 
 
 
