@@ -1,4 +1,5 @@
 const client = require('./client')
+const utils = require('./utils')
 
 async function createProducts({name, description, quantityAvailable, price, photoName}) {
 
@@ -37,7 +38,7 @@ async function getAllProducts() {
 
 }
 
-async function getProductById({productId}) {
+async function getProductById(productId) {
 
     try {
 
@@ -56,9 +57,64 @@ async function getProductById({productId}) {
 
 }
 
+async function updateProduct({ id, ...fields}) {
+
+    try {
+
+        const toUpdate = {}
+
+        for (let column in fields) {
+            if (fields[column] !== undefined) toUpdate[column] = fields[column]
+        }
+
+        let product
+
+        if (utils.dbFields(fields).insert.length > 0) {
+            const { rows } = await client.query(`
+                UPDATE products
+                SET ${utils.dbFields(toUpdate).insert}
+                WHERE id=${id}
+                RETURNING *;
+            `, Object.values(toUpdate))
+            product = rows[0]
+
+            console.log("UpdatedProduct: ", product)
+            return product
+        }
+
+    } catch (error) {
+        throw error
+    }
+
+}
+
+async function deleteProductById({productId}) {
+
+    try {
+
+        const { rows: product } = await client.query(`
+            DELETE * 
+            FROM products
+            WHERE products.id=$1
+            RETURNING *;
+        `, [productId])
+
+        console.log("DeletedProduct: ", product)
+        return product
+
+    } catch (error) {
+        throw error
+    }
+
+}
+
+
+
 
 module.exports = {
     createProducts,
     getAllProducts,
-    getProductById
+    getProductById,
+    updateProduct,
+    deleteProductById
 }

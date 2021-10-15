@@ -1,7 +1,6 @@
 const express = require('express')
 const productsRouter = express.Router()
-const { createProducts, getAllProducts } = require('../db')
-const { getProductById } = require('../db/products')
+const { createProducts, getAllProducts, getProductById, updateProduct, deleteProductById } = require('../db')
 
 productsRouter.use((req, res, next) => {
     try {
@@ -28,7 +27,7 @@ productsRouter.get('/', (req, res, next) => {
 productsRouter.get('/:productId', (req, res, next) => {
     try {//get product by Id
 
-        const productId = req.params
+        const {productId} = req.params
 
         const product = await getProductById(productId)
 
@@ -62,7 +61,40 @@ productsRouter.post('/', (req, res, next) => {
 })
 
 productsRouter.patch('/:productId', (req, res, next) => {
+
+    const { productId } = req.params
+    const { name, description, quantityAvailable, price, photoName } = req.body
+
+    const updateFields = {}
+
+    if(name) {
+        updateFields.name = name
+    }
+
+    if (description) {
+        updateFields.description = description
+    }
+
+    if (quantityAvailable) {
+        updateFields.quantityAvailable = quantityAvailable
+    }
+
+    if (price) {
+        updateFields.price = price
+    } 
+
+    if (photoName) {
+        updateFields.photoName = photoName
+    }
+
     try {//edit product info
+
+        const isAdmin = true
+
+        if (isAdmin) {
+            const updatedProduct = await updateProduct(productId, updateFields)
+            res.send({ product: updatedProduct })
+        }
 
     } catch (error) {
         throw error
@@ -71,6 +103,11 @@ productsRouter.patch('/:productId', (req, res, next) => {
 
 productsRouter.delete('/:productId', (req, res, next) => {
     try {//Delete the product matching the productId
+
+        const productId = req.params
+
+        const deletedProduct = await deleteProductById(productId)
+        res.send(deletedProduct)
 
     } catch (error) {
         throw error
