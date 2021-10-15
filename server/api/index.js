@@ -4,8 +4,20 @@ const apiRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 
+const categoriesRouter = require('./categories');
+apiRouter.use('/categories', categoriesRouter);
 
-//const moduleRouter = require('./name');
-//apiRouter.use('/name', moduleRouter);
+const categoryProductsRouter = require('./category_products');
+apiRouter.use('/category_products', categoryProductsRouter);
+
+const ordersRouter = require('./orders');
+apiRouter.use('/orders', ordersRouter);
+
+
+
+
+apiRouter.use((error, req, res, next) => {
+    res.send(error);
+});
 
 module.exports = apiRouter;
