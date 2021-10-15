@@ -11,7 +11,6 @@ async function createProducts({name, description, quantityAvailable, price, phot
             RETURNING *;
         `, [name, description, quantityAvailable, price, photoName])
 
-        console.log(products)
         return products
 
     } catch (error) {
