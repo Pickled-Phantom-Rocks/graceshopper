@@ -94,6 +94,10 @@ productsRouter.patch('/:productId', (req, res, next) => {
         if (isAdmin) {
             const updatedProduct = await updateProduct(productId, updateFields)
             res.send({ product: updatedProduct })
+        } else if (!isAdmin) {
+            res.status(401)
+
+            next({ name: "Unauthorized!", message: "You must be an admin for this action!"})
         }
 
     } catch (error) {
