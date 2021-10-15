@@ -1,5 +1,7 @@
 const client = require('./client'); 
-//const { /* DB adapter Functions */ } = require('../db')
+const {
+    createProducts
+} = require('../db')
 
 async function dropTables() {
     try {
@@ -315,14 +317,14 @@ async function rebuildDB() {
         client.connect();
         await dropTables();
         await createTables();
-        await createInitialUsers();
+        // await createInitialUsers();
         await createInitialProducts();
-        await createInitialCarts();
-        await createInitialCartProducts();
-        await createInitialOrders();
-        await createInitialOrderProducts();
-        await createInitialCategories();
-        await createInitialProductCategories();
+        // await createInitialCarts();
+        // await createInitialCartProducts();
+        // await createInitialOrders();
+        // await createInitialOrderProducts();
+        // await createInitialCategories();
+        // await createInitialProductCategories();
 
         console.log("RebuildDB function was successfull!")
     } catch (error) {
