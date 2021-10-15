@@ -12,6 +12,10 @@ const {
 	updateCategory,
 	deleteCategory
 } = require('../db/categories');
+const { 
+	getCategoryProductsByCategory, 
+	addProductToCategory 
+} = require('../db/category_products');
 
 categoriesRouter.use((req, res, next) => {
 	console.log("A request is being made to /activities");
@@ -58,7 +62,7 @@ categoriesRouter.patch('/:categoryId', async (req, res, next) => {
 		} else {
 			next({
 				name: "Not Found",
-				message: "This category does not yet exist.",
+				message: "This category does not exist.",
 			});
 		}
 	} catch(error) {
@@ -71,13 +75,49 @@ categoriesRouter.delete('/:categoryId', async (req, res, next) => {
 		const id = req.params.categoryId;
 		const categoryToDelete = await getCategoryById(id);
 
-		
-		const deletedCategory = await deleteCategory(id);
-		res.send(deletedCategory);
-
+		if(categoryToDelete){
+			const deletedCategory = await deleteCategory(id);
+			res.send(deletedCategory);
+		} else {
+			next({
+				name: "Not Found",
+				message: "This category does not exist.",
+			});
+		}
 	} catch(error) {
 		next(error);
 	}
 });
+
+categoriesRouter.post('/:categoryId/products', async (req, res, next) => {
+	try {
+		const {productId} = req.body;
+		const {categoryId} = req.params;
+
+		const foundCategoryProducts = await getCategoryProductsByCategory(categoryId);
+		const existingCategoryProducts = foundCategoryProducts
+			&& foundCategoryProducts.filter(categoryProduct => categoryProduct.productId === productId);
+
+		if(existingCategoryProducts && existingCategoryProducts.length) {
+			res.status(401)
+			next({
+				name: "Already Exists",
+				message: "That product already exists in the category."
+			})
+		} else {
+			const createdCategoryProduct = await addProductToCategory({categoryId, productId});
+			if(createdCategoryProduct) {
+				res.send(createdCategoryProduct);
+			} else (
+				next({
+					name: "Addition Failed",
+					message: "Unable to add this product to the category."
+				})
+			)
+		}
+	} catch(error){
+		next(error);
+	}
+})
 
 module.exports = categoriesRouter;
