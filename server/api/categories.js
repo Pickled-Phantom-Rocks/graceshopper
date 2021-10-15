@@ -18,7 +18,7 @@ const {
 } = require('../db/category_products');
 
 categoriesRouter.use((req, res, next) => {
-	console.log("A request is being made to /activities");
+	console.log("A request is being made to /categories");
     next(); 
 });
 
