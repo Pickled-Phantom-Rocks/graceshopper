@@ -12,7 +12,7 @@ cartsRouter.use((req, res, next) => {
     }
 })
 
-cartsRouter.get('/', (req, res, next) => {
+cartsRouter.get('/', async (req, res, next) => {
     try { //gets all open/active carts, only accessible to admin for order fulfillment 
 
         const activeCarts = await getAllActiveCarts()
@@ -24,7 +24,7 @@ cartsRouter.get('/', (req, res, next) => {
     }
 })
 
-cartsRouter.get('/:userId', (req, res, next) => {
+cartsRouter.get('/:userId', async (req, res, next) => {
     try{ //gets a cart using userId
 
         const userId = req.params
@@ -39,7 +39,7 @@ cartsRouter.get('/:userId', (req, res, next) => {
 })
 
 
-cartsRouter.post('/:userId', (req, res, next) => {
+cartsRouter.post('/:userId', async (req, res, next) => {
     try {//creates a new cart for a user
 
         const userId = req.params.userId
@@ -57,7 +57,7 @@ cartsRouter.post('/:userId', (req, res, next) => {
     }
 })
 
-cartsRouter.patch('/:userId', (req, res, next) => {
+cartsRouter.patch('/:userId', async (req, res, next) => {
 
     const {userId} = req.params
     const {age, isActive} = req.body
@@ -90,7 +90,7 @@ cartsRouter.patch('/:userId', (req, res, next) => {
     }
 })
 
-cartsRouter.delete('/:userId', (req, res, next) => {
+cartsRouter.delete('/:userId', async (req, res, next) => {
     try {//delete cart matching UserId
 
         const userId = req.params
