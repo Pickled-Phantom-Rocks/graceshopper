@@ -3,7 +3,8 @@ const {
     createUser,
     createProducts,
     createCarts,
-    createCategory
+    createCategory,
+    createUser
 } = require('./')
 
 async function dropTables() {
