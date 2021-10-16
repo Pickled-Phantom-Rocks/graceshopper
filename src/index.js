@@ -14,7 +14,9 @@ import {
 } from './components';
 
 const App = () => {
-	const [isLoggedIn, setisLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
+	const baseURL = 'http://localhost:3110/api';
+
+	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [isAdmin, setIsAdmin] = useState(false);
 	const [username, setUsername] = useState(localStorage.getItem("username"));
 	const [userToken, setUserToken] = useState(localStorage.getItem("token"));
@@ -29,10 +31,10 @@ const App = () => {
 					</div>
 				</Route>
 				<Route path="/register">
-					<Register setUsername= {setUsername} setUserToken={setUserToken} setisLoggedIn={setisLoggedIn} />
+					<Register baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} />
 				</Route>
 				<Route path="/login">
-					<Login setUsername= {setUsername} setUserToken={setUserToken} setisLoggedIn={setisLoggedIn} setIsAdmin={setIsAdmin} />
+					<Login baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />
 				</Route>
 				<Route path="/profile">
 					<Profile />

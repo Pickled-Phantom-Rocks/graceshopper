@@ -52,7 +52,7 @@ async function getUserById(userId) {
         const { rows: [user] } = await client.query(`
             SELECT *
             FROM users
-            WHERE id = ${userId}
+            WHERE id = ${userId};
       `);
 
         if (!user) {
@@ -83,7 +83,7 @@ async function getAllUsers() {
     try {
         const { rows : users } = await client.query(`
             SELECT *
-            FROM users
+            FROM users;
         `)
         return users;
     } catch (err) {

@@ -8,6 +8,7 @@ const {
 	createUser,
     getUserById,
     getUserByEmail,
+	getAllUsers,
     deleteUser,
     updateUserInfo,
     updatePassword
@@ -18,12 +19,24 @@ usersRouter.use((req, res, next) => {
     next(); 
 });
 
+usersRouter.get('/', async (req, res, next) => {
+    try {//get all the products
+
+        const users = await getAllUsers()
+
+        res.send(users)
+
+    } catch (error) {
+        throw error
+    }
+})
+
 usersRouter.post('/register', async (req, res, next) => {
 	const {email, password} = req.body;
 	try {
-		if(!email.includes('@') || !email.includes('.') || !email.length < 6) {
+		if(!email.includes('@') || !email.includes('.')) {
 			return res.status(400).send({
-				message: "Please enter a legitimate email address."
+				message: "Please enter a valid email address."
 			})
 		}
 		if(password.length < 8) {
@@ -142,4 +155,4 @@ usersRouter.delete('/:userId', async (req, res, next) => {
 
 });
 
-module.exports = usersRouter;
+module.exports = {usersRouter};
