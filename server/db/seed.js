@@ -36,6 +36,8 @@ async function createTables() {
         password VARCHAR(255) NOT NULL,
         name VARCHAR(255) UNIQUE NOT NULL,
         address VARCHAR(255),
+        city VARCHAR(255),
+        state VARCHAR(255),
         "billingInfo" VARCHAR(255)
     );
 
@@ -91,7 +93,6 @@ async function createTables() {
         "categoryId" INTEGER REFERENCES categories(id)
     );
     `);
-
     
     console.log('Finished constructing tables!');
     } catch (error) {
@@ -101,19 +102,14 @@ async function createTables() {
     }
 }
 
-
-
-
-
-
 async function createInitialUsers() {
     console.log('Starting to create users...');
     try {
 
     const usersToCreate = [
-        { email: 'testEmail1@email.com', password: 'bertie99', name: "albert", address: '123 sesame st', billingInfo: '1212-3232-3434-5454, 123'},
-        { email: 'fakeEmail@email.com', password: 'sandra123', name: "sandra", address: '703 kingsman dr', billingInfo: '9456-4385-4863-4863, 196'},
-        { email: 'glamgal99@email.com', password: 'glamgal123', name: "glamgal", address: '202 walmart avenue', billingInfo: '4586-1369-3166-4523, 652'}
+        { email: 'testEmail1@email.com', password: 'bertie99', name: "albert", address: '123 sesame st', city: 'here', state: 'there',  billingInfo: '1212-3232-3434-5454, 123'},
+        { email: 'fakeEmail@email.com', password: 'sandra123', name: "sandra", address: '703 kingsman dr', city: 'here', state: 'there', billingInfo: '9456-4385-4863-4863, 196'},
+        { email: 'glamgal99@email.com', password: 'glamgal123', name: "glamgal", address: '202 walmart avenue', city: 'here', state: 'there', billingInfo: '4586-1369-3166-4523, 652'}
     ]
     const users = await Promise.all(usersToCreate.map(createUser));
 
