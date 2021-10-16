@@ -139,13 +139,13 @@ async function updatePassword ({ id, password}) {
         const SALT_COUNT = 10;
         const newHashedPassword = await bcrypt.hash(password, SALT_COUNT);
 
-        const { rows: [ user ]} = await client.query(`
+        const { rows: [ selectedUser ]} = await client.query(`
             UPDATE users
             SET password = $1
             WHERE id=${id}
             RETURNING *;
             `, [newHashedPassword]);
-        return user;
+        return selectedUser;
 
     } catch (error) {
       throw error;
