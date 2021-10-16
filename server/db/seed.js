@@ -1,5 +1,9 @@
 const client = require('./client'); 
-const { createCategory } = require('./');
+const {
+    createProducts,
+    createCarts,
+    createCategory
+} = require('./')
 
 async function dropTables() {
     try {
@@ -316,8 +320,8 @@ async function rebuildDB() {
         await dropTables();
         await createTables();
         // await createInitialUsers();
-        // await createInitialProducts();
-        // await createInitialCarts();
+        await createInitialProducts();
+        await createInitialCarts();
         // await createInitialCartProducts();
         // await createInitialOrders();
         // await createInitialOrderProducts();
