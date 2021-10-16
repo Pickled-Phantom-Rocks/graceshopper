@@ -35,6 +35,20 @@ async function getAllActiveCarts() {
     }
 }
 
+async function getCartById({id}) {
+    try {
+
+        const { rows: [ cart ] } = await client.query(`
+            SELECT *
+            FROM carts
+            WHERE id=$1
+        `, [id])
+
+    } catch (error) {
+        throw error
+    }
+}
+
 async function getCartByUserId({userId}) {
     try {
 
@@ -101,5 +115,6 @@ module.exports = {
     getAllActiveCarts,
     getCartByUserId,
     destroyCart,
-    updateCart
+    updateCart,
+    getCartById
 }
