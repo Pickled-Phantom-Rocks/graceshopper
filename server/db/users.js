@@ -12,7 +12,6 @@ async function createUser({
             INSERT INTO users(email, password, name, address, "billingInfo") 
             VALUES($1, $2, $3, $4, $5) 
             ON CONFLICT (email) DO NOTHING
-            ON CONFLICT (name) DO NOTHING 
             RETURNING id, email, password, name, address, "billingInfo";
       `, [email, password, name, address, billingInfo]);
 

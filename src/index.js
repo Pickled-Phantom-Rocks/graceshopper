@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 const App = () => {
-	return <h1>Hello</h1>
+	return <p>If you see this, Javascript is working</p>
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
