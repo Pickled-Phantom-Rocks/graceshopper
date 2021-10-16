@@ -20,7 +20,7 @@ async function getCart_ProductById(id) {
 		const { rows: [cart_product]} = await client.query(`
 			SELECT *
 			FROM cart_products
-			WHERE id=$id;
+			WHERE id=$1;
 		`, [id]);
 
 		return cart_product;
