@@ -7,6 +7,7 @@
     "seed:dev": "nodemon ./src/server/db/seed.js",
     "start:dev": "nodemon ./src/server/index.js",
     "start": "CHOKIDAR_USEPOLLING=true react-scripts start",
+    "start1": "react-scripts start",
     "build": "react-scripts build"
   },
   "repository": {
