@@ -14,10 +14,10 @@ import {
 } from './components';
 
 const App = () => {
-	const [isLoggedIn, setisLoggedIn] = useState(false);
+	const [isLoggedIn, setisLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [isAdmin, setIsAdmin] = useState(false);
-	const [username, setUsername] = useState('');
-	const [userToken, setUserToken] = useState('');
+	const [username, setUsername] = useState(localStorage.getItem("username"));
+	const [userToken, setUserToken] = useState(localStorage.getItem("token"));
 
 	return <Router>
 		<Header />
@@ -28,11 +28,11 @@ const App = () => {
 						If you see this, Javascript is working.
 					</div>
 				</Route>
-				<Route path="/login">
-					<Login />
-				</Route>
 				<Route path="/register">
-					<Register />
+					<Register setUsername= {setUsername} setUserToken={setUserToken} setisLoggedIn={setisLoggedIn} />
+				</Route>
+				<Route path="/login">
+					<Login setUsername= {setUsername} setUserToken={setUserToken} setisLoggedIn={setisLoggedIn} setIsAdmin={setIsAdmin} />
 				</Route>
 				<Route path="/profile">
 					<Profile />
