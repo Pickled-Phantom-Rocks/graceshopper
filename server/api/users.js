@@ -94,16 +94,19 @@ usersRouter.post('/login', async (req, res, next) => {
 				expiresIn: '1w'
 			});
 			res.send({
-				message: "You have successfully logged in."
+				status: 204,
+				message: "You have successfully logged in.",
+				name: user.name,
+				token: token
+				
 			})
 		} else {
-			next({
-				name: "Invalid Credentials",
+			res.send({
 				message: "Email or password is incorrect."
 			})
 		};
 	} catch(error) {
-		next(errror);
+		next(error);
 	}
 });
 

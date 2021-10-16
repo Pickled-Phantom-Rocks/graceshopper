@@ -8,7 +8,33 @@ const Login = (props) => {
 	async function loginUser() {
 		event.preventDefault();
 
-		const response = await fetch(`${baseURL}/users/login`)
+		const response = await fetch(`${baseURL}/users/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+			body: JSON.stringify({
+				email: email,
+				password: password
+			})
+		})
+		.then(response => response.json())
+		.then(result => {
+			console.log(result);
+			const {status, name, token} = result;
+			if(status === 204) {
+				alert("You have successfully logged in.")
+				setIsLoggedIn(true);
+				setUsername(name);
+				setUserToken(token);
+
+				localStorage.setItem('isLoggedIn', true);
+				localStorage.setItem('username', name);
+				localStorage.setItem('token', token);
+			} else {
+				alert("Invalid email/password combination.")
+			}
+		})
 
 	}
 	
