@@ -18,26 +18,47 @@ const {
 usersRouter.use((req, res, next) => {
     console.log("A request is being made to /users");
     next(); 
-  });
+});
 
 usersRouter.post('/register', async (req, res, next) => {
-	const {email, password, name, address,billingInfo} = req.body;
+	const {email, password} = req.body;
+	try {
+		if(!email.includes('@') || !email.includes('.') || !email.length < 6) {
+			return res.status(400).send({
+				message: "Please enter a legitimate email address."
+			})
+		}
+		if(password.length < 8) {
+			return res.status(400).send({
+				message: "Password must be at least eight characters long."
+			});
+		};
 
-	//add if check for email address format, looking for @
+		const existingEmail = await getUserByEmail(email);
+		if(typeof(existingUser) == 'object') {
+			return res.status(400).send({
+				message: "This email address is already associated with another account."
+			})
+		};
+		const user = await createUser(req.body);
 
-	if(password.length < 8) {
-		return res.status(400).send({
-			message: "Password must be at least eight characters long."
-		});
-	};
-	const existingEmail = await getUserByEmail(email);
-	if(typeof(existingUser) == 'object') {
-		return res.status(400).send({
-			message: "This email address is already associated with another account."
-		})
-	};
-	const user = await createUser(req.body);
-
+		const token = jwt.sign(
+			{
+				id: user.id,
+				name: user.name,
+			}, JWT_SECRET, {
+				expiresIn: '1w'
+			}
+		);
+		const finalReturn = {
+			message: "Thank you for registering.",
+			token: token,
+			user: token.name
+		};
+		res.send(JSON.stringify(finalReturn));
+	} catch(error) {
+		next(error);
+	} 
 });
 
 usersRouter.post('/login', async (req, res, next) => {
@@ -58,8 +79,7 @@ usersRouter.post('/login', async (req, res, next) => {
 			const token = jwt.sign({ 
 				id: user.id,
 				name: user.name
-			}, 
-			JWT_SECRET, {
+			}, JWT_SECRET, {
 				expiresIn: '1w'
 			});
 			res.send({
@@ -70,19 +90,58 @@ usersRouter.post('/login', async (req, res, next) => {
 				name: "Invalid Credentials",
 				message: "Email or password is incorrect."
 			})
-		}
+		};
 	} catch(error) {
 		next(errror);
 	}
 });
 
 usersRouter.get('/profile', async (req, res, next) => {
-	const token = req.headers.authorization.slice(7, req.headers.authorization.length)
-	const decoded = jwt.verify(token, JWT_SECRET)
-	const name = {name: decoded.name};
-	res.send(JSON.stringify(name));
-
+	try {
+		const token = req.headers.authorization.slice(7, req.headers.authorization.length);
+		const decoded = jwt.verify(token, JWT_SECRET);
+		const name = {name: decoded.name};
+		res.send(JSON.stringify(name));
+	} catch(error) {
+		next(error);
+	}
 });
 
+usersRouter.patch('/:userId/info', async (req, res, next) => {
+	try {
+		const {id} = req.params;
+		const updated = updateUserInfo(id,	req.body);
+		res.send(updated);
+	} catch(error) {
+		next(error);
+	}
+});
+
+usersRouter.patch('/:userId/password', async (req, res, next) => {
+	try {
+		const {id} = req.params
+		const {password, newPassword} = req.body;
+		const user = await getUserById(id);
+		const isCorrectPassword = await bcrypt.compare( password, user.password);
+
+		if(isCorrectPassword) {
+			const updated = updatePassword(id, newPassword)
+		}
+	} catch(error) {
+		next(error);
+	}
+});
+
+usersRouter.delete('/:userId', async (req, res, next) => {
+	const {userId} = req.params;
+
+	try{
+		const deletedUser = await deleteUser(userId);
+		res.send(deletedUser);
+	} catch(error) {
+		next(error);
+	};
+
+});
 
 module.exports = usersRouter;

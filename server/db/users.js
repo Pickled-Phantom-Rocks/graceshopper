@@ -136,21 +136,17 @@ async function updatePassword ({ id, password}) {
   
     try {
         const user = await getUserById(id);
-        const hashedPassword = user.password;
-        const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+        const SALT_COUNT = 10;
+        const newHashedPassword = await bcrypt.hash(password, SALT_COUNT);
 
-        if(passwordsMatch) {
-            const SALT_COUNT = 10;
-            const newHashedPassword = await bcrypt.hash(password, SALT_COUNT);
+        const { rows: [ user ]} = await client.query(`
+            UPDATE users
+            SET password = $1
+            WHERE id=${id}
+            RETURNING *;
+            `, [newHashedPassword]);
+        return user;
 
-            const { rows: [ user ]} = await client.query(`
-                UPDATE users
-                SET password = $1
-                WHERE id=${id}
-                RETURNING *;
-                `, [newHashedPassword]);
-            return user;
-        }
     } catch (error) {
       throw error;
     }
