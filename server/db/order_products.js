@@ -7,7 +7,7 @@ async function createOrder_Product({ orderId, productId, cartProductsId, quantit
 			VALUES($1, $2, $3, $4, $5)
 			RETURNING *;
 		`, [orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered]);
-
+        console.log("CreateOrderProduct:", order_product);
 		return order_product;
     } catch (error) {
         throw error;
@@ -21,7 +21,7 @@ async function getOrder_ProductById(id) {
 			FROM order_products
 			WHERE id=$1;
 		`, [id]);
-
+        console.log("GETORDER_PRODUCTBYID!!!:", order_product);
 		return order_product;
 	} catch(error) {
 		throw error;
@@ -35,7 +35,7 @@ async function getOrder_ProductsByOrderId(orderId) {
 			FROM order_products
 			WHERE "orderId"=$1;
 		`, [orderId]);
-
+        console.log("getOrder_ProductSBy Order Id!!!:!!!:!", order_product);
 		return order_product;
 	} catch(error) {
 		throw error;
@@ -58,6 +58,7 @@ async function updateOrder_Product ({ id, ...fields}) {
             WHERE id=${id}
             RETURNING *;
             `, Object.values(fields));
+            console.log("UDPATE Order_Product DB:", order_product);
         return order_product;
       
     } catch (error) {
@@ -72,7 +73,7 @@ async function deleteOrder_Product (id) {
 			WHERE id=$1
 			RETURNING *;
 		`, [id]);
-
+        console.log("DELETE!!! Order_Product DB", order_product);
 		return order_product;
 	} catch(error) {
 		throw error;

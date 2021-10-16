@@ -13,7 +13,7 @@ async function createOrder({
             VALUES($1, $2, $3, $4) 
             RETURNING id, "userId", "orderDate", "deliveryDate", "totalPrice";
       `, [userId, orderDate, deliveryDate, totalPrice]);
-
+        console.log("!!CREATE ORDER!!", order);
         return order;
     } catch (error) {
         throw error;
@@ -26,6 +26,7 @@ async function getOrderByUserId({ userId }) {
     }
     try {
         const order = await getUserById(userId);
+        console.log("!!GetOrderByUserID!!", order);
         return order;
     } catch (error) {
         throw error;
@@ -43,7 +44,7 @@ async function getOrderById(orderId) {
         if (!order) {
             return null
         }
-
+        console.log("GetOrderByID", order);
         return order;
     } catch (error) {
         throw error;
@@ -66,6 +67,7 @@ async function updateOrder({ id, ...fields }) {
             WHERE id=${id}
             RETURNING *;
         `, Object.values(fields));
+        console.log("UPDATE Order!!!!!!", order);
         return order;
 
     } catch (error) {
