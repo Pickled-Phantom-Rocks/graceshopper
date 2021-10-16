@@ -6,10 +6,8 @@ const usersRouter = express.Router();
 
 const {
 	createUser,
-    getUser,
     getUserById,
     getUserByEmail,
-    getAllUsers,
     deleteUser,
     updateUserInfo,
     updatePassword
