@@ -1,4 +1,5 @@
-const client = require('./client')
+const client = require('./client');
+const { getCartById } = require('./index');
 
 async function addProductToCart ({ cartId, productId, productPrice, quantityOfItem }) {
     try {
@@ -80,8 +81,14 @@ async function deleteCart_Product (id) {
 	}
 }
 
-async function canEditCart_Product () {
-    
+async function canEditCart_Product (cart_productId, userId) {
+    try {
+        const cart_product = await getCart_ProductById(cart_productId);
+        const cart = await getCartById(cart_product.cartId);
+        return cart.userId === userId;
+    } catch (err) {
+        throw err;
+    }
 }
 
 module.exports = {
@@ -89,6 +96,7 @@ module.exports = {
     getCart_ProductById,
     getCart_ProductByCartId,
     updateCart_Product,
-    deleteCart_Product
+    deleteCart_Product,
+    canEditCart_Product
 
 };

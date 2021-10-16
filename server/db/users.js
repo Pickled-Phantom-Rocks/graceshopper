@@ -50,7 +50,7 @@ async function getUser({email, password,}) {
 async function getUserById(userId) {
     try {
         const { rows: [user] } = await client.query(`
-            SELECT id
+            SELECT *
             FROM users
             WHERE id = ${userId}
       `);
