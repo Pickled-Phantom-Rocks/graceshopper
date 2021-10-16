@@ -12,7 +12,7 @@ productsRouter.use((req, res, next) => {
     }
 })
 
-productsRouter.get('/', (req, res, next) => {
+productsRouter.get('/', async (req, res, next) => {
     try {//get all the products
 
         const products = await getAllProducts()
@@ -24,7 +24,7 @@ productsRouter.get('/', (req, res, next) => {
     }
 })
 
-productsRouter.get('/:productId', (req, res, next) => {
+productsRouter.get('/:productId', async (req, res, next) => {
     try {//get product by Id
 
         const {productId} = req.params
@@ -38,7 +38,15 @@ productsRouter.get('/:productId', (req, res, next) => {
     }
 })
 
-productsRouter.post('/', (req, res, next) => {
+productsRouter.get('/:category', async (req, res, next) => {
+    try {
+
+    } catch (error) {
+        throw error
+    }
+})
+
+productsRouter.post('/', async (req, res, next) => {
     try {//Create a product 
 
         const isAdmin = true
@@ -60,7 +68,7 @@ productsRouter.post('/', (req, res, next) => {
     }
 })
 
-productsRouter.patch('/:productId', (req, res, next) => {
+productsRouter.patch('/:productId', async (req, res, next) => {
 
     const { productId } = req.params
     const { name, description, quantityAvailable, price, photoName } = req.body
@@ -105,7 +113,7 @@ productsRouter.patch('/:productId', (req, res, next) => {
     }
 })
 
-productsRouter.delete('/:productId', (req, res, next) => {
+productsRouter.delete('/:productId', async (req, res, next) => {
     try {//Delete the product matching the productId
 
         const productId = req.params

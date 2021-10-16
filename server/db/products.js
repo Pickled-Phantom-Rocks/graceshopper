@@ -45,11 +45,21 @@ async function getProductById(productId) {
         const { rows: product } = await client.query(`
             SELECT *
             FROM products
-            WHERE products.id=$1;
+            WHERE id=$1;
         `, [productId])
 
         console.log("GetProductById: ", product, "productID that was passed in: ", productId)
         return product
+
+    } catch (error) {
+        throw error
+    }
+
+}
+
+async function getProductByCategory(category) {
+
+    try {
 
     } catch (error) {
         throw error
@@ -95,7 +105,7 @@ async function deleteProductById({productId}) {
         const { rows: product } = await client.query(`
             DELETE * 
             FROM products
-            WHERE products.id=$1
+            WHERE id=$1
             RETURNING *;
         `, [productId])
 

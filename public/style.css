@@ -3,7 +3,30 @@
 	padding:0;
 	box-sizing: border-box;
 }
-
-.testDiv {
-	color:red;
+body {
+	height:100vh;
+	width:100%;
+}
+#app {
+	display:grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5% 1fr 5%;
+	overflow: hidden;
+    overflow-wrap: break-word;
+	height:100%;
+	width:100%;
+}
+header {
+	grid-row:1;
+	background-color:gray;
+}
+.navLink {
+	margin:5px;
+}
+main {
+	grid-row:2;
+}
+footer {
+	grid-row:3;
+	background-color:gray;
 }

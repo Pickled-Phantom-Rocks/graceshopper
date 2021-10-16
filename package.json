@@ -7,6 +7,7 @@
     "seed:dev": "nodemon ./server/db/seed.js",
     "start:dev": "nodemon ./server/index.js",
     "start": "CHOKIDAR_USEPOLLING=true react-scripts start",
+    "start1": "react-scripts start",
     "build": "react-scripts build"
   },
   "repository": {
@@ -19,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/Pickled-Phantom-Rocks/graceshopper/issues"
   },
-  "homepage": "https://github.com/Pickled-Phantom-Rocks/graceshopper#readme",
+  "homepage": ".",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
