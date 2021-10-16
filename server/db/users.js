@@ -1,19 +1,25 @@
 const client = require('./client');
+const bcrypt = require('bcrypt');
 
 async function createUser({
     email,
     password,
     name,
     address,
+    city,
+    state,
     billingInfo
 }) {
     try {
+        const SALT_COUNT = 10;
+        const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+
         const { rows: [user] } = await client.query(`
-            INSERT INTO users(email, password, name, address, "billingInfo") 
-            VALUES($1, $2, $3, $4, $5) 
+            INSERT INTO users(email, password, name, address, city, state, "billingInfo") 
+            VALUES($1, $2, $3, $4, $5, $6, $7) 
             ON CONFLICT (email) DO NOTHING
-            RETURNING id, email, password, name, address, "billingInfo";
-      `, [email, password, name, address, billingInfo]);
+            RETURNING id, email, password, name, address, city, state, "billingInfo";
+      `, [email, hashedPassword, name, address, city, state, billingInfo]);
 
         return user;
     } catch (error) {
@@ -21,22 +27,21 @@ async function createUser({
     }
 }
 
-async function getUser({
-    email,
-    password,
-}) {
+async function getUser({email, password,}) {
     if(!email || !password){
         return;
     }
     try {
-     const user = await getUserByEmail(email);
-     
-     if(password === user.password){
-         delete user.password
-         return user
-     }else{
-         return;
-     }
+        const user = await getUserByEmail(email);
+        const hashedPassword = user.password;
+        const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+
+        if(passwordsMatch){
+            delete user.password
+            return user
+        }else{
+            return;
+        }
     } catch (error) {
         throw error;
     }
@@ -130,14 +135,18 @@ async function updatePassword ({ id, password}) {
     }
   
     try {
-      const { rows: [ user ]} = await client.query(`
-        UPDATE users
-        SET password = $1
-        WHERE id=${id}
-        RETURNING *;
-      `, [password]);
-      return user;
-  
+        const user = await getUserById(id);
+        const SALT_COUNT = 10;
+        const newHashedPassword = await bcrypt.hash(password, SALT_COUNT);
+
+        const { rows: [ selectedUser ]} = await client.query(`
+            UPDATE users
+            SET password = $1
+            WHERE id=${id}
+            RETURNING *;
+            `, [newHashedPassword]);
+        return selectedUser;
+
     } catch (error) {
       throw error;
     }
