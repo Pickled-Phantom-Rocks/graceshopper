@@ -2,7 +2,8 @@ const client = require('./client');
 const {
     createProducts,
     createCarts,
-    createCategory
+    createCategory,
+    createUser
 } = require('./')
 
 async function dropTables() {
@@ -319,7 +320,7 @@ async function rebuildDB() {
         client.connect();
         await dropTables();
         await createTables();
-        // await createInitialUsers();
+        await createInitialUsers();
         await createInitialProducts();
         await createInitialCarts();
         // await createInitialCartProducts();

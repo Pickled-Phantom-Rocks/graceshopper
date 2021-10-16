@@ -38,6 +38,14 @@ productsRouter.get('/:productId', (req, res, next) => {
     }
 })
 
+productsRouter.get('/:category', (req, res, next) => {
+    try {
+
+    } catch (error) {
+        throw error
+    }
+})
+
 productsRouter.post('/', (req, res, next) => {
     try {//Create a product 
 
