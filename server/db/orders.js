@@ -1,4 +1,7 @@
 const client = require('./client');
+const { 
+	getUserById,
+} = require('../db');
 
 async function createOrder({
     userId,
@@ -9,52 +12,41 @@ async function createOrder({
     try {
         const { rows: [order] } = await client.query(`
             INSERT INTO orders( "userId", "orderDate", "deliveryDate", "totalPrice") 
-            VALUES($1, $2, $3) 
-            ON CONFLICT (email) DO NOTHING
-            ON CONFLICT (name) DO NOTHING 
-            RETURNING id, email, password, name, address, "billingInfo";
-      `, [orderDate]);
+            VALUES($1, $2, $3, $4) 
+            RETURNING id, "userId", "orderDate", "deliveryDate", "totalPrice";
+      `, [userId, orderDate, deliveryDate, totalPrice]);
 
-        return user;
+        return order;
     } catch (error) {
         throw error;
     }
 }
 
-async function getOrderByUserId({
-    email,
-    password,
-}) {
-    if(!email || !password){
+async function getOrderByUserId({ userId }) {
+    if(!userId){
         return;
     }
     try {
-     const user = await getUserByEmail(email);
-     
-     if(password === user.password){
-         delete user.password
-         return user
-     }else{
-         return;
-     }
+        const order = await getUserById(userId);
+        return order;
     } catch (error) {
         throw error;
     }
 }
 
-async function getOrderById(userId) {
+async function getOrderById(orderId) {
     try {
-        const { rows: [user] } = await client.query(`
-            SELECT id
-            FROM users
-            WHERE id = ${userId}
+        const { rows: [order] } = await client.query(`
+            SELECT *
+            FROM orders
+            WHERE id = ${orderId}
       `);
 
-        if (!user) {
+        if (!order) {
             return null
         }
 
-        return user;
+        return order;
     } catch (error) {
         throw error;
     }
@@ -70,13 +62,13 @@ async function updateOrder({ id, ...fields }) {
     }
 
     try {
-        const { rows: [routine] } = await client.query(`
-            UPDATE routines
+        const { rows: [order] } = await client.query(`
+            UPDATE orders
             SET ${setString}
             WHERE id=${id}
             RETURNING *;
         `, Object.values(fields));
-        return routine;
+        return order;
 
     } catch (error) {
         throw error;
@@ -87,7 +79,5 @@ module.exports = {
     createOrder,
     getOrderByUserId,
     getOrderById,
-    updateOrder,
-
-
+    updateOrder
 }
