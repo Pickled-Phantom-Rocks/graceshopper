@@ -1,5 +1,5 @@
 const client = require('./client');
-const { getCartById } = require('./index');
+const { getCartById } = require('./carts');
 
 async function addProductToCart ({ cartId, productId, productPrice, quantityOfItem }) {
     try {
