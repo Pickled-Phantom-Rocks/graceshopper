@@ -128,24 +128,18 @@ async function updateUserInfo (id, fields) {
     }
   };
 
-async function updatePassword ({ id, password}) {
-
-    if (!password) {
-      return;
-    }
-  
+async function updatePassword (id, password) {
     try {
-        const user = await getUserById(id);
         const SALT_COUNT = 10;
         const newHashedPassword = await bcrypt.hash(password, SALT_COUNT);
 
-        const { rows: [ selectedUser ]} = await client.query(`
+        const { rows: [ user ]} = await client.query(`
             UPDATE users
             SET password = $1
             WHERE id=${id}
             RETURNING *;
             `, [newHashedPassword]);
-        return selectedUser;
+        return user;
 
     } catch (error) {
       throw error;

@@ -37,10 +37,8 @@ const Profile = (props) => {
 			</section>
 		}
 		<section>
-			<h2>My Cart</h2>
-		</section>
-		<section>
-			<h2>My Orders</h2>
+			<h2>My Past Orders</h2>
+			stuff...
 		</section>
 	</div>
 }

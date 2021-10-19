@@ -166,7 +166,7 @@ usersRouter.patch('/:userId/password', async (req, res, next) => {
 	try {
 		const {userId} = req.params;
 		const {password, newPassword} = req.body;
-		console.log('current and new passwords: ', password, newPassword);
+		console.log('current and new passwords from api: ', password, newPassword);
 
 		const user = await getUserById(userId);
 		const isCorrectPassword = await bcrypt.compare( password, user.password);
