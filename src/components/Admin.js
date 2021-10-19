@@ -59,7 +59,7 @@ const Admin = (props) => {
 			<br/><br/>
 
 			<form>
-				<label for="productLabel">Selected Product </label>
+				<label >Selected Product </label>
 				<select id="productSelect" >
 					<option value={'select a product'} key={0}>Select a product</option>
 					{ products.map((product) => {
