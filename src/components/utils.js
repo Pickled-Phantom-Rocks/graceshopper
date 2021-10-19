@@ -1,20 +1,62 @@
 import {useEffect, useState} from 'react';
 
-const fetchProducts = (baseURL) => {
-	const [ products, setProducts] = useState([]);
-	useEffect(() => {
-		fetch(`${baseURL}/products`, {
+async function fetchUsers(baseURL) {
+	// const [users, setUsers] = useState([]);
+	// useEffect(() => {
+	// 	fetch(`${baseURL}/users`, {
+	// 		method:'GET',
+	// 		headers: {'Content-Type': 'application/json'}
+	// 	})
+	// 	.then(res => res.json())
+	// 	.then((res) => {
+	// 		const response = res;
+	// 		setUsers(response);
+	// 	})
+	// })
+
+	try {
+		const result = await fetch(`${baseURL}/users`, {
 			method: 'GET',
 			headers: {'Content-Type': 'application/json'}
 		})
-		.then(res => res.json())
-		.then((res) => {
-			const response = res;
-			setProducts(response);
+
+		const data = await result.json()
+
+		return data
+	} catch (error) {
+		throw error
+	}
+}
+async function fetchProducts(baseURL) {
+	// const [ products, setProducts] = useState([]);
+	// useEffect(() => {
+	// 	fetch(`${baseURL}/products`, {
+	// 		method: 'GET',
+	// 		headers: {'Content-Type': 'application/json'}
+	// 	})
+	// 	.then(res => res.json())
+	// 	.then((res) => {
+	// 		const response = res;
+	// 		setProducts(response);
+	// 	})
+	// 	.catch(err => console.log(err))
+	// }, []);
+	// return products;
+
+	try {
+
+		const result = await fetch(`${baseURL}/products`, {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
 		})
-		.catch(err => console.log(err))
-	}, []);
-	return products;
+
+		const data = await result.json()
+
+		return data
+
+	} catch (error) {
+		throw error
+	}
 }
 
 const fetchCategories = (baseURL) => {

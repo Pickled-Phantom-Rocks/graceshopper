@@ -1,18 +1,25 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import {fetchUsers} from '.';
 
 const UserList = (props) => {
 	const {baseURL} = props;
-	const usersList = fetchUsers(baseURL);
-	console.log('userList: ', usersList);
-	// async function makeAdmin(id) {
+	const [userList, setUserList] = useState();
 
-	// }
-
+	async function fetchTheUsers() {
+		try {
+			const result = await fetchUsers(baseURL)
+			setUserList(result)
+		} catch (error) {
+			console.log("Error fetching users: ", error)
+		}
+	}
+	useEffect(() => {
+		fetchTheUsers();
+	}, []);
 
 	return 	<div className="userList">
-		{/* {
-			usersList.map(user => {
+		{
+			userList.map(user => {
 				const {id, name, isAdmin} = user;
 
 				return <div className="user" key={id}>
@@ -20,7 +27,7 @@ const UserList = (props) => {
 					Admin: { isAdmin ? "Yes" : "No"}
 				</div>
 			})
-		} */}
+		}
 	</div>
 }
 

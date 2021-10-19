@@ -82,7 +82,7 @@ async function getUserByEmail(email) {
 
 async function getAllUsers() {
     try {
-        const { rows : users } = await client.query(`
+        const {rows : users} = await client.query(`
             SELECT *
             FROM users;
         `)
