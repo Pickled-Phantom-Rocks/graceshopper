@@ -3,28 +3,41 @@ import {fetchUsers} from '.';
 
 const UserList = (props) => {
 	const {baseURL} = props;
-	const [userList, setUserList] = useState();
+	const [userList, setUserList] = useState([]);
 
 	async function fetchTheUsers() {
 		try {
-			const result = await fetchUsers(baseURL)
-			setUserList(result)
+			const results = await fetchUsers(baseURL)
+
+			setUserList(results)
 		} catch (error) {
-			console.log("Error fetching users: ", error)
+			throw error
 		}
 	}
 	useEffect(() => {
 		fetchTheUsers();
 	}, []);
 
+
+	async function deleteUser() {
+		
+	}
+
 	return 	<div className="userList">
 		{
-			userList.map(user => {
+			userList.map((user) => {
 				const {id, name, isAdmin} = user;
-
-				return <div className="user" key={id}>
-					Name: {name} <br/>
-					Admin: { isAdmin ? "Yes" : "No"}
+				return <div className="userListItem" key={id}>
+					Name: {name}<br/>
+					Admin: {
+						isAdmin ? "Yes" : "No"
+					}
+					<br/>
+					{
+						!isAdmin ? <button>Make Admin</button> : <button>Remove Admin</button>
+					}
+					
+					<button>Delete User</button>
 				</div>
 			})
 		}

@@ -10,5 +10,6 @@ export {
 	fetchUsers,
 	newPassword,
 	newInfo,
-	newBilling
+	newBilling,
+	deleteUser
 } from './userUtils';

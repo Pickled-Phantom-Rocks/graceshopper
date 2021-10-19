@@ -1,19 +1,21 @@
-import {useEffect, useState} from 'react';
+import React from 'react';
 
 async function fetchUsers(baseURL) {
-	const fetched = await fetch(`${baseURL}/users`, {
-			method:'GET',
-			headers: {'Content-Type': 'application/json'}
+	try {
+		const response = await fetch(`${baseURL}/users`, {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
 		})
 		.then(res => res.json())
-		.then((res) => {
-			const response = res;
-			return response;
+		.then((result) => {
+			return result;
 		})
-
-	console.log('fetched: ', fetched);
-	return fetched;
+		return response;
+	} catch (error) {
+		throw error
+	}
 }
+
 
 async function newPassword(baseURL, userToken, userId, current, newPass) {
 	const response = await fetch(`${baseURL}/users/${userId}/password`, {
@@ -90,9 +92,14 @@ async function newBilling(baseURL, userToken, userId, card, cvv) {
 	.catch(err => console.error(err));
 }
 
+async function deleteUser(baseURL, userId) {
+
+}
+
 export {
 	fetchUsers,
 	newPassword,
 	newInfo,
-	newBilling
+	newBilling,
+	deleteUser
 };

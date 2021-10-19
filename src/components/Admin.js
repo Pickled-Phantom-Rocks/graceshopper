@@ -3,53 +3,51 @@ import {fetchProducts, NewProduct, EditProduct, UserList} from '.';
 
 const Admin = (props) => {
 	const {baseURL} = props;
-	const [products, setProducts] = useState([]);
-	const [showUsers, setShowUsers] = useState([]);
+	const [products, setProducts] = useState(false);
+	const [showUsers, setShowUsers] = useState(true);
 
-	async function fetchTheProducts() {
+	// async function fetchTheProducts() {
 
-		try {
+	// 	try {
 
-			const result = await fetchProducts(baseURL)
-			setProducts(result)
+	// 		const result = await fetchProducts(baseURL)
+	// 		setProducts(result)
 
-		} catch (error) {
-			console.log("Error fetching products: ", error)
-		}
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
 
-	}
+	// }
 
-	async function deleteProduct(productId) {
-		console.log('Delete product ID: ', productId);
-	}
+	// async function deleteProduct(productId) {
+	// 	console.log('Delete product ID: ', productId);
+	// }
 
-	async function editProduct(productId) {
-		console.log('Edit product ID: ', productId);
-	}
+	// async function editProduct(productId) {
+	// 	console.log('Edit product ID: ', productId);
+	// }
 
-	useEffect(() => {
-		fetchTheProducts()
-		//fetchTheUsers()
-	}, [])
+	// useEffect(() => {
+	// 	fetchTheProducts()
+	// 	//fetchTheUsers()
+	// }, [])
 
-	function renderProducts(product) {
-		const {id, name} = product
+	// function renderProducts(product) {
+	// 	const {id, name} = product
 
-		return <option value={id} key={id}>{name}</option>
-	}
-
-	console.log(products)
+	// 	return <option value={id} key={id}>{name}</option>
+	// }
 	
 	return <div className="adminPanel">
 		<h1>Admin Panel</h1>
 		<h2>Products</h2>
 		<section>
-			<button>Add New Product</button>
+			{/* <button>Add New Product</button>
 			<button>Edit Product</button> 
 			<button>Delete Product</button>
 			{/* <EditProduct baseURL={baseURL}/> */}
-			<br/><br/>
 			
+			<br/><br/>
 		</section>
 		<h2>Categories</h2>
 		<section>

@@ -35,6 +35,10 @@ section {
 .newInputLine {
 	margin-bottom:10px;
 }
+.userListItem {
+	margin:10px;
+	display:flex;
+}
 .productList {
 	display:flex;
 	border: 1px solid black;
