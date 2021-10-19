@@ -16,6 +16,26 @@ const Products = (props) => {
 		}
 	}
 
+	async function handleAddToCart(product) {
+		try {
+
+			console.log(product)
+
+		} catch (error) {
+			throw error
+		}
+	}
+
+	async function handleRemoveFromCart(product) {
+		try {
+
+			console.log(product)
+
+		} catch (error) {
+			throw error
+		}
+	}
+
 	useEffect(() => {
 		fetchTheProducts()
 	}, [])
@@ -36,8 +56,10 @@ const Products = (props) => {
 						Description: {description}<br/>
 						Quantity: {quantityAvailable}<br/>
 						Price: {"$" + price}<br/>
+					<button onClick={e => handleAddToCart(product)}>Add to Cart</button>
+					<button  style={{marginLeft: "1em", marginTop: "1em"}}onClick={e => handleRemoveFromCart(product)}>Remove from Cart</button>
+
 					</div>
-					<button>Add to Cart</button> <button>Remove from Cart</button>
 				</div>
 			})
 		}
