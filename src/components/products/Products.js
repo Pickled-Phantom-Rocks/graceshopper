@@ -1,10 +1,24 @@
-import {React, useState} from 'react';
+import { React, useState, useEffect } from 'react';
 import {fetchProducts} from '../'
 
 const Products = (props) => {
 	const {baseURL} = props;
 	const [selectedProduct, setSelectedProduct] = useState((''))
-	const products = fetchProducts(baseURL);
+	const [products, setProducts] = useState([]);
+
+	async function fetchTheProducts() {
+		try {
+			const results = await fetchProducts(baseURL)
+
+			setProducts(results)
+		} catch (error) {
+			throw error
+		}
+	}
+
+	useEffect(() => {
+		fetchTheProducts()
+	}, [])
 
 	return <div id="products">
 		<h1>Products</h1>
