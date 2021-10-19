@@ -1,19 +1,5 @@
 import {useEffect, useState} from 'react';
 
-const fetchUsers = (baseURL) => {
-	const [users, setUsers] = useState([]);
-	useEffect(() => {
-		fetch(`${baseURL}/users`, {
-			method:'GET',
-			headers: {'Content-Type': 'application/json'}
-		})
-		.then(res => res.json())
-		.then((res) => {
-			const response = res;
-			setUsers(response);
-		})
-	})
-}
 const fetchProducts = (baseURL) => {
 	const [ products, setProducts] = useState([]);
 	useEffect(() => {
@@ -49,7 +35,6 @@ const fetchCategories = (baseURL) => {
 }
 
 export {
-	fetchUsers,
 	fetchProducts,
 	fetchCategories
 };

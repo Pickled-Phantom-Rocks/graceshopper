@@ -7,7 +7,8 @@ export {default as Admin} from './Admin';
 export {
 	Login,
 	Register,
-	Profile
+	Profile,
+	UserList
 } from './users';
 
 export {
@@ -23,7 +24,6 @@ export {
 } from './categories';
 
 export {
-	fetchUsers,
 	fetchProducts,
 	fetchCategories
 } from './utils';

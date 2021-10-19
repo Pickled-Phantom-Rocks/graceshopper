@@ -87,8 +87,8 @@ async function getAllUsers() {
             FROM users;
         `)
         return users;
-    } catch (err) {
-        throw err;
+    } catch (error) {
+        throw error;
     }
 };
 
@@ -128,7 +128,7 @@ async function updateUserInfo (id, fields) {
     }
   };
 
-async function updatePassword (id, password) {
+  async function updatePassword (id, password) {
     try {
         const SALT_COUNT = 10;
         const newHashedPassword = await bcrypt.hash(password, SALT_COUNT);

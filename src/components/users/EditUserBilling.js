@@ -1,43 +1,18 @@
 import {React, useState} from 'react';
+	import {newBilling} from '.';
 
 const EditUserBilling = (props) => {
-	const {baseURL, userToken} = props;
-	const userId = 3;
-	//this userId is for the James account
-	//get userId from userToken....somehow
-	//profile params? idk
+	const {baseURL, userToken, userId} = props;
 
 	const [card, setCard] = useState('');
 	const [cvv, setCVV] = useState('');
 
 	async function sendEditBilling() {
 		event.preventDefault();
-
-		const response = await fetch(`${baseURL}/users/${userId}/billing`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${userToken}`
-			},
-			body: JSON.stringify({
-				card: card,
-				cvv: cvv
-			})
-		})
-		.then(res => res.json())
-		.then((result) => {
-			const status = result.status;
-			if(status == 204){
-				alert("You have successfully updated your billing info.")
-			} else {
-				alert("Something went wrong. Please try again.")
-			}
-		})
-		.catch(err => console.error(err));
-
+		newBilling(baseURL, userToken, userId, card, cvv);
 	}
 
-	return <div>
+	return <div className="form">
 		<form onSubmit={sendEditBilling}>
 			<label>Card Number: </label><br />
 			<input
@@ -48,7 +23,7 @@ const EditUserBilling = (props) => {
 					setCard(event.target.value);
 				}}
 			></input><br/>
-			<label>CVV: </label>
+			<label>CVV: </label><br />
 			<input
 				className="newInputLine"
 				type="cvv"

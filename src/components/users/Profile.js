@@ -7,6 +7,8 @@ const Profile = (props) => {
 	const [showEditBilling, setShowEditBilling] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
 
+	const userId = 2;
+
 	return <div id="profile">
 		<h1>Hello, {username}!</h1>
 		{ 
@@ -15,7 +17,7 @@ const Profile = (props) => {
 		{
 			!showEditUser ? null : 
 				<section>
-					<EditUser baseURL={baseURL} userToken={userToken}/>		
+					<EditUser baseURL={baseURL} userToken={userToken} userId={userId}/>		
 				</section>
 		}
 		{ 
@@ -24,7 +26,7 @@ const Profile = (props) => {
 		{
 			!showEditBilling ? null:
 			<section>
-				<EditUserBilling baseURL={baseURL} userToken={userToken}/>
+				<EditUserBilling baseURL={baseURL} userToken={userToken} userId={userId}/>
 			</section>
 		}
 		{
@@ -33,7 +35,7 @@ const Profile = (props) => {
 		{
 			!showNewPassword ? null : 
 			<section>
-				<EditPassword baseURL={baseURL} userToken={userToken}/>
+				<EditPassword baseURL={baseURL} userToken={userToken} userId={userId}/>
 			</section>
 		}
 		<section>

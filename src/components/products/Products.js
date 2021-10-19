@@ -3,7 +3,6 @@ import {fetchProducts} from '../'
 
 const Products = (props) => {
 	const {baseURL} = props;
-	const [selectedProduct, setSelectedProduct] = useState((''))
 	const products = fetchProducts(baseURL);
 
 	return <div id="products">
@@ -23,7 +22,8 @@ const Products = (props) => {
 						Quantity: {quantityAvailable}<br/>
 						Price: {"$" + price}<br/>
 					</div>
-					<button>Add to Cart</button> <button>Remove from Cart</button>
+					<button>Add to Cart</button> 
+					<button>Remove from Cart</button>
 				</div>
 			})
 		}
