@@ -10,11 +10,12 @@ import {
 	Profile,
 	Products,
 	Cart,
-	Orders
+	Orders,
+	Admin
 } from './components';
 
 const App = () => {
-	const baseURL = 'http://localhost:3117/api';
+	const baseURL = 'http://localhost:3131/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [isAdmin, setIsAdmin] = useState(false);
@@ -36,17 +37,20 @@ const App = () => {
 				<Route path="/login">
 					<Login baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />
 				</Route>
-				<Route path="/profile">
-					<Profile />
+				<Route path="/profile/">
+					<Profile baseURL={baseURL} username={username} userToken={userToken}/>
 				</Route>
 				<Route path="/products">
-					<Products />
+					<Products baseURL={baseURL} />
 				</Route>
 				<Route path="/cart">
 					<Cart />
 				</Route>
 				<Route path="/orders">
 					<Orders />
+				</Route>
+				<Route path="/admin">
+					<Admin baseURL={baseURL} />
 				</Route>
 				<Route>
 					<h1>404 Page Not Found</h1>

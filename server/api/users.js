@@ -13,6 +13,7 @@ const {
     updateUserInfo,
     updatePassword
 } = require('../db/users');
+const { user } = require('pg/lib/defaults');
 
 usersRouter.use((req, res, next) => {
     console.log("A request is being made to /users");
@@ -20,10 +21,8 @@ usersRouter.use((req, res, next) => {
 });
 
 usersRouter.get('/', async (req, res, next) => {
-    try {//get all the products
-
+    try {
         const users = await getAllUsers()
-
         res.send(users)
 
     } catch (error) {
@@ -123,23 +122,68 @@ usersRouter.get('/profile', async (req, res, next) => {
 
 usersRouter.patch('/:userId/info', async (req, res, next) => {
 	try {
-		const {id} = req.params;
-		const updated = updateUserInfo(id,	req.body);
-		res.send(updated);
+		const {userId} = req.params;
+		const {name, address, city, state} = req.body;
+		const fields = {};
+		if(name){
+			fields.name = name;
+		}
+		if(address){
+			fields.address = address;
+		}
+		if(city){
+			fields.city = city;
+		}
+		if(state){
+			fields.state = state;
+		}
+		const updated = updateUserInfo(userId, fields);
+		res.send({
+			status: 204,
+			message: "You have successfully edited your info."
+		});
 	} catch(error) {
 		next(error);
 	}
 });
 
+usersRouter.patch('/:userId/billing', async (req, res, next) => {
+	try {
+		const {userId} = req.params;
+		const {card, cvv} = req.body;
+		const fields = {billingInfo: card + ', ' + cvv};
+		const updated = updateUserInfo(userId, fields);
+		res.send({
+			status: 204,
+			message: "You have successfully edited your billing info."
+		});
+	} catch(error) {
+		next(error);
+	}
+})
+
 usersRouter.patch('/:userId/password', async (req, res, next) => {
 	try {
-		const {id} = req.params
+		const {userId} = req.params;
 		const {password, newPassword} = req.body;
-		const user = await getUserById(id);
+		console.log('current and new passwords from api: ', password, newPassword);
+
+		const user = await getUserById(userId);
 		const isCorrectPassword = await bcrypt.compare( password, user.password);
 
+		console.log('isCorrectPassword: ', isCorrectPassword);
+
 		if(isCorrectPassword) {
-			const updated = updatePassword(id, newPassword)
+			const updated = updatePassword(userId, newPassword)
+			res.send({
+				status: 204,
+				message: "You have successfully updated your password."
+			})
+		} else {
+			res.send({
+				status: 401,
+				message: "Incorrect current password."
+			})
 		}
 	} catch(error) {
 		next(error);

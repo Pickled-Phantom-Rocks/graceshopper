@@ -1,5 +1,5 @@
 const client = require('./client');
-const { getUserById } = require('./index');
+const { getUserById } = require('./users');
 
 async function createOrder({
     userId,

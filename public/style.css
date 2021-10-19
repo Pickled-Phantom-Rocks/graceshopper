@@ -29,6 +29,23 @@ header {
 main {
 	grid-row:2;
 }
+section {
+	margin-bottom: 10px;
+}
+.newInputLine {
+	margin-bottom:10px;
+}
+.productList {
+	display:flex;
+	border: 1px solid black;
+	margin: 10px;
+}
+.productList img {
+	width:100px;
+	height:100px;
+}
+
+
 footer {
 	grid-row:3;
 	background-color:gray;

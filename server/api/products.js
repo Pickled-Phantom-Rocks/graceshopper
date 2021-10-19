@@ -15,9 +15,9 @@ productsRouter.use((req, res, next) => {
 productsRouter.get('/', async (req, res, next) => {
     try {//get all the products
 
-        const products = await getAllProducts()
+        const products = await getAllProducts();
 
-        res.send(products)
+        res.send(products);
 
     } catch (error) {
         throw error
