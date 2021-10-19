@@ -5,10 +5,6 @@ const Register = (props) => {
 	const [newName, setNewName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [address, setAddress] = useState('');
-	const [city, setCity] = useState('');
-	const [state, setState] = useState('');
-	const [billingInfo, setBillingInfo] = useState('');
 
 	async function registerUser() {
 		event.preventDefault();
@@ -28,10 +24,6 @@ const Register = (props) => {
 				email: email,
 				password: password,
 				name: newName,
-				address: address,
-				city: city,
-				state: state,
-				"billingInfo": billingInfo
 			}),
 		})
 		.then(response => response.json())
@@ -89,47 +81,7 @@ const Register = (props) => {
 					setPassword(event.target.value);
 				}}
 			></input>
-			<br /><br />
-			<label>Address: </label><br />
-			<input
-				className="newInputLine"
-				type="address"
-				value={address}
-				onChange={(event) => {
-					setAddress(event.target.value);
-				}}
-			></input>
-			<br /><br />
-			<label>City: </label><br />
-			<input
-				className="newInputLine"
-				type="city"
-				value={city}
-				onChange={(event) => {
-					setCity(event.target.value);
-				}}
-			></input>
-			<br /><br />
-			{/* make this a dropdown */}
-			<label>State: </label><br />
-			<input
-				className="newInputLine"
-				type="state"
-				value={state}
-				onChange={(event) => {
-					setState(event.target.value);
-				}}
-			></input>
-			<br /><br />
-			<label>Billing info: </label><br />
-			<input
-				className="newInputLine"
-				type="billingInfo"
-				value={billingInfo}
-				onChange={(event) => {
-					setBillingInfo(event.target.value);
-				}}
-			></input>
+
 			<br /><br />
 			<button type="submit">Submit</button>
 		</form>

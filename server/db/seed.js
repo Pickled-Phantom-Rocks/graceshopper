@@ -43,7 +43,8 @@ async function createTables() {
         address VARCHAR(255),
         city VARCHAR(255),
         state VARCHAR(255),
-        "billingInfo" VARCHAR(255)
+        "billingInfo" VARCHAR(255),
+        "isAdmin" BOOL DEFAULT false
     );
 
     CREATE TABLE products(
@@ -112,9 +113,9 @@ async function createInitialUsers() {
     try {
 
     const usersToCreate = [
-        { email: 'testEmail1@email.com', password: 'bertie99', name: "albert", address: '123 sesame st', city: 'here', state: 'there',  billingInfo: '1212-3232-3434-5454, 123'},
-        { email: 'fakeEmail@email.com', password: 'sandra123', name: "sandra", address: '703 kingsman dr', city: 'here', state: 'there', billingInfo: '9456-4385-4863-4863, 196'},
-        { email: 'glamgal99@email.com', password: 'glamgal123', name: "glamgal", address: '202 walmart avenue', city: 'here', state: 'there', billingInfo: '4586-1369-3166-4523, 652'}
+        { email: 'abc@here.com', password: 'Password', name: "James", address: '123 here st', city: 'here', state: 'there',  billingInfo: '1212-3232-3434-5454, 123', isAdmin: true},
+        { email: 'fakeEmail@email.com', password: 'sandra123', name: "sandra", address: '703 kingsman dr', city: 'here', state: 'there', billingInfo: '9456-4385-4863-4863, 196', isAdmin: false},
+        { email: 'glamgal99@email.com', password: 'glamgal123', name: "glamgal", address: '202 walmart avenue', city: 'here', state: 'there', billingInfo: '4586-1369-3166-4523, 652', isAdmin: false}
     ]
     const users = await Promise.all(usersToCreate.map(createUser));
 
