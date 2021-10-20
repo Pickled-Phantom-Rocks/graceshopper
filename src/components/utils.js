@@ -77,7 +77,6 @@ const fetchCategories = (baseURL) => {
 }
 
 export {
-	fetchUsers,
 	fetchProducts,
 	fetchCategories
 };

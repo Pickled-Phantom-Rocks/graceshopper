@@ -1,13 +1,14 @@
 export {default as Header} from './Header';
 export {default as Footer} from './Footer';
-export {default as Cart} from './Cart';
+export {default as Cart} from './cart/Cart';
 export {default as Orders} from './Orders';
 export {default as Admin} from './Admin';
 
 export {
 	Login,
 	Register,
-	Profile
+	Profile,
+	UserList
 } from './users';
 
 export {
@@ -23,7 +24,6 @@ export {
 } from './categories';
 
 export {
-	fetchUsers,
 	fetchProducts,
 	fetchCategories
 } from './utils';

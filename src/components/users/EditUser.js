@@ -1,12 +1,8 @@
 import {React, useState} from 'react';
-
+import {newInfo} from '.';
 
 const EditUser = (props) => {
-	const {baseURL, userToken} = props;
-	const userId = 3;
-	//this userId is for the James account
-	//get userId from userToken....somehow
-	//profile params? idk
+	const {baseURL, userToken, userId} = props;
 
 	const [newName, setNewName] = useState('');
 	const [address, setAddress] = useState('');
@@ -15,30 +11,7 @@ const EditUser = (props) => {
 
 	async function sendEditUser() {
 		event.preventDefault();
-
-		const response = await fetch(`${baseURL}/users/${userId}/info`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${userToken}`
-			},
-			body: JSON.stringify({
-				name: newName,
-				address: address,
-				city: city,
-				state: state
-			})
-		}).then(res => res.json())
-		.then((result) => { 
-			const status = result.status;
-			if(status == 204){
-				alert("You have successfully updated your info.")
-				return location.reload();
-			} else {
-				alert("Something went wrong. Please try again.")
-			}
-		})
-			.catch(err => console.error(err));
+		newInfo(baseURL, userToken, userId, newName, address, city, state);
 	}
 
 

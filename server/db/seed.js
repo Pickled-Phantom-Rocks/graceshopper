@@ -4,6 +4,9 @@ const {
     createProducts,
     createCarts,
     createCategory,
+    getAllCarts,
+    getAllProducts,
+    addProductToCart
 } = require('./')
 
 async function dropTables() {
@@ -173,7 +176,7 @@ async function createInitialCarts() {
 async function createInitialCartProducts() {
     try {
     console.log('starting to create cart_products...');
-    const [albertsCart, sandrasCart, glamgalsCart] = await getCartsWithoutProducts();
+    const [albertsCart, sandrasCart, glamgalsCart] = await getAllCarts();
     const [firstBornChild, burgerPickle, peteTheRock] = await getAllProducts();
 
     const cartProductsToCreate = [
@@ -320,7 +323,7 @@ async function rebuildDB() {
         await createInitialUsers();
         await createInitialProducts();
         await createInitialCarts();
-        // await createInitialCartProducts();
+        await createInitialCartProducts();
         // await createInitialOrders();
         // await createInitialOrderProducts();
         await createInitialCategories();

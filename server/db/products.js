@@ -21,21 +21,15 @@ async function createProducts({name, description, quantityAvailable, price, phot
 }
 
 async function getAllProducts() {
-
     try {
-
         const { rows: products } = await client.query(`
             SELECT *
             FROM products;
         `)
-
-        console.log("GetAllProducts: ", products)
-        return products
-
+        return products;
     } catch (error) {
         throw error
     }
-
 }
 
 async function getProductById(productId) {

@@ -27,7 +27,7 @@ cartsRouter.get('/', async (req, res, next) => {
 cartsRouter.get('/:userId', async (req, res, next) => {
     try{ //gets a cart using userId
 
-        const userId = req.params
+        const {userId} = req.params
 
         const cart = await getCartByUserId(userId)
 

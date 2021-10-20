@@ -1,11 +1,8 @@
 import {React, useState} from 'react';
+import {newPassword} from '.';
 
 const EditPassword = (props) => {
-	const {baseURL, userToken} = props;
-	const userId = 3;
-	//this userId is for the James account
-	//get userId from userToken....somehow
-	//profile params? idk
+	const {baseURL, userToken, userId} = props;
 
 	const [current, setCurrent] = useState('');
 	const [newPass, setNewPass] = useState('');
@@ -19,31 +16,11 @@ const EditPassword = (props) => {
 		} else if(newPass != confirm){
 			alert("New and confirmed passwords do not match.");
 		} else {
-			const response = await fetch(`${baseURL}/users/${userId}/password`, {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${userToken}`
-				},
-				body: JSON.stringify({
-					password: current,
-					newPassword: newPass
-				})
-			})
-			.then(res => res.json())
-			.then((result) => {
-				console.log(result);
-				const status = result.status;
-				if(status == 204) {
-					alert("You have successfully updated your password.");
-				} else {
-					alert("Incorrect current password.");
-				}
-			})
+			newPassword(baseURL, userToken, userId, current, newPass);
 		}
 	}
 
-	return <div>
+	return <div className="form">
 		<form onSubmit={sendNewPassword}>
 			<label>Current Password: </label><br/>
 			<input

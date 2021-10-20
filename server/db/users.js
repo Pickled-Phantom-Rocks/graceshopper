@@ -48,6 +48,20 @@ async function getUser({email, password,}) {
     }
 }
 
+async function getUserByUsername(username) {
+    try {
+        const { rows: [user] } = await client.query(`
+            SELECT *
+            FROM users
+            WHERE name = $1
+        `, [username])  
+
+        return user
+    } catch (error) {
+        throw error
+    }
+}
+
 async function getUserById(userId) {
     try {
         const { rows: [user] } = await client.query(`
@@ -82,13 +96,13 @@ async function getUserByEmail(email) {
 
 async function getAllUsers() {
     try {
-        const { rows : users } = await client.query(`
+        const {rows : users} = await client.query(`
             SELECT *
             FROM users;
         `)
         return users;
-    } catch (err) {
-        throw err;
+    } catch (error) {
+        throw error;
     }
 };
 
@@ -128,7 +142,7 @@ async function updateUserInfo (id, fields) {
     }
   };
 
-async function updatePassword (id, password) {
+  async function updatePassword (id, password) {
     try {
         const SALT_COUNT = 10;
         const newHashedPassword = await bcrypt.hash(password, SALT_COUNT);
@@ -154,5 +168,6 @@ module.exports = {
     getAllUsers,
     deleteUser,
     updateUserInfo,
-    updatePassword
+    updatePassword,
+    getUserByUsername
 }

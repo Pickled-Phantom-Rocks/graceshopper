@@ -20,14 +20,18 @@ async function createOrder({
     }
 }
 
-async function getOrderByUserId({ userId }) {
+async function getOrdersByUserId({ userId }) {
     if(!userId){
         return;
     }
     try {
-        const order = await getUserById(userId);
-        console.log("!!GetOrderByUserID!!", order);
-        return order;
+        const { rows: orders } = await client.query( `
+            SELECT *
+            FROM orders
+            WHERE "userId" = ${userId}
+        `);
+        console.log("!!GetOrderByUserID!!", orders);
+        return orders;
     } catch (error) {
         throw error;
     }
@@ -77,7 +81,7 @@ async function updateOrder({ id, ...fields }) {
 
 module.exports = {
     createOrder,
-    getOrderByUserId,
+    getOrdersByUserId,
     getOrderById,
     updateOrder
 }
