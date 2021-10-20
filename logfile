@@ -1,0 +1,20 @@
+2021-10-19 21:06:27.585 EDT [79971] LOG:  starting PostgreSQL 13.4 on x86_64-apple-darwin19.6.0, compiled by Apple clang version 11.0.3 (clang-1103.0.32.62), 64-bit
+2021-10-19 21:06:27.623 EDT [79971] LOG:  listening on IPv6 address "::1", port 5432
+2021-10-19 21:06:27.623 EDT [79971] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2021-10-19 21:06:27.759 EDT [79971] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2021-10-19 21:06:27.764 EDT [79972] LOG:  database system was shut down at 2021-10-19 21:03:52 EDT
+2021-10-19 21:06:27.768 EDT [79971] LOG:  database system is ready to accept connections
+2021-10-19 21:06:39.454 EDT [79981] FATAL:  database "danieldoulong" does not exist
+2021-10-19 21:09:08.098 EDT [80018] FATAL:  role "pppadmin" does not exist
+2021-10-19 21:11:22.517 EDT [80028] FATAL:  database "danieldoulong" does not exist
+2021-10-19 21:12:05.818 EDT [80036] FATAL:  database "danieldoulong" does not exist
+2021-10-19 21:12:35.079 EDT [80040] ERROR:  database "graceshopper-dev" already exists
+2021-10-19 21:12:35.079 EDT [80040] STATEMENT:  CREATE DATABASE "graceshopper-dev";
+2021-10-19 21:12:40.776 EDT [80043] FATAL:  database "danieldoulong" does not exist
+2021-10-19 21:14:37.852 EDT [80047] ERROR:  syntax error at or near "-" at character 28
+2021-10-19 21:14:37.852 EDT [80047] STATEMENT:  ALTER DATABASE graceshopper-dev OWNER TO pppadmin;
+2021-10-19 21:15:33.877 EDT [80047] ERROR:  syntax error at or near "createdb" at character 1
+2021-10-19 21:15:33.877 EDT [80047] STATEMENT:  createdb graceshopper-dev
+	ALTER DATABASE graceshopper-dev OWNER TO pppadmin;
+2021-10-19 21:16:16.699 EDT [80047] ERROR:  syntax error at or near "-" at character 28
+2021-10-19 21:16:16.699 EDT [80047] STATEMENT:  ALTER DATABASE graceshopper-dev OWNER TO pppadmin;

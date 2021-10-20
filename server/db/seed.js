@@ -4,6 +4,7 @@ const {
     createProducts,
     createCarts,
     createCategory,
+    createOrder
 } = require('./')
 
 async function dropTables() {
@@ -239,7 +240,7 @@ async function createInitialOrders() {
             { userId: 2, orderDate: '2020-08-15', deliveryDate: '2020-08-23', totalPrice: 1346.25 }
         ]
 
-        const orders = await Promise.all(ordersToCreate.map(createOrdersManualDate))
+        const orders = await Promise.all(ordersToCreate.map(createOrder))
         console.log('orders created: ', orders)
 
         console.log('Finished creating orders')
@@ -321,8 +322,8 @@ async function rebuildDB() {
         await createInitialProducts();
         await createInitialCarts();
         // await createInitialCartProducts();
-        // await createInitialOrders();
-        // await createInitialOrderProducts();
+        await createInitialOrders();
+        //await createInitialOrderProducts();
         await createInitialCategories();
         // await createInitialProductCategories();
 
