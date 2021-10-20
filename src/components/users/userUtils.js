@@ -93,7 +93,35 @@ async function newBilling(baseURL, userToken, userId, card, cvv) {
 }
 
 async function deleteUser(baseURL, userId) {
+	const {id} = userId;
 
+	await fetch(`${baseURL}/carts/${id}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',	
+		}
+	})
+	.then(res => res.json())
+	.then((result) => {
+		console.log('delete cart: ', result)
+	})
+	.catch(err => console.error(err));
+
+	// const ordersResponse = await fetch(`${baseURL}/orders/${id}`, {
+	// 	//delete orders once the router for it has been set up
+	// })
+
+	const response = await fetch(`${baseURL}/users/${id}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',	
+		}
+	})
+	.then(res => res.json())
+	.then((result) => {
+		alert("User has been deleted.")
+	})
+	.catch(err => console.error(err));
 }
 
 export {

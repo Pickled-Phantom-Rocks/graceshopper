@@ -93,16 +93,15 @@ async function updateCart({ userId, ...fields}) {
     }
 }
 
-async function destroyCart({userId}) {
+async function destroyCart(userId) {
     try {
 
-        const { rows: [ cart ] } = await client.query(`
-            DELETE *
-            FROM carts
-            WHERE "userId"=$1
+        const { rows: [cart] } = await client.query(`
+            DELETE FROM carts
+            WHERE "userId"=$1;
         `, [userId])
 
-        return cart
+        return cart;
 
     } catch (error) {
         throw error

@@ -91,19 +91,13 @@ cartsRouter.patch('/:userId', async (req, res, next) => {
 })
 
 cartsRouter.delete('/:userId', async (req, res, next) => {
-    try {//delete cart matching UserId
-
-        const userId = req.params
-
-        const destroyedCart = await destroyCart(userId)
-
-        res.send(destroyedCart)
-
+    const {userId} = req.params;
+    try {
+        const destroyedCart = await destroyCart(userId);
+        res.send(destroyedCart);
     } catch (error) {
         throw error
     }
 })
 
-module.exports = {
-    cartsRouter
-}
+module.exports = {cartsRouter};

@@ -192,7 +192,6 @@ usersRouter.patch('/:userId/password', async (req, res, next) => {
 
 usersRouter.delete('/:userId', async (req, res, next) => {
 	const {userId} = req.params;
-
 	try{
 		const deletedUser = await deleteUser(userId);
 		res.send(deletedUser);
