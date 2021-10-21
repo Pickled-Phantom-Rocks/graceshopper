@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getCartByUserId } from './cartUtils';
 
 const Cart = () => {
-	const [usersCart, setUsersCart] = useState('')
+	const [usersCartRelations, setUsersCartRelations] = useState('')
 	const username = localStorage.getItem('username')
 	const userId = localStorage.getItem("UsersId")
 
@@ -11,7 +11,7 @@ const Cart = () => {
 			console.log("USERID", userId)
 			const result = await getCartByUserId(userId)
 			console.log("RESULT", result)
-			setUsersCart(result)
+			setUsersCartRelations(result)
 
 		} catch (error) {
 			console.log("Error fetching user's cart!")
@@ -24,7 +24,7 @@ const Cart = () => {
 	}, [])
 
 	
-	console.log("user's cart: ", usersCart)
+	console.log("user's cart: ", usersCartRelations)
 
 	return <div id="cart">
 		{username}'s Cart

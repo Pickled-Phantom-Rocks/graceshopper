@@ -56,6 +56,8 @@ async function getCartById({id}) {
             WHERE id=$1
         `, [id])
 
+        return cart
+
     } catch (error) {
         throw error
     }
