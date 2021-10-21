@@ -7,13 +7,24 @@ const {
     getOrdersByUserId,
     getOrderById,
     createOrder,
-    updateOrder
+    updateOrder,
+    deleteOrder,
+    getAllOrders
 } = require('../db');
 
 ordersRouter.use((req, res, next) => {
     console.log("A request is being made to /orders");
     next();
 });
+
+ordersRouter.get('/', async ( req, res, next) => {
+    try {
+        const allOrders = await getAllOrders();
+        res.send(allOrders);
+    } catch (e) {
+        next(e);
+    }
+})
 
 ordersRouter.get('/:userId', async (req, res, next) => {
  const {userId} = req.params;
@@ -27,7 +38,7 @@ ordersRouter.get('/:userId', async (req, res, next) => {
  }
 });
 
-ordersRouter.get('/:userId/:orderId', async (req, res, next) => {
+ordersRouter.get('/:orderId', async (req, res, next) => {
     const {orderId} = req.params;
     try {
        const order = await getOrderById(orderId); 
@@ -38,7 +49,7 @@ ordersRouter.get('/:userId/:orderId', async (req, res, next) => {
     }
 });
 
-ordersRouter.post('/:userId/createorder', async (req, res, next) => {
+ordersRouter.post('/:userId', async (req, res, next) => {
     const { orderDate, deliveryDate, totalPrice } = req.body;
     const { userId } = req.params;
     const order = { userId, orderDate, deliveryDate, totalPrice}; 
@@ -51,7 +62,7 @@ ordersRouter.post('/:userId/createorder', async (req, res, next) => {
     }
 });
 
-ordersRouter.patch('/:userId/:orderId', async (req, res, next) => {
+ordersRouter.patch('/:orderId', async (req, res, next) => {
     const { orderId } = req.params;
     const { orderDate, deliveryDate, totalPrice } = req.body;
     const orderToUpdate = {};
@@ -73,5 +84,17 @@ ordersRouter.patch('/:userId/:orderId', async (req, res, next) => {
         next(error);
     }
 });
+
+ordersRouter.delete('/:orderId'), async ( req, res, next) => {
+    const { orderId } = req.params;
+    try {
+        const orderToDelete = await deleteOrder(orderId);
+        res.send(orderToDelete);
+    } catch (e) {
+        throw e;
+    }
+}
+
+
 
 module.exports = ordersRouter;
