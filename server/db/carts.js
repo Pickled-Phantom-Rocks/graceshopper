@@ -19,6 +19,18 @@ async function createCarts({userId, age, isActive}) {
 
 }
 
+async function getAllCarts() {
+    try {
+        const { rows: carts } = await client.query(`
+            SELECT *
+            FROM carts;
+        `)
+        return carts
+    } catch (error) {
+        throw error
+    }
+}
+
 async function getAllActiveCarts() {
     try {
 
@@ -44,15 +56,17 @@ async function getCartById({id}) {
             WHERE id=$1
         `, [id])
 
+        return cart
+
     } catch (error) {
         throw error
     }
 }
 
-async function getCartByUserId({userId}) {
+async function getCartByUserId(userId) {
     try {
 
-        const { rows: cart } = await client.query(`
+        const { rows: [cart] } = await client.query(`
             SELECT *
             FROM carts
             WHERE "userId"=$1;
@@ -116,5 +130,6 @@ module.exports = {
     getCartByUserId,
     destroyCart,
     updateCart,
-    getCartById
+    getCartById,
+    getAllCarts
 }

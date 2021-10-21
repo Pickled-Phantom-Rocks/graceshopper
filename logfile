@@ -18,3 +18,42 @@
 	ALTER DATABASE graceshopper-dev OWNER TO pppadmin;
 2021-10-19 21:16:16.699 EDT [80047] ERROR:  syntax error at or near "-" at character 28
 2021-10-19 21:16:16.699 EDT [80047] STATEMENT:  ALTER DATABASE graceshopper-dev OWNER TO pppadmin;
+2021-10-21 14:07:44.913 EDT [90030] FATAL:  database "danieldoulong" does not exist
+2021-10-21 14:08:13.263 EDT [90034] FATAL:  database "danieldoulong" does not exist
+2021-10-21 14:11:00.288 EDT [90051] FATAL:  database "graceshopper-de" does not exist
+2021-10-21 14:20:33.506 EDT [90165] LOG:  invalid length of startup packet
+2021-10-21 14:20:33.507 EDT [90166] LOG:  invalid length of startup packet
+2021-10-21 14:20:33.509 EDT [90167] LOG:  invalid length of startup packet
+2021-10-21 14:20:34.548 EDT [90170] LOG:  invalid length of startup packet
+2021-10-21 14:20:34.550 EDT [90171] LOG:  invalid length of startup packet
+2021-10-21 14:20:34.552 EDT [90172] LOG:  invalid length of startup packet
+2021-10-21 14:20:39.570 EDT [90175] LOG:  invalid length of startup packet
+2021-10-21 14:22:29.719 EDT [90186] FATAL:  database "danieldoulong" does not exist
+2021-10-21 14:34:54.889 EDT [90225] ERROR:  syntax error at or near "SELECT" at character 15
+2021-10-21 14:34:54.889 EDT [90225] STATEMENT:  SELECT orders
+	SELECT * FROM orders
+	SELECT *
+	FROM orders
+	SELECT id FROM orders
+	;
+2021-10-21 14:35:23.685 EDT [90225] ERROR:  column "userid" does not exist at character 8
+2021-10-21 14:35:23.685 EDT [90225] HINT:  Perhaps you meant to reference the column "orders.userId".
+2021-10-21 14:35:23.685 EDT [90225] STATEMENT:  SELECT userId FROM orders;
+2021-10-21 14:35:42.484 EDT [90225] ERROR:  relation "orders.userid" does not exist at character 20
+2021-10-21 14:35:42.484 EDT [90225] STATEMENT:  SELECT userId FROM orders.userId;
+2021-10-21 14:43:03.744 EDT [90348] ERROR:  syntax error at or near "initdb" at character 1
+2021-10-21 14:43:03.744 EDT [90348] STATEMENT:  initdb
+	;
+2021-10-21 14:43:09.640 EDT [90348] ERROR:  syntax error at or near "initdb" at character 1
+2021-10-21 14:43:09.640 EDT [90348] STATEMENT:  initdb;
+2021-10-21 14:43:44.582 EDT [90348] ERROR:  syntax error at or near "psql" at character 1
+2021-10-21 14:43:44.582 EDT [90348] STATEMENT:  psql -d graceshopper-dev
+	;
+2021-10-21 14:43:50.902 EDT [90348] ERROR:  syntax error at or near "psql" at character 1
+2021-10-21 14:43:50.902 EDT [90348] STATEMENT:  psql -d graceshopper-dev;
+2021-10-21 14:45:29.813 EDT [79971] LOG:  received fast shutdown request
+2021-10-21 14:45:29.814 EDT [79971] LOG:  aborting any active transactions
+2021-10-21 14:45:29.847 EDT [80428] FATAL:  terminating connection due to administrator command
+2021-10-21 14:45:29.848 EDT [79971] LOG:  background worker "logical replication launcher" (PID 79978) exited with exit code 1
+2021-10-21 14:45:29.848 EDT [79973] LOG:  shutting down
+2021-10-21 14:45:30.107 EDT [79971] LOG:  database system is shut down

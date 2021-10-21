@@ -4,7 +4,10 @@ const {
     createProducts,
     createCarts,
     createCategory,
-    createOrder
+    createOrder,
+    getAllCarts,
+    getAllProducts,
+    addProductToCart
 } = require('./')
 
 async function dropTables() {
@@ -67,6 +70,7 @@ async function createTables() {
     CREATE TABLE cart_products(
         id SERIAL PRIMARY KEY,
         "cartId" INTEGER REFERENCES carts(id),
+        "userId" INTEGER REFERENCES users(id),
         "productId" INTEGER REFERENCES products(id),
         "productPrice" DECIMAL NOT NULL,
         "quantityOfItem" INTEGER
@@ -174,48 +178,55 @@ async function createInitialCarts() {
 async function createInitialCartProducts() {
     try {
     console.log('starting to create cart_products...');
-    const [albertsCart, sandrasCart, glamgalsCart] = await getCartsWithoutProducts();
+    const [albertsCart, sandrasCart, glamgalsCart] = await getAllCarts();
     const [firstBornChild, burgerPickle, peteTheRock] = await getAllProducts();
 
     const cartProductsToCreate = [
         {
         cartId: albertsCart.id,
+        userId: albertsCart.userId,
         productId: firstBornChild.id,
         productPrice: firstBornChild.price,
         quantityOfItem: 1 
         },
         {
         cartId: albertsCart.id,
+        userId: albertsCart.userId,
         productId: burgerPickle.id,
         productPrice: burgerPickle.price,
         quantityOfItem: 31
         },
         {
         cartId: sandrasCart.id,
+        userId: sandrasCart.userId,
         productId: burgerPickle.id,
         productPrice: burgerPickle.price,
         quantityOfItem: 19
         },
         {
         cartId: sandrasCart.id,
+        userId: sandrasCart.userId,
         productId: firstBornChild.id,
         productPrice: firstBornChild.price,
         quantityOfItem: 2
         },
         {
         cartId: glamgalsCart.id,
+        userId: glamgalsCart.userId,
         productId: firstBornChild.id,
         productPrice: firstBornChild.price,
         quantityOfItem: 1
         },
         {
         cartId: glamgalsCart.id,
+        userId: glamgalsCart.userId,
         productId: burgerPickle.id,
         productPrice: burgerPickle.price,
         quantityOfItem: 73
         },
         {
         cartId: glamgalsCart.id,
+        userId: glamgalsCart.userId,
         productId: peteTheRock.id,
         productPrice: peteTheRock.price,
         quantityOfItem: 3
@@ -321,12 +332,11 @@ async function rebuildDB() {
         await createInitialUsers();
         await createInitialProducts();
         await createInitialCarts();
-        // await createInitialCartProducts();
+        await createInitialCartProducts();
         await createInitialOrders();
-        //await createInitialOrderProducts();
+        // await createInitialOrderProducts();
         await createInitialCategories();
         // await createInitialProductCategories();
-
         console.log("RebuildDB function was successfull!")
     } catch (error) {
         console.log('Error during rebuildDB');

@@ -20,8 +20,8 @@ const Login = (props) => {
 		})
 		.then(response => response.json())
 		.then(result => {
-			console.log(result);
-			const {status, name, token} = result;
+			console.log("LOGIN RESULT", result);
+			const {status, name, token, userId} = result;
 			if(status === 204) {
 				alert("You have successfully logged in.")
 				setIsLoggedIn(true);
@@ -31,6 +31,7 @@ const Login = (props) => {
 				localStorage.setItem('isLoggedIn', true);
 				localStorage.setItem('username', name);
 				localStorage.setItem('token', token);
+				localStorage.setItem('UsersId', userId)
 			} else {
 				alert("Invalid email/password combination.")
 			}
