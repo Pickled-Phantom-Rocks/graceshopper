@@ -69,7 +69,6 @@ async function createTables() {
     CREATE TABLE cart_products(
         id SERIAL PRIMARY KEY,
         "cartId" INTEGER REFERENCES carts(id),
-        "userId" INTEGER REFERENCES users(id),
         "productId" INTEGER REFERENCES products(id),
         "productPrice" DECIMAL NOT NULL,
         "quantityOfItem" INTEGER
@@ -183,49 +182,42 @@ async function createInitialCartProducts() {
     const cartProductsToCreate = [
         {
         cartId: albertsCart.id,
-        userId: albertsCart.userId,
         productId: firstBornChild.id,
         productPrice: firstBornChild.price,
         quantityOfItem: 1 
         },
         {
         cartId: albertsCart.id,
-        userId: albertsCart.userId,
         productId: burgerPickle.id,
         productPrice: burgerPickle.price,
         quantityOfItem: 31
         },
         {
         cartId: sandrasCart.id,
-        userId: sandrasCart.userId,
         productId: burgerPickle.id,
         productPrice: burgerPickle.price,
         quantityOfItem: 19
         },
         {
         cartId: sandrasCart.id,
-        userId: sandrasCart.userId,
         productId: firstBornChild.id,
         productPrice: firstBornChild.price,
         quantityOfItem: 2
         },
         {
         cartId: glamgalsCart.id,
-        userId: glamgalsCart.userId,
         productId: firstBornChild.id,
         productPrice: firstBornChild.price,
         quantityOfItem: 1
         },
         {
         cartId: glamgalsCart.id,
-        userId: glamgalsCart.userId,
         productId: burgerPickle.id,
         productPrice: burgerPickle.price,
         quantityOfItem: 73
         },
         {
         cartId: glamgalsCart.id,
-        userId: glamgalsCart.userId,
         productId: peteTheRock.id,
         productPrice: peteTheRock.price,
         quantityOfItem: 3
