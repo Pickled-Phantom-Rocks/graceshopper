@@ -20,7 +20,7 @@ async function createOrder({
     }
 }
 
-async function getOrdersByUserId({ userId }) {
+async function getOrdersByUserId( userId ) {
     if(!userId){
         return;
     }
