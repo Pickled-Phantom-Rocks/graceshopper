@@ -3,13 +3,17 @@ const { getCartById } = require('./carts');
 
 async function addProductToCart ({ cartId, productId, productPrice, quantityOfItem }) {
     try {
-		const { rows: [cart_product]} = await client.query(`
-			INSERT INTO cart_products("cartId", "productId", "productPrice", "quantityOfItem")
-			VALUES($1, $2, $3, $4)
-			RETURNING *;
-		`, [cartId, productId, productPrice, quantityOfItem]);
-        console.log("addProductToCart", cart_product);
-		return cart_product;
+
+      const { rows: [cart_product]} = await client.query(`
+        INSERT INTO cart_products("cartId", "productId", "productPrice", "quantityOfItem")
+        VALUES($1, $2, $3, $4)
+        RETURNING *;
+      `, [cartId, productId, productPrice, quantityOfItem]);
+
+      console.log("addProductToCart", cart_product);
+
+      return cart_product;
+
     } catch (error) {
         throw error;
     }
