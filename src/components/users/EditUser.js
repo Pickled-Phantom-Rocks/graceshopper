@@ -16,7 +16,7 @@ const EditUser = (props) => {
 
 
 	return <div className="form">
-		<h3>Edit Info</h3>
+		<h3>Update Info</h3>
 		<form onSubmit={sendEditUser}>
 			<label>Name: </label><br/>
 			<input
