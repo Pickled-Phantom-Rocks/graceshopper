@@ -70,7 +70,7 @@ main {
 section {
 	margin-bottom: 10px;
 }
-.userOptions {
+.userOptions, .adminOptions {
 	text-align:center;
 }
 .userOptions button {

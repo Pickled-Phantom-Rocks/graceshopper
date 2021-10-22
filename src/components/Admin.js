@@ -1,54 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import {fetchProducts, NewProduct, EditProduct, UserList} from '.';
+import {NewProduct, EditProduct, UserList} from '.';
 
 const Admin = (props) => {
 	const {baseURL} = props;
-	const [products, setProducts] = useState(false);
-	const [showUsers, setShowUsers] = useState(true);
-
-	// async function fetchTheProducts() {
-
-	// 	try {
-
-	// 		const result = await fetchProducts(baseURL)
-	// 		setProducts(result)
-
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-
-	// }
-
-	// async function deleteProduct(productId) {
-	// 	console.log('Delete product ID: ', productId);
-	// }
-
-	// async function editProduct(productId) {
-	// 	console.log('Edit product ID: ', productId);
-	// }
-
-	// useEffect(() => {
-	// 	fetchTheProducts()
-	// 	//fetchTheUsers()
-	// }, [])
-
-	// function renderProducts(product) {
-	// 	const {id, name} = product
-
-	// 	return <option value={id} key={id}>{name}</option>
-	// }
+	const [showNewProduct, setShowNewProduct] = useState(true);
+	const [showEditProduct, setShowEditProduct] = useState(false);
+	const [showUsers, setShowUsers] = useState(false);
 	
 	return <div className="adminPanel">
 		<h1>Admin Panel</h1>
 		<h2>Products</h2>
-		<section>
-			{/* <button>Add New Product</button>
-			<button>Edit Product</button> 
+		<section className="userOptions">
+			{!showNewProduct ? <button onClick={()=> setShowNewProduct(true)} >Add New Product</button> : <button onClick={()=> setShowNewProduct(false)} >Hide New Product</button>}
+			{!showEditProduct ? <button onClick={()=> setShowEditProduct(true)}>Edit Product</button>  : <button onClick={()=> setShowEditProduct(false)}>Hide Edit Product</button> }
 			<button>Delete Product</button>
-			{/* <EditProduct baseURL={baseURL}/> */}
-			
-			<br/><br/>
 		</section>
+		{showEditProduct ? <EditProduct baseURL={baseURL} /> : null}
+		{showNewProduct ? <NewProduct baseURL={baseURL} /> : null}
+
 		<h2>Categories</h2>
 		<section>
 			<button>Add new Category</button>

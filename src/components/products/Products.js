@@ -1,15 +1,13 @@
 import { React, useState, useEffect } from 'react';
-import {fetchProducts} from '../'
+import {fetchProducts} from '.'
 
 const Products = (props) => {
 	const {baseURL} = props;
-	const [selectedProduct, setSelectedProduct] = useState((''))
 	const [products, setProducts] = useState([]);
 
 	async function fetchTheProducts() {
 		try {
 			const results = await fetchProducts(baseURL)
-
 			setProducts(results)
 		} catch (error) {
 			throw error

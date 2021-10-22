@@ -26,7 +26,7 @@ const EditPassword = (props) => {
 			<label>Current Password: </label><br/>
 			<input
 				className="newInputLine"
-				type="current"
+				type="password"
 				value={current}
 				onChange={(event) => {
 					setCurrent(event.target.value);
@@ -35,7 +35,7 @@ const EditPassword = (props) => {
 			<label>New Password: </label><br/>
 			<input
 				className="newInputLine"
-				type="newPass"
+				type="password"
 				value={newPass}
 				onChange={(event) => {
 					setNewPass(event.target.value);
@@ -44,7 +44,7 @@ const EditPassword = (props) => {
 			<label>Confirm Password: </label><br/>
 			<input
 				className="newInputLine"
-				type="confirm"
+				type="password"
 				value={confirm}
 				onChange={(event) => {
 					setConfirm(event.target.value);

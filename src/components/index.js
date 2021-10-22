@@ -22,8 +22,3 @@ export {
 	NewCategory,
 	EditCategory
 } from './categories';
-
-export {
-	fetchProducts,
-	fetchCategories
-} from './utils';
