@@ -168,7 +168,6 @@ async function updateUserInfo (id, fields) {
             WHERE id=$1
             RETURNING *;
         `, [id, isAdmin]);
-        console.log("from db: ", user);
       return user;
       } catch(error) {
           throw error;

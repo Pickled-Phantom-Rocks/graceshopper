@@ -21,6 +21,7 @@ const EditPassword = (props) => {
 	}
 
 	return <div className="form">
+		<h3>Change Password</h3>
 		<form onSubmit={sendNewPassword}>
 			<label>Current Password: </label><br/>
 			<input
