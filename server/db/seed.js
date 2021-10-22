@@ -139,7 +139,7 @@ async function createInitialProducts() {
     const productsToCreate = [
         { name: 'first born child...', description: 'for legal purposes, this is fake! serious inquiries only ;)', quantityAvailable: 47, price: 666, photoName: 'FirstBorn'},
         { name: 'Burger Pickle!', description: "deluxe stack of our most premium pickle slivers, freshly peeled off of someone's burger", quantityAvailable: 300, price: 0.75, photoName: 'BurgerPickle'},
-        { name: 'Pete (the rock)', description: "very friendly, doesn't require much work. They love doritos. Looking for a forever home!", quantityAvailable: 19, price: 44.95, photoName: 'Pete_the_rock'}
+        { name: 'Pete (the rock)', description: "very friendly, doesn't require much work. They love doritos. Looking for a forever home!", quantityAvailable: 19, price: 45, photoName: 'Pete_the_rock'}
     ]
 
     const products = await Promise.all(productsToCreate.map(createProducts));
