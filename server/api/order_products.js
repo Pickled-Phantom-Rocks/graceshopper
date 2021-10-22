@@ -7,7 +7,7 @@ const {
     getOrder_ProductById,
     getOrder_ProductsByOrderId,
     updateOrder_Product,
-    deleteOrder_Product } = require('../order_products')
+    deleteOrder_Product } = require('../db');
 
 orderProductsRouter.use((req, res, next) => {
     try {
@@ -19,39 +19,73 @@ orderProductsRouter.use((req, res, next) => {
     }
 })
 
-orderProductsRouter.get('/', async (req, res, next) => {
-    try {
+orderProductsRouter.patch('/:order_productId', async (req, res, next) => {
+    const {order_productId} = req.params;
+    const {orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered} = req.body;
 
-    } catch (e) {
-        throw e;
+    const order_ProductToUpdate = {};
+    orderToUpdate.id = order_productId;
+    if (orderId) {
+        orderToUpdate.orderId = orderId;
     }
-})
-
-
-
-orderProductsRouter.get('/:userId', async (req, res, next) => {
-
-    const userId = req.params
-
+    if (productId) {
+        orderToUpdate.productId = productId;
+    }
+    if (cartProductsId) {
+        orderToUpdate.cartProductsId = cartProductsId;
+    }
+    if (quantityOrdered) {
+        orderToUpdate.quantityOrdered = quantityOrdered;
+    }
+    if (priceWhenOrdered) {
+        orderToUpdate.priceWhenOrdered = priceWhenOrdered;
+    }
     try {
-
-
+       const updatedOrder = await updateOrder_Product(orderToUpdate); 
+       res.send(updatedOrder);
     } catch (error) {
-        throw error
+        next(error);
     }
 })
 
-orderProductsRouter.post('/:orderProductsId', async (req, res, next) => {
-
-    const orderProductsId = req.params
-    const { orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered } = req.body;
-    try {//adds product to the order
-
-        console.log("OrderId passed into orderProductsPost: ", orderProductsId)
-        console.log("Req Body from orderProductsPost: ", req.body)
+orderProductsRouter.get('/:order_productId', async (req, res, next) => {
+    const orderProductId = req.params;
+    try {
+        const orderProduct = await getOrder_ProductById(orderProductId);
         res.send(orderProduct);
     } catch (error) {
-        throw error
+        next(error);
+    }
+})
+
+orderProductsRouter.post('/', async (req, res, next) => {
+    const { orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered } = req.body;
+
+    try {//adds product to the order
+        const orderProductToMake = {};
+        orderProductToMake.orderId = orderId;
+        orderProductToMake.productId = productId;
+        orderProductToMake.cartProductsId = cartProductsId;
+        orderProductToMake.quantityOrdered = quantityOrdered;
+        orderProductToMake.priceWhenOrdered = priceWhenOrdered;
+
+        const newOrderProduct = await createOrder_Product(orderProductToMake);
+
+        console.log("OrderId passed into orderProductsPost: ", orderId);
+        console.log("Req Body from orderProductsPost: ", req.body);
+        res.send(newOrderProduct);
+    } catch (error) {
+        next(error);
+    }
+})
+
+orderProductsRouter.get('/:orderId', async (req, res, next) => {
+    const orderId = req.params
+    try {
+        const orderProducts = await getOrder_ProductsByOrderId(orderId);
+        res.send(orderProducts);
+    } catch (error) {
+        next(error);
     }
 })
 
@@ -62,7 +96,7 @@ orderProductsRouter.delete('/:orderProductsId', async (req, res, next) => {
         const destroyedOrderProduct = await deleteOrder_Product(orderProductsId);
         res.send(destroyedOrderProduct);
     } catch (error) {
-        throw error;
+        next(error);
     }
 })
 
