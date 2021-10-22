@@ -92,6 +92,23 @@ async function newBilling(baseURL, userToken, userId, card, cvv) {
 	.catch(err => console.error(err));
 }
 
+async function changeAdmin(baseURL, userId, admin) {
+	const response = await fetch(`${baseURL}/users/${userId}/admin`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			isAdmin: admin
+		})
+	})
+	.then(res => res.json())
+	.then((result) => {
+		console.log(result);
+	})
+	.catch(err => console.error(err));
+}
+
 async function deleteUser(baseURL, userId) {
 	const {id} = userId;
 
@@ -129,5 +146,6 @@ export {
 	newPassword,
 	newInfo,
 	newBilling,
+	changeAdmin,
 	deleteUser
 };

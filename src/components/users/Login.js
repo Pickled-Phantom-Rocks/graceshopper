@@ -1,7 +1,7 @@
 import {React, useState} from 'react';
 
 const Login = (props) => {
-	const {baseURL, setUsername, setUserToken, setIsLoggedIn, setIsAdmin} = props;
+	const {baseURL, setUsername, setUserToken, setIsLoggedIn, setUserId, setIsAdmin} = props;
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -20,17 +20,21 @@ const Login = (props) => {
 		})
 		.then(response => response.json())
 		.then(result => {
-			console.log(result);
-			const {status, name, token} = result;
+			const {status, name, token, id, isAdmin} = result;
 			if(status === 204) {
 				alert("You have successfully logged in.")
 				setIsLoggedIn(true);
 				setUsername(name);
 				setUserToken(token);
+				setUserId(id);
+				setIsAdmin(isAdmin);
 
 				localStorage.setItem('isLoggedIn', true);
+				localStorage.setItem('isAdmin', isAdmin);
 				localStorage.setItem('username', name);
 				localStorage.setItem('token', token);
+				localStorage.setItem('userId', id);
+
 			} else {
 				alert("Invalid email/password combination.")
 			}

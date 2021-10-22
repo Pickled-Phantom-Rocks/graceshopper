@@ -2,12 +2,10 @@ import {React, useState} from 'react';
 import {EditUser, EditUserBilling, EditPassword} from './'
 
 const Profile = (props) => {
-	const {baseURL, username, userToken} = props;
+	const {baseURL, username, userToken, userId} = props;
 	const [showEditUser, setShowEditUser] = useState(false)
 	const [showEditBilling, setShowEditBilling] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
-
-	const userId = 2;
 
 	return <div id="profile">
 		<h1>Hello, {username}!</h1>
@@ -26,7 +24,7 @@ const Profile = (props) => {
 		{
 			!showEditBilling ? null:
 			<section>
-				<EditUserBilling baseURL={baseURL} userToken={userToken} userId={userId}/>
+				<EditUserBilling baseURL={baseURL} userToken={userToken} userId={userId} userId={userId}/>
 			</section>
 		}
 		{
