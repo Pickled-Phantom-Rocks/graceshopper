@@ -28,7 +28,6 @@ const Register = (props) => {
 		})
 		.then(response => response.json())
 		.then(result => {
-			console.log(result);
 			const token = result.token;
 			if(token){
 				alert('Thank you for registering!');

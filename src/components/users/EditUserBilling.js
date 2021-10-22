@@ -33,7 +33,7 @@ const EditUserBilling = (props) => {
 					setCVV(event.target.value);
 				}}
 			></input><br/>
-			<button>Submit</button>
+			<button className="submit">Submit</button>
 		</form>
 	</div>
 }

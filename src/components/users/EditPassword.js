@@ -50,7 +50,7 @@ const EditPassword = (props) => {
 					setConfirm(event.target.value);
 				}}
 			></input><br/>
-			<button>Submit</button>
+			<button className="submit">Submit</button>
 		</form>
 	</div>
 }

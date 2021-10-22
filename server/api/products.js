@@ -47,22 +47,20 @@ productsRouter.get('/:category', async (req, res, next) => {
 })
 
 productsRouter.post('/', async (req, res, next) => {
-    try {//Create a product 
-
-        const isAdmin = true
-
-        if (isAdmin) {
-            const product = req.body
-
-            const createdProduct = await createProducts(product)
-    
-            res.send(createdProduct)
-        } else if (!isAdmin) {
-            res.status(401)
-
-            next({ name: "Unauthorized!", message: "You must be an admin for this action!"})
-        }
-
+    try {
+            const product = req.body;
+            const createdProduct = await createProducts(product);
+            if(createdProduct){
+                res.send({
+                    status: 204,
+                    message: "Product successfully created."
+                })
+            } else {
+                res.send({
+                    name: "Duplication Error",
+                    message: "This product already exists."
+                })
+            }
     } catch (error) {
         throw error
     }

@@ -1,19 +1,31 @@
 import {React, useState} from 'react';
+import {newProduct} from '.'
 
 const NewProduct = (props) => {
-	const {baseURL} = props;
+	const {baseURL, isAdmin} = props;
 	const [name, setName] = useState('');
 	const [desc, setDesc] = useState('');
 	const [quantity, setQuantity] = useState('');
 	const [price, setPrice] = useState('');
 	const [photo, setPhoto] = useState('');
+	const [photoName, setPhotoName] = useState('')
 
-	
+	async function sendNewProduct() {
+		event.preventDefault();
+
+		if(!photo){
+			setPhotoName("none")
+		} else {
+			setPhotoName(photo)
+		}
+		const result = await newProduct(baseURL, name, desc, quantity,price,photoName);
+		
+	}
 
 	return <div className="form">
 		<h3>Add New Product</h3>
 		<br />
-		<form>
+		<form onSubmit={sendNewProduct}>
 			<label>Name: </label><br/>
 			<input
 				className="newInputLine"
@@ -53,9 +65,14 @@ const NewProduct = (props) => {
 				}}
 			></input><br/>
 			<label>Photo: </label><br/>
-			Insert here photo upload
+			<input
+				className="newInputLine"
+				type="file"
+				id="photoUpload"
+				accept="image/*"
+			></input>
 			<br/><br/>
-			<button>Submit</button>
+			<button className="submit">Submit</button>
 		</form>
 	</div>
 };

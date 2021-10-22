@@ -15,7 +15,7 @@ import {
 } from './components';
 
 const App = () => {
-	const baseURL = 'http://localhost:3140/api';
+	const baseURL = 'http://localhost:3141/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [isAdmin, setIsAdmin] = useState(useState(localStorage.getItem("isAdmin")));
@@ -51,7 +51,7 @@ const App = () => {
 					<Orders />
 				</Route>
 				<Route path="/admin">
-					<Admin baseURL={baseURL} />
+					<Admin baseURL={baseURL} isAdmin={isAdmin} />
 				</Route>
 				<Route>
 					<h1>404 Page Not Found</h1>
