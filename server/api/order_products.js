@@ -1,6 +1,6 @@
-const express = require('express')
+const express = require('express');
+const { deleteOrder } = require('../db');
 const orderProductsRouter = express.Router();
-
 
 const {    
     createOrder_Product,
@@ -14,6 +14,28 @@ orderProductsRouter.use((req, res, next) => {
         console.log("A request has been made to the /cart_products route!")
 
         next()
+    } catch (error) {
+        throw error
+    }
+})
+
+orderProductsRouter.get('/', async (req, res, next) => {
+    try {
+
+    } catch (e) {
+        throw e;
+    }
+})
+
+
+
+orderProductsRouter.get('/:userId', async (req, res, next) => {
+
+    const userId = req.params
+
+    try {
+
+
     } catch (error) {
         throw error
     }
@@ -33,20 +55,16 @@ orderProductsRouter.post('/:orderProductsId', async (req, res, next) => {
     }
 })
 
-orderProductsRouter.get('/:userId', async (req, res, next) => {
+orderProductsRouter.delete('/:orderProductsId', async (req, res, next) => {
+    const orderProductsId = req.params;
 
-    const userId = req.params
-
-    try {//get order_products by user
-
-        
-
+    try {
+        const destroyedOrderProduct = await deleteOrder_Product(orderProductsId);
+        res.send(destroyedOrderProduct);
     } catch (error) {
-        throw error
+        throw error;
     }
 })
-
-
 
 module.exports = {
     orderProductsRouter
