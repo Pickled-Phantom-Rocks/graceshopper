@@ -6,6 +6,7 @@
 body {
 	height:100vh;
 	width:100%;
+	background-image: url(./images/439767.jpg);
 }
 h1 {
 	margin-bottom:10px;
@@ -17,17 +18,37 @@ h1 {
 	overflow: hidden;
     overflow-wrap: break-word;
 	height:100%;
-	width:100%;
+	width:90%;
+	max-width:1200px;
+	margin: 0 auto;
+}
+header, footer {
+	grid-row:1;
+	padding: 10px;
+	background-color:black;
+	color:white;
+	text-align:center;
 }
 header {
-	grid-row:1;
-	background-color:gray;
+	border-bottom: 2px solid orange;
 }
+
 .navLink {
-	margin:5px;
+	padding:5px;
+	background-color:black;
+	color:white;
+	text-decoration:none;
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size:16px;
+	border:none;
+}
+.navLink:hover {
+	background-color:orange;
+	color:black;
 }
 main {
 	grid-row:2;
+	background-color:white;
 }
 section {
 	margin-bottom: 10px;
@@ -49,8 +70,7 @@ section {
 	height:100px;
 }
 
-
 footer {
 	grid-row:3;
-	background-color:gray;
+	border-top:2px solid orange;
 }
