@@ -4,13 +4,13 @@ import { getCartByUserId } from './cartUtils';
 const Cart = (props) => {
 	const [usersCart, setUsersCart] = useState([])
 	const [productList, setProductList] = useState([])
-	const {username, userId} = props
+	const {username, userId, baseURL} = props
 	
 
 	async function fetchUsersCart() {
 		try {
 			//console.log("USERID", userId)
-			const result = await getCartByUserId(userId)
+			const result = await getCartByUserId(userId, baseURL)
 			//console.log("RESULT", result)
 			setUsersCart(result[0])
 			setProductList(result[0].products)
@@ -59,30 +59,31 @@ const Cart = (props) => {
 		return quantity * price
 	}
 
+	const reducer = (accumulator, curr) => accumulator + curr
+
 	function totalPriceCalculator(itemPrices) {
 
-		let totalPriceOfCart
-		
-		for(let i = 0; i < itemPrices.length; i++) {
-			console.log("HERE", itemPrices[i])
-			totalPriceOfCart += itemPrices[i]
-			console.log("INSIDE FUNC", totalPriceOfCart)
+		let totalPrice
+
+		if(!itemPrices[0]) {
+			totalPrice = 0.00
+			return totalPrice
 		}
+
+		totalPrice = itemPrices.reduce(reducer)
+		return totalPrice
 	}
 
-	const totalItemPrice = productList.map(product => quantityTimesPrice(product.quantityOfItem, product.price))
-	console.log("total price per item: ", totalItemPrice)
+	const totalItemPrices = productList.map(product => quantityTimesPrice(product.quantityOfItem, product.price))
 
-	//let totalPrice
-	totalPriceCalculator(totalItemPrice)
-	//console.log("TOTAL CART PRICE: ", totalPrice)
+	const totalPrice = totalPriceCalculator(totalItemPrices)
 
 	return <div id="cart">
 		<h1>{username}'s Cart</h1>
 		<div style={{border: "2px solid darkGreen"}}>
 			{productList.map(product => renderCartProducts(product))}
 			<div>
-				<h2>Total Price: </h2>
+				<h2>Total Price: {totalPrice}</h2>
 			</div>
 		</div>
 		

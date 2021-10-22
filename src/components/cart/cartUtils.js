@@ -1,7 +1,6 @@
 //const usersBaseUrl = 'http://localhost:3134/api/users'
-const cartsBaseUrl = 'http://localhost:3139/api/carts'
+//const cartsBaseUrl = 'http://localhost:3139/api/carts'
 
-const username = localStorage.getItem('username')
 
 // export async function getUserByUsername(username) {
 //     try {
@@ -16,12 +15,12 @@ const username = localStorage.getItem('username')
 //     }
 // }
 
-export async function getCartByUserId(userId) {
+export async function getCartByUserId(userId, baseURL) {
 
     try {
 
         //console.log("userIdPassed into utils", userId)
-        const result = await fetch(`${cartsBaseUrl}/${userId}`)
+        const result = await fetch(`${baseURL}/carts/${userId}`)
         //console.log("RESULT CART UTIL", result)
 
         const data = await result.json()
@@ -34,4 +33,29 @@ export async function getCartByUserId(userId) {
         throw error
     }
 
+}
+
+export async function createCartForUser(userId, baseURL) {
+    try {
+        const result = await fetch(`${baseURL}/carts/${userId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        const data = await result.json()
+
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function addProductToCart() {
+    try {
+
+    } catch (error) {
+        throw error
+    }
 }

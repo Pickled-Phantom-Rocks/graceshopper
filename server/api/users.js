@@ -93,6 +93,7 @@ usersRouter.post('/register', async (req, res, next) => {
 		const finalReturn = {
 			message: "Thank you for registering.",
 			token: token,
+			userId: user.id,
 			user: token.name,
 			id: token.id
 		};

@@ -45,7 +45,7 @@ const App = () => {
 					<Products baseURL={baseURL} />
 				</Route>
 				<Route path="/cart">
-					<Cart userId={userId} username={username}/>
+					<Cart userId={userId} username={username} baseURL={baseURL}/>
 				</Route>
 				<Route path="/orders">
 					<Orders />
