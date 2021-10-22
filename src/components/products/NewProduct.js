@@ -13,13 +13,15 @@ const NewProduct = (props) => {
 	async function sendNewProduct() {
 		event.preventDefault();
 
+		//figure out the file upload
+
 		if(!photo){
 			setPhotoName("none")
 		} else {
 			setPhotoName(photo)
 		}
 		const result = await newProduct(baseURL, name, desc, quantity,price,photoName);
-		
+
 	}
 
 	return <div className="form">

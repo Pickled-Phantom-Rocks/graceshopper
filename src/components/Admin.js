@@ -11,8 +11,14 @@ const Admin = (props) => {
 		<h1>Admin Panel</h1>
 		<h2>Products</h2>
 		<section className="userOptions">
-			{!showNewProduct ? <button onClick={()=> setShowNewProduct(true)} >Add New Product</button> : <button onClick={()=> setShowNewProduct(false)} >Hide New Product</button>}
-			{!showEditProduct ? <button onClick={()=> setShowEditProduct(true)}>Edit Product</button>  : <button onClick={()=> setShowEditProduct(false)}>Hide Edit Product</button> }
+			{!showNewProduct ? <button onClick={()=> {
+				setShowNewProduct(true);
+				setShowEditProduct(false);
+			}} >Add New Product</button> : <button onClick={()=> setShowNewProduct(false)} >Hide New Product</button>}
+			{!showEditProduct ? <button onClick={()=> {
+				setShowEditProduct(true);
+				setShowNewProduct(false);
+			}}>Edit Product</button>  : <button onClick={()=> setShowEditProduct(false)}>Hide Edit Product</button> }
 			<button>Delete Product</button>
 		</section>
 		{showEditProduct ? <EditProduct baseURL={baseURL} /> : null}
