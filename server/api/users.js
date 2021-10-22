@@ -12,7 +12,11 @@ const {
     deleteUser,
     updateUserInfo,
     updatePassword,
+<<<<<<< HEAD
 	updateAdmin
+=======
+	getUserByUsername
+>>>>>>> cb295abdd7a79c164fc4498238c996754ac0490c
 } = require('../db/users');
 const { user } = require('pg/lib/defaults');
 
@@ -31,6 +35,34 @@ usersRouter.get('/', async (req, res, next) => {
     }
 })
 
+// usersRouter.get('/:username', async (req, res, next) => {
+
+// 	const {username} = req.params
+	
+// 	try {
+// 		const user = await getUserByUsername(username)
+
+// 		res.send(username)
+// 	} catch (error) {
+// 		throw error
+// 	}
+// })
+
+// usersRouter.get('/:userId', async (req, res, next) => {
+
+// 	const {userId} = req.params
+
+// 	try {
+
+// 		const user = await getUserById(userId)
+		
+// 		res.send(user)
+// 	} catch (error) {
+// 		throw error
+// 	}
+
+// })
+
 usersRouter.post('/register', async (req, res, next) => {
 	const {email, password} = req.body;
 	try {
@@ -46,7 +78,7 @@ usersRouter.post('/register', async (req, res, next) => {
 		};
 
 		const existingEmail = await getUserByEmail(email);
-		if(typeof(existingUser) == 'object') {
+		if(typeof(existingEmail) == 'object') {
 			return res.status(400).send({
 				message: "This email address is already associated with another account."
 			})
