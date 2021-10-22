@@ -1,3 +1,4 @@
+const { attachProductsToCarts } = require('./products')
 const client = require('./client')
 const utils = require('./utils')
 
@@ -22,10 +23,17 @@ async function createCarts({userId, age, isActive}) {
 async function getAllCarts() {
     try {
         const { rows: carts } = await client.query(`
-            SELECT *
-            FROM carts;
+            SELECT carts.*, users.name AS "cartOwner"
+            FROM carts
+            JOIN users
+            ON carts."userId"=users.id;
         `)
-        return carts
+        //console.log("Is this working?")
+        //console.log("The carts: ", carts)
+        const cartsWithProducts = await attachProductsToCarts(carts)
+        //console.log("Carts with products", cartsWithProducts)
+
+        return cartsWithProducts
     } catch (error) {
         throw error
     }
@@ -66,15 +74,18 @@ async function getCartById({id}) {
 async function getCartByUserId(userId) {
     try {
 
-        const { rows: [cart] } = await client.query(`
+        const { rows: cart } = await client.query(`
             SELECT *
             FROM carts
             WHERE "userId"=$1;
         `, [userId])
 
-        return cart
+        const cartsWithProducts = await attachProductsToCarts(cart)
+
+        return cartsWithProducts
 
     } catch (error) {
+        console.log("Error with GetCartByUserId")
         throw error
     }
 }
