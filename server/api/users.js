@@ -12,11 +12,8 @@ const {
     deleteUser,
     updateUserInfo,
     updatePassword,
-<<<<<<< HEAD
-	updateAdmin
-=======
+	updateAdmin,
 	getUserByUsername
->>>>>>> cb295abdd7a79c164fc4498238c996754ac0490c
 } = require('../db/users');
 const { user } = require('pg/lib/defaults');
 
