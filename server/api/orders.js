@@ -9,7 +9,8 @@ const {
     createOrder,
     updateOrder,
     deleteOrder,
-    getAllOrders
+    getAllOrders,
+    getUserByUsername
 } = require('../db');
 
 ordersRouter.use((req, res, next) => {
@@ -26,9 +27,11 @@ ordersRouter.get('/', async ( req, res, next) => {
     }
 })
 
-ordersRouter.get('/:userId', async (req, res, next) => {
- const {userId} = req.params;
+ordersRouter.get('/:username/pastorders', async (req, res, next) => {
+ const {username} = req.params;
  try {
+    const user = await getUserByUsername(username);
+    const userId = user.id;
     const orders = await getOrdersByUserId(userId); 
     console.log(orders);
     res.send(orders);
@@ -48,6 +51,27 @@ ordersRouter.get('/:orderId', async (req, res, next) => {
         next(error);
     }
 });
+
+ordersRouter.post('/:orderId/products', async (req, res, next) => {
+    const { orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered } = req.body;
+
+    try {//adds product to the order
+        const orderProductToMake = {};
+        orderProductToMake.orderId = orderId;
+        orderProductToMake.productId = productId;
+        orderProductToMake.cartProductsId = cartProductsId;
+        orderProductToMake.quantityOrdered = quantityOrdered;
+        orderProductToMake.priceWhenOrdered = priceWhenOrdered;
+
+        const newOrderProduct = await createOrder_Product(orderProductToMake);
+
+        console.log("OrderId passed into orderProductsPost: ", orderId);
+        console.log("Req Body from orderProductsPost: ", req.body);
+        res.send(newOrderProduct);
+    } catch (error) {
+        next(error);
+    }
+})
 
 ordersRouter.post('/:userId', async (req, res, next) => {
     const { orderDate, deliveryDate, totalPrice } = req.body;

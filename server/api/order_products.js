@@ -19,6 +19,26 @@ orderProductsRouter.use((req, res, next) => {
     }
 })
 
+orderProductsRouter.get('/:order_productId', async (req, res, next) => {
+    const orderProductId = req.params;
+    try {
+        const orderProduct = await getOrder_ProductById(orderProductId);
+        res.send(orderProduct);
+    } catch (error) {
+        next(error);
+    }
+})
+
+orderProductsRouter.get('/:orderId', async (req, res, next) => {
+    const orderId = req.params
+    try {
+        const orderProducts = await getOrder_ProductsByOrderId(orderId);
+        res.send(orderProducts);
+    } catch (error) {
+        next(error);
+    }
+})
+
 orderProductsRouter.patch('/:order_productId', async (req, res, next) => {
     const {order_productId} = req.params;
     const {orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered} = req.body;
@@ -48,46 +68,6 @@ orderProductsRouter.patch('/:order_productId', async (req, res, next) => {
     }
 })
 
-orderProductsRouter.get('/:order_productId', async (req, res, next) => {
-    const orderProductId = req.params;
-    try {
-        const orderProduct = await getOrder_ProductById(orderProductId);
-        res.send(orderProduct);
-    } catch (error) {
-        next(error);
-    }
-})
-
-orderProductsRouter.post('/', async (req, res, next) => {
-    const { orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered } = req.body;
-
-    try {//adds product to the order
-        const orderProductToMake = {};
-        orderProductToMake.orderId = orderId;
-        orderProductToMake.productId = productId;
-        orderProductToMake.cartProductsId = cartProductsId;
-        orderProductToMake.quantityOrdered = quantityOrdered;
-        orderProductToMake.priceWhenOrdered = priceWhenOrdered;
-
-        const newOrderProduct = await createOrder_Product(orderProductToMake);
-
-        console.log("OrderId passed into orderProductsPost: ", orderId);
-        console.log("Req Body from orderProductsPost: ", req.body);
-        res.send(newOrderProduct);
-    } catch (error) {
-        next(error);
-    }
-})
-
-orderProductsRouter.get('/:orderId', async (req, res, next) => {
-    const orderId = req.params
-    try {
-        const orderProducts = await getOrder_ProductsByOrderId(orderId);
-        res.send(orderProducts);
-    } catch (error) {
-        next(error);
-    }
-})
 
 orderProductsRouter.delete('/:orderProductsId', async (req, res, next) => {
     const orderProductsId = req.params;
