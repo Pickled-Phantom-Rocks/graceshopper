@@ -20,11 +20,14 @@ export async function getCartByUserId(userId) {
 
     try {
 
+        //console.log("userIdPassed into utils", userId)
         const result = await fetch(`${cartsBaseUrl}/${userId}`)
+        //console.log("RESULT CART UTIL", result)
 
-        const cart = await result.json()
+        const data = await result.json()
+        //console.log("CART from CARUTIL ", data)
 
-        return cart
+        return data
 
     } catch (error) {
         console.log("Error in the cartUtil")

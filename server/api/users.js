@@ -12,6 +12,7 @@ const {
     deleteUser,
     updateUserInfo,
     updatePassword,
+	updateAdmin,
 	getUserByUsername
 } = require('../db/users');
 const { user } = require('pg/lib/defaults');
@@ -92,7 +93,8 @@ usersRouter.post('/register', async (req, res, next) => {
 		const finalReturn = {
 			message: "Thank you for registering.",
 			token: token,
-			user: token.name
+			user: token.name,
+			id: token.id
 		};
 		res.send(JSON.stringify(finalReturn));
 	} catch(error) {
@@ -126,8 +128,8 @@ usersRouter.post('/login', async (req, res, next) => {
 				message: "You have successfully logged in.",
 				name: user.name,
 				token: token,
-				userId: user.id
-				
+				id: user.id,
+				isAdmin: user.isAdmin
 			})
 		} else {
 			res.send({
@@ -192,6 +194,7 @@ usersRouter.patch('/:userId/billing', async (req, res, next) => {
 	}
 })
 
+
 usersRouter.patch('/:userId/password', async (req, res, next) => {
 	try {
 		const {userId} = req.params;
@@ -220,9 +223,23 @@ usersRouter.patch('/:userId/password', async (req, res, next) => {
 	}
 });
 
+usersRouter.patch('/:userId/admin', async (req, res, next) => {
+	try {
+		const {userId} = req.params;
+		const {isAdmin} = req.body;
+		const updated = await updateAdmin(userId, isAdmin)
+		console.log("from api: ", updated);
+		res.send({
+			status: 204,
+			message: "You have successfully updated admin status."
+		})
+	} catch(error) {
+		next(error);
+	}
+});
+
 usersRouter.delete('/:userId', async (req, res, next) => {
 	const {userId} = req.params;
-
 	try{
 		const deletedUser = await deleteUser(userId);
 		res.send(deletedUser);

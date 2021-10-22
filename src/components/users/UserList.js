@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react';
-import {fetchUsers} from '.';
+import {fetchUsers, deleteUser, changeAdmin} from '.';
 
 const UserList = (props) => {
 	const {baseURL} = props;
@@ -7,9 +7,8 @@ const UserList = (props) => {
 
 	async function fetchTheUsers() {
 		try {
-			const results = await fetchUsers(baseURL)
-
-			setUserList(results)
+			const results = await fetchUsers(baseURL);
+			setUserList(results);
 		} catch (error) {
 			throw error
 		}
@@ -18,10 +17,21 @@ const UserList = (props) => {
 		fetchTheUsers();
 	}, []);
 
-
-	async function deleteUser() {
-		
+	async function deleteTheUser(id) {
+		const deleted = await deleteUser(baseURL, id);
+		location.reload();
 	}
+
+	async function makeAdmin(id) {
+		const admin = true;
+		const results = await changeAdmin(baseURL, id, admin);
+	}
+
+	async function removeAdmin(id) {
+		const admin = false;
+		const results = await changeAdmin(baseURL, id, admin);
+	}
+
 
 	return 	<div className="userList">
 		{
@@ -34,10 +44,10 @@ const UserList = (props) => {
 					}
 					<br/>
 					{
-						!isAdmin ? <button>Make Admin</button> : <button>Remove Admin</button>
+						!isAdmin ? <button onClick={() => makeAdmin({id})}>Make Admin</button> : <button onClick={() => removeAdmin({id})}>Remove Admin</button>
 					}
 					
-					<button>Delete User</button>
+					<button onClick={() => deleteTheUser({id})}>Delete User</button>
 				</div>
 			})
 		}

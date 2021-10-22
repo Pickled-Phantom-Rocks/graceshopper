@@ -1,5 +1,6 @@
 const client = require('./client');
 const bcrypt = require('bcrypt');
+const { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } = require('react-dom/cjs/react-dom.development');
 
 async function createUser({
     email,
@@ -73,7 +74,7 @@ async function getUserById(userId) {
         if (!user) {
             return null
         }
-
+        
         return user;
     } catch (error) {
         throw error;
@@ -110,8 +111,7 @@ async function deleteUser(userId) {
     try {
         const {rows: [user]} = await client.query(`
             DELETE FROM users
-            WHERE id=$1
-            RETURNING *;
+            WHERE id=$1;
         `, [userId]);
         return user;
     } catch (error) {
@@ -160,6 +160,21 @@ async function updateUserInfo (id, fields) {
     }
   };
 
+  async function updateAdmin (id, isAdmin) {
+      try {
+        const { rows: [user]} = await client.query(`
+            UPDATE users
+            SET "isAdmin" = $2
+            WHERE id=$1
+            RETURNING *;
+        `, [id, isAdmin]);
+        console.log("from db: ", user);
+      return user;
+      } catch(error) {
+          throw error;
+      }
+  }
+
 module.exports = {
     createUser,
     getUser,
@@ -169,5 +184,6 @@ module.exports = {
     deleteUser,
     updateUserInfo,
     updatePassword,
+    updateAdmin,
     getUserByUsername
 }

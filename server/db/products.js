@@ -20,6 +20,34 @@ async function createProducts({name, description, quantityAvailable, price, phot
 
 }
 
+async function attachProductsToCarts(carts) {
+    const cartsToReturn = [...carts]
+    const binds = carts.map((_, index) => `$${index + 1}`).join(', ')
+    const cartIds = carts.map(cart => cart.id)
+    if(!cartIds?.length) return
+
+    try{
+
+        const { rows: products } = await client.query(`
+            SELECT products.*, cart_products."cartId", cart_products."productPrice", cart_products."quantityOfItem", cart_products.id AS "cartProductsId"
+            FROM products
+            JOIN cart_products
+            ON cart_products."productId" = products.id
+            WHERE cart_products."cartId" IN (${ binds });
+        `, cartIds)
+
+        for (const cart of cartsToReturn) {
+            const productsToAdd = products.filter(product => product.cartId === cart.id)
+            cart.products = productsToAdd
+        }
+
+        return cartsToReturn
+
+    } catch(error) {
+        throw error
+    }
+}
+
 async function getAllProducts() {
     try {
         const { rows: products } = await client.query(`
@@ -120,5 +148,6 @@ module.exports = {
     getAllProducts,
     getProductById,
     updateProduct,
-    deleteProductById
+    deleteProductById,
+    attachProductsToCarts
 }

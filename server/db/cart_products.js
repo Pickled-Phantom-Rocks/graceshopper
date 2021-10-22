@@ -48,23 +48,45 @@ async function getCart_ProductByCartId(cartId) {
 }
 
 async function updateCart_Product ({ id, ...fields}) {
-        const setString = Object.keys(fields).map(
-          (key, index) => `"${ key }"=$${ index + 1 }`
-        ).join(', ');
+        // const setString = Object.keys(fields).map(
+        //   (key, index) => `"${ key }"=$${ index + 1 }`
+        // ).join(', ');
       
-        if (setString.length === 0) {
-          return;
-        }
+        // if (setString.length === 0) {
+        //   return;
+        // }
       
         try {
-          const { rows: [ cart_product ]} = await client.query(`
-            UPDATE cart_products
-            SET ${ setString }
-            WHERE id=${id}
-            RETURNING *;
-          `, Object.values(fields));
-          console.log("UPDATE in db, updated cart product:", cart_product);
-          return cart_product;
+
+          const toUpdate = {}
+
+          for (let column in fields) {
+            if (fields[column] !== undefined) toUpdate[column] = fields[column]
+          }
+
+          let cart
+
+          if (util.dbFields(fields).insert.length > 0) {
+            const { rows } = await client.query(`
+              UPDATE cart_products
+              SET ${util.dbFields(toUpdate).insert}
+              WHERE id=${id}
+              RETURNING *;
+            `, Object.values(toUpdate)) 
+            cart = rows[0]
+
+            return cart
+          }
+
+          // const { rows: [ cart_product ]} = await client.query(`
+          //   UPDATE cart_products
+          //   SET ${ setString }
+          //   WHERE id=${id}
+          //   RETURNING *;
+          // `, Object.values(fields));
+          // console.log("UPDATE in db, updated cart product:", cart_product);
+
+          // return cart_product;
       
         } catch (error) {
           throw error;

@@ -1,6 +1,6 @@
 const express = require('express')
 const cartsRouter = express.Router()
-const { createCarts, getAllActiveCarts, getCartByUserId, updateCart, destroyCart } = require('../db')
+const { createCarts, getAllCarts, getCartByUserId, updateCart, destroyCart } = require('../db')
 
 cartsRouter.use((req, res, next) => {
     try {
@@ -15,7 +15,7 @@ cartsRouter.use((req, res, next) => {
 cartsRouter.get('/', async (req, res, next) => {
     try { //gets all open/active carts, only accessible to admin for order fulfillment 
 
-        const activeCarts = await getAllActiveCarts()
+        const activeCarts = await getAllCarts()
 
         res.send(activeCarts)
 
@@ -91,19 +91,13 @@ cartsRouter.patch('/:userId', async (req, res, next) => {
 })
 
 cartsRouter.delete('/:userId', async (req, res, next) => {
-    try {//delete cart matching UserId
-
-        const userId = req.params
-
-        const destroyedCart = await destroyCart(userId)
-
-        res.send(destroyedCart)
-
+    const {userId} = req.params;
+    try {
+        const destroyedCart = await destroyCart(userId);
+        res.send(destroyedCart);
     } catch (error) {
         throw error
     }
 })
 
-module.exports = {
-    cartsRouter
-}
+module.exports = {cartsRouter};

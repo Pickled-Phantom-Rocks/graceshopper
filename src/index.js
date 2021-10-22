@@ -15,15 +15,16 @@ import {
 } from './components';
 
 const App = () => {
-	const baseURL = 'http://localhost:3134/api';
+	const baseURL = 'http://localhost:3139/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
-	const [isAdmin, setIsAdmin] = useState(false);
+	const [isAdmin, setIsAdmin] = useState(useState(localStorage.getItem("isAdmin")));
 	const [username, setUsername] = useState(localStorage.getItem("username"));
 	const [userToken, setUserToken] = useState(localStorage.getItem("token"));
+	const [userId, setUserId] = useState(localStorage.getItem("userId"));
 
 	return <Router>
-		<Header />
+		<Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} setUsername={setUsername} setUserToken={setUserToken} setUserId={setUserId} />
 		<main>
 			<Switch>
 				<Route exact path="/">
@@ -32,13 +33,13 @@ const App = () => {
 					</div>
 				</Route>
 				<Route path="/register">
-					<Register baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} />
+					<Register baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setUserId={setUserId} setIsLoggedIn={setIsLoggedIn} />
 				</Route>
 				<Route path="/login">
-					<Login baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />
+					<Login baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setUserId={setUserId} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />
 				</Route>
 				<Route path="/profile/">
-					<Profile baseURL={baseURL} username={username} userToken={userToken}/>
+					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId}/>
 				</Route>
 				<Route path="/products">
 					<Products baseURL={baseURL} />

@@ -11,5 +11,6 @@ export {
 	newPassword,
 	newInfo,
 	newBilling,
+	changeAdmin,
 	deleteUser
 } from './userUtils';

@@ -92,8 +92,53 @@ async function newBilling(baseURL, userToken, userId, card, cvv) {
 	.catch(err => console.error(err));
 }
 
-async function deleteUser(baseURL, userId) {
+async function changeAdmin(baseURL, userId, admin) {
+	const response = await fetch(`${baseURL}/users/${userId}/admin`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			isAdmin: admin
+		})
+	})
+	.then(res => res.json())
+	.then((result) => {
+		console.log(result);
+	})
+	.catch(err => console.error(err));
+}
 
+async function deleteUser(baseURL, userId) {
+	const {id} = userId;
+
+	await fetch(`${baseURL}/carts/${id}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',	
+		}
+	})
+	.then(res => res.json())
+	.then((result) => {
+		console.log('delete cart: ', result)
+	})
+	.catch(err => console.error(err));
+
+	// const ordersResponse = await fetch(`${baseURL}/orders/${id}`, {
+	// 	//delete orders once the router for it has been set up
+	// })
+
+	const response = await fetch(`${baseURL}/users/${id}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',	
+		}
+	})
+	.then(res => res.json())
+	.then((result) => {
+		alert("User has been deleted.")
+	})
+	.catch(err => console.error(err));
 }
 
 export {
@@ -101,5 +146,6 @@ export {
 	newPassword,
 	newInfo,
 	newBilling,
+	changeAdmin,
 	deleteUser
 };

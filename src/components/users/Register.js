@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 const Register = (props) => {
-	const {baseURL, setUsername, setUserToken, setIsLoggedIn} = props;
+	const {baseURL, setUsername, setUserToken, setUserId, setIsLoggedIn} = props;
 	const [newName, setNewName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -34,11 +34,13 @@ const Register = (props) => {
 				alert('Thank you for registering!');
 				setIsLoggedIn(true);
 				setUsername(newName);
-				setUserToken(token)
+				setUserToken(token);
+				setUserId(id);
 
 				localStorage.setItem('isLoggedIn', true);
 				localStorage.setItem('username', newName);
 				localStorage.setItem('token', token);
+				localStorage.setItem('userId', id);
 				return result
 			} else {
 				alert("Invalid email/password combination. Please try again.")
