@@ -8,8 +8,26 @@ body {
 	width:100%;
 	background-image: url(./images/439767.jpg);
 }
+h1, h2, h3, .navLink {
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 h1 {
-	margin-bottom:10px;
+	font-size: 40px;
+	color:purple;
+	margin:10px 10px 20px 10px;
+	border-bottom:1px solid orange;
+	text-align:center;
+}
+h2 {
+	font-size: 30px;
+	margin: 10px 0;
+	color:orange;
+	border-bottom:1px solid purple;
+}
+h3 {
+	text-align: right;
+	padding:5px;
+	background-color:orange;
 }
 #app {
 	display:grid;
@@ -32,13 +50,11 @@ header, footer {
 header {
 	border-bottom: 2px solid orange;
 }
-
 .navLink {
 	padding:5px;
 	background-color:black;
 	color:white;
 	text-decoration:none;
-	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 	font-size:16px;
 	border:none;
 }
@@ -49,27 +65,51 @@ header {
 main {
 	grid-row:2;
 	background-color:white;
+	padding:10px;
 }
 section {
 	margin-bottom: 10px;
 }
+.userOptions {
+	text-align:center;
+}
+.userOptions button {
+	margin: 0 5px;
+}
 .newInputLine {
 	margin-bottom:10px;
 }
+.form {
+	border:1px solid purple;
+	padding:10px;
+	width:auto;
+	max-width: 400px;
+	margin: 0 auto 10px auto;
+}
+label {
+	font-weight:bold;
+}
 .userListItem {
-	margin:10px;
+	margin-bottom:10px;
 	display:flex;
+	margin:10px
 }
 .productList {
 	display:flex;
-	border: 1px solid black;
-	margin: 10px;
+	border: 1px solid purple;
+	margin-bottom:10px;
 }
 .productList img {
-	width:100px;
-	height:100px;
+	width:156px;
+	height:156px;
 }
-
+.productInfo {
+	width:100%;
+	padding:5px;
+}
+.productOptions {
+	text-align: right;
+}
 footer {
 	grid-row:3;
 	border-top:2px solid orange;
