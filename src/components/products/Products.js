@@ -42,7 +42,9 @@ const Products = (props) => {
 
 	return <div id="products">
 		<h1>Products</h1>
-		<p>List of all available products</p>
+		<section>
+			Category select goes here. Dropdown?
+		</section>
 		{
 			products.map((product) => {
 				const {id, name, description, quantityAvailable, price, photoName} = product;
@@ -52,12 +54,15 @@ const Products = (props) => {
 				return <div className="productList" key={id}>
 					<img src={process.env.PUBLIC_URL + photoURL} />
 					<div className="productInfo">
-						Name: {name}<br/>
-						Description: {description}<br/>
-						Quantity: {quantityAvailable}<br/>
-						Price: {"$" + price}<br/>
-					<button onClick={e => handleAddToCart(product)}>Add to Cart</button>
-					<button  style={{marginLeft: "1em", marginTop: "1em"}}onClick={e => handleRemoveFromCart(product)}>Remove from Cart</button>
+						<h3>{name}</h3>
+						<label>Description:</label> {description}<br/>
+						<label>Quantity:</label> {quantityAvailable}<br/>
+						<label>Price:</label> {"$" + price}<br/>
+						<label>Category:</label> ???<br/>
+					<section className="productOptions">
+						<button onClick={e => handleAddToCart(product)}>Add to Cart</button>
+						<button  style={{marginLeft: "1em", marginTop: "1em"}}onClick={e => handleRemoveFromCart(product)}>Remove from Cart</button>
+					</section>
 
 					</div>
 				</div>

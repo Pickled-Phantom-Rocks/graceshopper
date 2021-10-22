@@ -228,11 +228,7 @@ usersRouter.patch('/:userId/admin', async (req, res, next) => {
 		const {userId} = req.params;
 		const {isAdmin} = req.body;
 		const updated = await updateAdmin(userId, isAdmin)
-		console.log("from api: ", updated);
-		res.send({
-			status: 204,
-			message: "You have successfully updated admin status."
-		})
+		res.send(updated)
 	} catch(error) {
 		next(error);
 	}

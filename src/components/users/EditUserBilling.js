@@ -13,6 +13,7 @@ const EditUserBilling = (props) => {
 	}
 
 	return <div className="form">
+		<h3>Update Billing Info</h3>
 		<form onSubmit={sendEditBilling}>
 			<label>Card Number: </label><br />
 			<input
