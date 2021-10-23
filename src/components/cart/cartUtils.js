@@ -76,23 +76,35 @@ export async function addToUsersCart(cartId, productId, productPrice, quantityOf
     }
 }
 
-export async function updateItemQuantityAvailable(productId, quantityAvailable, baseUrl) {
-    try {
+// export async function updateItemQuantityAvailable(productId, quantityAvailable, baseUrl) {
+//     try {
 
-        const result = await fetch (`${baseUrl}/products/${productId}`, {
-            method: "PATCH",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                quantityAvailable
-            })
-        })
+//         const result = await fetch (`${baseUrl}/products/${productId}`, {
+//             method: "PATCH",
+//             headers: {
+//                 "Content-type": "application/json"
+//             },
+//             body: JSON.stringify({
+//                 quantityAvailable
+//             })
+//         })
+
+//         const data = await result.json()
+
+//         return data
+
+//     } catch (error) {
+//         throw error
+//     }
+// }
+
+export async function getAllCartProductsByCartId(cartId, baseUrl) {
+    try {
+        const result = await fetch(`${baseUrl}/cart-products/${cartId}`)
 
         const data = await result.json()
 
         return data
-
     } catch (error) {
         throw error
     }
