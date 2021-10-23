@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {NewProduct, EditProduct, UserList} from '.';
+import {NewProduct, EditProduct, DeleteProduct, UserList} from '.';
 
 const Admin = (props) => {
 	const {baseURL, userToken} = props;
 	const [showNewProduct, setShowNewProduct] = useState(false);
-	const [showEditProduct, setShowEditProduct] = useState(true);
+	const [showEditProduct, setShowEditProduct] = useState(false);
+	const [showDeleteProduct, setShowDeleteProduct] = useState(true);
 	const [showUsers, setShowUsers] = useState(false);
 	
 	return <div className="adminPanel">
@@ -14,15 +15,24 @@ const Admin = (props) => {
 			{!showNewProduct ? <button onClick={()=> {
 				setShowNewProduct(true);
 				setShowEditProduct(false);
+				setShowDeleteProduct(false);
 			}} >Add New Product</button> : <button onClick={()=> setShowNewProduct(false)} >Hide New Product</button>}
 			{!showEditProduct ? <button onClick={()=> {
 				setShowEditProduct(true);
 				setShowNewProduct(false);
+				setShowDeleteProduct(false);
 			}}>Edit Product</button>  : <button onClick={()=> setShowEditProduct(false)}>Hide Edit Product</button> }
-			<button>Delete Product</button>
+			{
+			!showDeleteProduct ? <button onClick={()=> {
+				setShowEditProduct(false);
+				setShowNewProduct(false);
+				setShowDeleteProduct(true);
+			}}>Delete Product</button>: <button onClick={()=> setShowDeleteProduct(false)}>Hide Delete Product</button>
+			}
 		</section>
 		{showEditProduct ? <EditProduct baseURL={baseURL} userToken={userToken} /> : null}
 		{showNewProduct ? <NewProduct baseURL={baseURL} /> : null}
+		{showDeleteProduct ? <DeleteProduct baseURL={baseURL} /> : null}
 
 		<h2>Categories</h2>
 		<section className="userOptions">

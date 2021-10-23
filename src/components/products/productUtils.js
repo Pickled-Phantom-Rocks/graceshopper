@@ -79,8 +79,29 @@ async function editProduct(baseURL, userToken, productId, name, desc, quantity, 
 	.catch(console.error);
 }
 
+async function deleteProduct(baseURL, productId) {
+	await fetch(`${baseURL}/products/${productId}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',	
+		}
+	})
+	.then(res => res.json())
+	.then((result) => {
+		console.log(result);
+		if(result.status == 204){
+			alert("Product was deleted.");
+			location.reload();
+		} else {
+			alert("This product does not exist.");
+		}
+	})
+	.catch(err => console.error(err));
+}
+
 export {
 	fetchProducts,
 	newProduct,
-	editProduct
+	editProduct,
+	deleteProduct
 }

@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import {fetchProducts} from '.'
-import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart } from '../cart/cartUtils';
+import {getCartByUserId, updateItemQuantityAvailable, addToUsersCart } from '../cart/cartUtils';
 
 const Products = (props) => {
 	const {baseURL, userId} = props;

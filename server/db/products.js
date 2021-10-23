@@ -124,15 +124,13 @@ async function updateProduct(id, fields) {
     }
 }
 
-async function deleteProductById({productId}) {
+async function deleteProduct({productId}) {
 
     try {
 
-        const { rows: product } = await client.query(`
-            DELETE * 
-            FROM products
-            WHERE id=$1
-            RETURNING *;
+        const { rows: [product] } = await client.query(`
+            DELETE FROM products
+            WHERE id=$1;
         `, [productId])
 
         console.log("DeletedProduct: ", product)
@@ -153,6 +151,6 @@ module.exports = {
     getProductByName,
     getProductById,
     updateProduct,
-    deleteProductById,
+    deleteProduct,
     attachProductsToCarts
 }
