@@ -52,8 +52,46 @@ export async function createCartForUser(userId, baseURL) {
     }
 }
 
-export async function addProductToCart() {
+export async function addToUsersCart(cartId, productId, productPrice, quantityOfItem, baseUrl) {
+
     try {
+
+        const result = await fetch(`${baseUrl}/cart-products/${cartId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                productId, productPrice, quantityOfItem
+            })
+        })
+
+        const data = await result.json()
+
+        return data
+
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export async function updateItemQuantityAvailable(productId, quantityAvailable, baseUrl) {
+    try {
+
+        const result = await fetch (`${baseUrl}/products/${productId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                quantityAvailable
+            })
+        })
+
+        const data = await result.json()
+
+        return data
 
     } catch (error) {
         throw error
