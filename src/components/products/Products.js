@@ -1,8 +1,9 @@
 import { React, useState, useEffect } from 'react';
 import {fetchProducts} from '.'
+import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart } from '../cart/cartUtils';
 
 const Products = (props) => {
-	const {baseURL} = props;
+	const {baseURL, userId} = props;
 	const [products, setProducts] = useState([]);
 
 	async function fetchTheProducts() {
@@ -13,11 +14,24 @@ const Products = (props) => {
 			throw error
 		}
 	}
-
+	let productAmount = 0
 	async function handleAddToCart(product) {
 		try {
 
-			console.log(product)
+			const cart = await getCartByUserId(userId, baseURL)
+			const cartId = cart[0].id
+			const productId = product.id
+			const productPrice = product.price
+			//const quantityLeftOver = product.quantityAvailable - 1
+
+			productAmount++
+
+			console.log(productAmount)
+			await addToUsersCart(cartId, productId, productPrice, productAmount, baseURL)
+
+			//await updateItemQuantityAvailable(productId, quantityLeftOver, baseURL)
+
+			console.log(product, cartId)
 
 		} catch (error) {
 			throw error

@@ -1,7 +1,7 @@
 const express = require('express')
 const cartProductsRouter = express.Router()
 
-const { deleteCart_Product, updateCart_Product } = require('../db');
+const { deleteCart_Product, updateCart_Product, addProductToCart } = require('../db');
 
 
 cartProductsRouter.use((req, res, next) => {
@@ -12,6 +12,23 @@ cartProductsRouter.use((req, res, next) => {
     } catch (error) {
         throw error
     }
+})
+
+cartProductsRouter.post('/:cartId', async (req, res, next) => {
+
+    const { cartId } = req.params
+    const { productId, productPrice, quantityOfItem } = req.body
+    
+    const productsToAdd = { cartId, productId, productPrice, quantityOfItem }    
+
+    try {
+        const addedProducts = await addProductToCart(productsToAdd)
+
+        res.send(addedProducts)
+    } catch (error) {
+        throw error
+    }
+    
 })
 
 cartProductsRouter.patch('/:cart_productId', async (req, res, next) => {

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { createCartForUser } from '../cart/cartUtils';
 
 const Register = (props) => {
 	const {baseURL, setUsername, setUserToken, setUserId, setIsLoggedIn} = props;
@@ -28,13 +29,16 @@ const Register = (props) => {
 		})
 		.then(response => response.json())
 		.then(result => {
+			console.log("RESULT", result);
 			const token = result.token;
+			const id = result.userId
 			if(token){
 				alert('Thank you for registering!');
 				setIsLoggedIn(true);
 				setUsername(newName);
 				setUserToken(token);
 				setUserId(id);
+				createCartForUser(id, baseURL)
 
 				localStorage.setItem('isLoggedIn', true);
 				localStorage.setItem('username', newName);
