@@ -30,7 +30,8 @@ async function newProduct(baseURL, name, desc, quantity, price, photoName) {
 		.then(res => res.json())
 		.then((result) => {
 			if(result.status) {
-				alert("New product has been created")
+				alert("New product has been created");
+				location.reload();
 			} else {
 				alert("This product already exists.")
 			}
@@ -38,20 +39,48 @@ async function newProduct(baseURL, name, desc, quantity, price, photoName) {
 		.catch(console.error);
 }
 
-async function editProduct(baseURL, productId, newName, newDesc, newQuantity, newPrice, newPhotoName) {
-	const result = await(`${baseURL}/products/${productId}`, {
+async function editProduct(baseURL, userToken, productId, name, desc, quantity, price, photo) {
+	const fields = {}
+	if(name){
+		fields.name = name;
+	}
+	if(desc){
+		fields.description = desc;
+	}
+	if(quantity){
+		fields.quantityAvailable = quantity;
+	}
+	if(price){
+		fields.price = price;
+	}
+	if(photo){
+		fields.photoName = photo;
+	}
+	const result = await fetch(`${baseURL}/products/${productId}`, {
 		method: 'PATCH',
 		headers: {
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${userToken}`
 		},
 		body: JSON.stringify({
-
+			fields
 		})
+	})
+	.then(res => res.json())
+	.then(result => {
+		console.log('result: ',result);
+		if(result.status == 204) {
+			alert("Product was updated.");
+			location.reload();
+		} else {
+			alert("A product with this name already exists")
+		}
 	})
 	.catch(console.error);
 }
 
 export {
 	fetchProducts,
-	newProduct
+	newProduct,
+	editProduct
 }

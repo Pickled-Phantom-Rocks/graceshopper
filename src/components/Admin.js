@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {NewProduct, EditProduct, UserList} from '.';
 
 const Admin = (props) => {
-	const {baseURL} = props;
-	const [showNewProduct, setShowNewProduct] = useState(true);
-	const [showEditProduct, setShowEditProduct] = useState(false);
+	const {baseURL, userToken} = props;
+	const [showNewProduct, setShowNewProduct] = useState(false);
+	const [showEditProduct, setShowEditProduct] = useState(true);
 	const [showUsers, setShowUsers] = useState(false);
 	
 	return <div className="adminPanel">
@@ -21,11 +21,11 @@ const Admin = (props) => {
 			}}>Edit Product</button>  : <button onClick={()=> setShowEditProduct(false)}>Hide Edit Product</button> }
 			<button>Delete Product</button>
 		</section>
-		{showEditProduct ? <EditProduct baseURL={baseURL} /> : null}
+		{showEditProduct ? <EditProduct baseURL={baseURL} userToken={userToken} /> : null}
 		{showNewProduct ? <NewProduct baseURL={baseURL} /> : null}
 
 		<h2>Categories</h2>
-		<section>
+		<section className="userOptions">
 			<button>Add new Category</button>
 			<button>Edit Category</button>
 			<button>Delete Category</button>

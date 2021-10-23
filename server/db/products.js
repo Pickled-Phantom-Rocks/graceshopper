@@ -79,6 +79,18 @@ async function getProductById(productId) {
 
 }
 
+async function getProductByName(name){
+    try {
+        const {rows: [product]} = await client.query(`
+            SELECT *
+            FROM products
+            WHERE name=$1;
+        `, [name]);
+        return product;
+    } catch(error) {
+        throw error
+    }
+}
 async function getProductByCategory(category) {
 
     try {
@@ -89,35 +101,27 @@ async function getProductByCategory(category) {
 
 }
 
-async function updateProduct({ id, ...fields}) {
-
+async function updateProduct(id, fields) {
+    const setString = Object.keys(fields).map(
+        (key, index) => `"${ key }"=$${ index + 1 }`
+    ).join(', ');
+    
+    if (setString.length === 0) {
+        return;
+    }
     try {
-
-        const toUpdate = {}
-
-        for (let column in fields) {
-            if (fields[column] !== undefined) toUpdate[column] = fields[column]
-        }
-
-        let product
-
-        if (utils.dbFields(fields).insert.length > 0) {
-            const { rows } = await client.query(`
-                UPDATE products
-                SET ${utils.dbFields(toUpdate).insert}
-                WHERE id=${id}
-                RETURNING *;
-            `, Object.values(toUpdate))
-            product = rows[0]
-
-            console.log("UpdatedProduct: ", product)
-            return product
-        }
-
+        const {rows: [product]} = await client.query(`
+            UPDATE products
+            SET ${setString}
+            WHERE id=${id}
+            RETURNING *;
+        `, Object.values(fields))
+        console.log('from db:', product);
+        return product
     } catch (error) {
+        console.log(error);
         throw error
     }
-
 }
 
 async function deleteProductById({productId}) {
@@ -146,6 +150,7 @@ async function deleteProductById({productId}) {
 module.exports = {
     createProducts,
     getAllProducts,
+    getProductByName,
     getProductById,
     updateProduct,
     deleteProductById,

@@ -1,6 +1,6 @@
 const express = require('express')
 const productsRouter = express.Router()
-const { createProducts, getAllProducts, getProductById, updateProduct, deleteProductById } = require('../db')
+const { createProducts, getAllProducts, getProductByName, getProductById, updateProduct, deleteProductById } = require('../db')
 
 productsRouter.use((req, res, next) => {
     try {
@@ -13,26 +13,19 @@ productsRouter.use((req, res, next) => {
 })
 
 productsRouter.get('/', async (req, res, next) => {
-    try {//get all the products
-
+    try {
         const products = await getAllProducts();
-
         res.send(products);
-
     } catch (error) {
         throw error
     }
 })
 
 productsRouter.get('/:productId', async (req, res, next) => {
-    try {//get product by Id
-
+    try {
         const {productId} = req.params
-
         const product = await getProductById(productId)
-
         res.send(product)
-
     } catch (error) {
         throw error
     }
@@ -66,56 +59,54 @@ productsRouter.post('/', async (req, res, next) => {
     }
 })
 
-productsRouter.patch('/:productId', async (req, res, next) => {
-
-    const { productId } = req.params
-    const { name, description, quantityAvailable, price, photoName } = req.body
-
-    const updateFields = {}
-
-    if(name) {
-        updateFields.name = name
-    }
-
-    if (description) {
-        updateFields.description = description
-    }
-
-    if (quantityAvailable) {
-        updateFields.quantityAvailable = quantityAvailable
-    }
-
-    if (price) {
-        updateFields.price = price
-    } 
-
-    if (photoName) {
-        updateFields.photoName = photoName
-    }
-
-    try {//edit product info
-
-        const isAdmin = true
-
-        if (isAdmin) {
-            const updatedProduct = await updateProduct(productId, updateFields)
-            res.send({ product: updatedProduct })
-        } else if (!isAdmin) {
-            res.status(401)
-
-            next({ name: "Unauthorized!", message: "You must be an admin for this action!"})
+productsRouter.patch('/:productId', async (req, res, next) => {;
+    try {
+        const { productId } = req.params;
+        const { fields } = req.body;
+        const {name, desc, quantityAvailable, price, photoName} = fields;
+        const existingProduct = await getProductByName(name);
+        if(typeof(existingProduct) === 'object') {
+            return res.status(400).send({
+                message: "A product with this name already exists."
+            })
         }
 
+        const updateFields = {}
+        if(fields.name){
+            updateFields.name = fields.name;
+        }
+        if(fields.desc){
+            updateFields.description = fields.desc;
+        }
+        if(fields.quantity){
+            updateFields.quantityAvailable = fields.quantity;
+        }
+        if(fields.price){
+            updateFields.price = fields.price;
+        }
+        if(fields.photo){
+            updateFields.photoName = fields.photo;
+        }
+        const updated = await updateProduct(productId, updateFields);
+        if(updated){
+            res.send({
+                status: 204,
+                message: "Product successfully updated."
+            })
+        } else {
+            res.send({
+                name: "Duplication Error",
+                message: "A product with this name already exists."
+            })
+        }
     } catch (error) {
         throw error
     }
 })
 
 productsRouter.delete('/:productId', async (req, res, next) => {
-    try {//Delete the product matching the productId
-
+    try {
         const productId = req.params
-
         const deletedProduct = await deleteProductById(productId)
         res.send(deletedProduct)
 

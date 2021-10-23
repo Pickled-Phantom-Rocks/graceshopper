@@ -5,5 +5,6 @@ export {default as EditProduct} from './EditProduct';
 
 export {
 	fetchProducts,
-	newProduct
+	newProduct,
+	editProduct
 } from './productUtils';

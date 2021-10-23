@@ -128,9 +128,9 @@ async function updateUserInfo (id, fields) {
       return;
     }
     try {
-      const { rows: [ user ]} = await client.query(`
+      const {rows: [ user ]} = await client.query(`
         UPDATE users
-        SET ${ setString }
+        SET ${setString}
         WHERE id=${id}
         RETURNING *;
       `, Object.values(fields));
