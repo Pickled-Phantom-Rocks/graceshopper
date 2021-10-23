@@ -76,7 +76,24 @@ const fetchCategories = (baseURL) => {
 	return categories;
 }
 
+async function fetchOrderList (username, baseURL) {
+	try {
+		const result = await fetch(`${baseURL}/${username}/pastorders`, {
+			method: "GET",
+			headers: {
+			  'Content-Type': 'application/json',
+			}
+		  });
+		const data = await result.json();
+		return data;
+	} catch (error) {
+		console.error(error);
+	}
+
+}
+
 export {
 	fetchProducts,
-	fetchCategories
+	fetchCategories,
+	fetchOrderList
 };

@@ -48,7 +48,7 @@ const App = () => {
 					<Cart userId={userId} username={username} baseURL={baseURL}/>
 				</Route>
 				<Route path="/orders">
-					<Orders />
+					<Orders baseURL={baseURL} userId={userId} username={username} />
 				</Route>
 				<Route path="/admin">
 					<Admin baseURL={baseURL} />
