@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import {NewProduct, EditProduct, DeleteProduct, NewCategory, EditCategory, DeleteCategory, UserList} from '.';
+import {NewProduct, EditProduct, DeleteProduct, AddProduct, RemoveProduct, NewCategory, EditCategory, DeleteCategory, UserList} from '.';
 
 const Admin = (props) => {
 	const {baseURL, userToken} = props;
 	const [showNewProduct, setShowNewProduct] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
+	const [showAddToCategory, setShowAddToCategory] = useState(false);
+	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(false);
 	const [showNewCategory, setShowNewCategory] = useState(false);
-	const [showEditCategory, setShowEditCategory] = useState(false);
-	const [showDeleteCategory, setShowDeleteCategory] = useState(true);
+	const [showEditCategory, setShowEditCategory] = useState(true);
+	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 	const [showUsers, setShowUsers] = useState(false);
 	
 	return <div className="adminPanel">
@@ -19,23 +21,45 @@ const Admin = (props) => {
 				setShowNewProduct(true);
 				setShowEditProduct(false);
 				setShowDeleteProduct(false);
+				setShowAddToCategory(false);
+				setshowRemoveFromCategory(false);
 			}} >Add New Product</button> : <button onClick={()=> setShowNewProduct(false)} >Hide New Product</button>}
 			{!showEditProduct ? <button onClick={()=> {
 				setShowEditProduct(true);
 				setShowNewProduct(false);
 				setShowDeleteProduct(false);
+				setShowAddToCategory(false);
+				setshowRemoveFromCategory(false);
 			}}>Edit Product</button>  : <button onClick={()=> setShowEditProduct(false)}>Hide Edit Product</button> }
-			{
-			!showDeleteProduct ? <button onClick={()=> {
+			{!showDeleteProduct ? <button onClick={()=> {
 				setShowEditProduct(false);
 				setShowNewProduct(false);
 				setShowDeleteProduct(true);
-			}}>Delete Product</button>: <button onClick={()=> setShowDeleteProduct(false)}>Hide Delete Product</button>
-			}
+				setShowAddToCategory(false);
+				setshowRemoveFromCategory(false);
+			}}>Delete Product</button>: <button onClick={()=> setShowDeleteProduct(false)}>Hide Delete Product</button>}
+			<br/><br/>
+			{!showAddToCategory ? <button onClick={()=> {
+				setShowEditProduct(false);
+				setShowNewProduct(false);
+				setShowDeleteProduct(false);
+				setShowAddToCategory(true);
+				setshowRemoveFromCategory(false);
+			}}>Add Product to Category</button>:  <button onClick={()=> setShowAddToCategory(false)}>Hide Add to Category</button>}
+			{!showRemoveFromCategory ? <button onClick={()=> {
+				setShowEditProduct(false);
+				setShowNewProduct(false);
+				setShowDeleteProduct(false);
+				setShowAddToCategory(false);
+				setshowRemoveFromCategory(true);
+			}}>Remove Product From Category</button>:  <button onClick={()=> setshowRemoveFromCategory(false)}>Hide Remove From Category</button>}
 		</section>
 		{showEditProduct ? <EditProduct baseURL={baseURL} userToken={userToken} /> : null}
 		{showNewProduct ? <NewProduct baseURL={baseURL} /> : null}
 		{showDeleteProduct ? <DeleteProduct baseURL={baseURL} /> : null}
+		{showAddToCategory ? <AddProduct baseURL={baseURL}/> : null}
+		{showRemoveFromCategory ? <RemoveProduct baseURL={baseURL}/> : null}
+		<br/>
 
 		<h2>Categories</h2>
 		<section className="userOptions">

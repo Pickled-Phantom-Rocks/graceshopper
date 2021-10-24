@@ -279,9 +279,9 @@ async function createInitialCategories() {
         console.log("Starting to create initial categories!")
 
         const categoriesToCreate = [
-            { name: 'Fantasy?' },
-            { name: 'Everything Pickles' },
-            { name: 'Pet Rocks' }
+            'Fantasy?',
+            'Everything Pickles',
+            'Pet Rocks'
         ]
 
         const categories = await Promise.all(categoriesToCreate.map(createCategory))

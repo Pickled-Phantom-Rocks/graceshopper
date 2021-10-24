@@ -71,10 +71,10 @@ async function updateCategory(id, name) {
 
 async function deleteCategory(categoryId) {
 	try {
-		await client.query(`
-			DELETE FROM category_products
-			WHERE "categoryId"=$1;
-		`, [id]);
+		// await client.query(`
+		// 	DELETE FROM category_products
+		// 	WHERE "categoryId"=$1;
+		// `, [id]);
 
 		const { rows: [category]} = await client.query(`
 			DELETE FROM categories

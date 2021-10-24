@@ -59,13 +59,24 @@ async function editCategory(baseURL, userToken, categoryId, newName){
 }
 
 async function deleteCategory(baseURL, categoryId){
-	const result = await fetch(`${baseURL}/categories/${categoryId}`, {
+
+	await fetch(`${baseURL}/categoryProducts/${categoryId}`, {
+
+	})
+
+
+	await fetch(`${baseURL}/categories/${categoryId}`, {
 		method: 'DELETE',
 		headers: {'Content-Type': 'application/json'}
 	})
 	.then(res => res.json())
 	.then(result => {
-		console.log(result);
+		if(result.status){
+			alert("Category successfully deleted.");
+			location.reload();
+		} else {
+			alert("Unable to delete category.")
+		}
 	})
 	.catch(console.error);
 }
