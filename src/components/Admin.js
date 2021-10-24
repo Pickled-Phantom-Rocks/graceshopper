@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {NewProduct, EditProduct, DeleteProduct, UserList} from '.';
+import {NewProduct, EditProduct, DeleteProduct, NewCategory, EditCategory, DeleteCategory, UserList} from '.';
 
 const Admin = (props) => {
 	const {baseURL, userToken} = props;
 	const [showNewProduct, setShowNewProduct] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
-	const [showDeleteProduct, setShowDeleteProduct] = useState(true);
+	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
+	const [showNewCategory, setShowNewCategory] = useState(false);
+	const [showEditCategory, setShowEditCategory] = useState(false);
+	const [showDeleteCategory, setShowDeleteCategory] = useState(true);
 	const [showUsers, setShowUsers] = useState(false);
 	
 	return <div className="adminPanel">
@@ -36,10 +39,25 @@ const Admin = (props) => {
 
 		<h2>Categories</h2>
 		<section className="userOptions">
-			<button>Add new Category</button>
-			<button>Edit Category</button>
-			<button>Delete Category</button>
+			{!showNewCategory ? <button onClick={()=> {
+				setShowNewCategory(true);
+				setShowEditCategory(false);
+				setShowDeleteCategory(false);
+			}} >Add New Category</button> : <button onClick={()=> setShowNewCategory(false)} >Hide New Category</button>}
+			{!showEditCategory ? <button onClick={()=> {
+				setShowNewCategory(false);
+				setShowEditCategory(true);
+				setShowDeleteCategory(false);
+			}} >Edit Category</button> : <button onClick={()=> setShowEditCategory(false)} >Hide Edit Category</button>}
+			{!showDeleteCategory ? <button onClick={()=> {
+				setShowNewCategory(false);
+				setShowEditCategory(false);
+				setShowDeleteCategory(true);
+			}} >Delete Category</button> : <button onClick={()=> setShowDeleteCategory(false)} >Hide Delete Category</button>}
 		</section>
+		{showNewCategory ? <NewCategory baseURL={baseURL}/> : null}
+		{showEditCategory ? <EditCategory baseURL={baseURL} userToken={userToken} /> : null}
+		{showDeleteCategory ? <DeleteCategory baseURL={baseURL}/> : null}
 		<h2>Users</h2>
 		{
 			showUsers? <button onClick={()=> setShowUsers(false)}>Hide</button> : <button onClick={()=> setShowUsers(true)}>Show User List</button>

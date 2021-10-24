@@ -8,7 +8,7 @@ async function createCategory(name) {
 			ON CONFLICT (name) DO NOTHING
 			RETURNING *;
 		`, [name]);
-
+		console.log('from db: ', name);
 		return category;	
 	} catch(error) {
 		throw error;
@@ -55,7 +55,7 @@ async function getCategoryByName(name) {
 		throw error;
 	}
 }
-async function updateCategory({id, name}) {
+async function updateCategory(id, name) {
 	try {
 		const {rows: [category]} = await client.query(`
 			UPDATE categories
@@ -63,14 +63,13 @@ async function updateCategory({id, name}) {
 			where id=$1
 			RETURNING *;
 		`, [id, name]);
-		
 		return getCategoryById(id);
 	} catch(error) {
 		throw error;
 	}
 }
 
-async function deleteCategory(id) {
+async function deleteCategory(categoryId) {
 	try {
 		await client.query(`
 			DELETE FROM category_products
@@ -79,9 +78,8 @@ async function deleteCategory(id) {
 
 		const { rows: [category]} = await client.query(`
 			DELETE FROM categories
-			WHERE id=$1
-			RETURNING *;
-		`, [id]);
+			WHERE id=$1;
+		`, [categoryId]);
 
 		return category;
 	} catch(error) {

@@ -21,6 +21,9 @@ const DeleteProduct = (props) => {
 	async function deleteTheProduct() {
 		event.preventDefault();
 
+		//will need to add some kind of check to see if the item is in a cart
+		//display error message if so
+
 		const selector = document.getElementById("productSelect");
 		const productId = selector.options[selector.selectedIndex].value;
 		await deleteProduct(baseURL, productId);

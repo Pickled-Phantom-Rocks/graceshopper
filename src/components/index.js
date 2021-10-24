@@ -21,5 +21,6 @@ export {
 
 export {
 	NewCategory,
-	EditCategory
+	EditCategory,
+	DeleteCategory
 } from './categories';
