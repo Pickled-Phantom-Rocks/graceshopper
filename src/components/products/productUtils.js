@@ -13,6 +13,31 @@ async function fetchProducts(baseURL) {
 	}
 }
 
+async function fetchProductsByCategory(baseURL, categoryId){
+	try {
+		const result = await fetch(`${baseURL}/category_products/${categoryId}`, {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
+		})
+		const data = await result.json()
+		return data;
+	} catch(error) {
+		throw error
+	}
+}
+
+async function fetchProductById(baseURL, productId) {
+	try {
+		const result = await fetch(`${baseURL}/products/${productId}`, {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
+		})
+		const data = await result.json()
+		return data;
+	} catch(error){
+		throw error
+	}
+}
 async function newProduct(baseURL, name, desc, quantity, price, photoName) {
 	const result = await fetch(`${baseURL}/products`, {
 		method: 'POST',
@@ -101,6 +126,8 @@ async function deleteProduct(baseURL, productId) {
 
 export {
 	fetchProducts,
+	fetchProductsByCategory,
+	fetchProductById,
 	newProduct,
 	editProduct,
 	deleteProduct

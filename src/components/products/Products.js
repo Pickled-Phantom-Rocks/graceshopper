@@ -1,10 +1,26 @@
 import { React, useState, useEffect } from 'react';
-import {fetchProducts} from '.'
+import {fetchProducts, fetchProductsByCategory, fetchProductById} from '.'
 import {getCartByUserId, updateItemQuantityAvailable, addToUsersCart } from '../cart/cartUtils';
+import { fetchCategories } from '..';
 
 const Products = (props) => {
 	const {baseURL, userId} = props;
+	const [categories, setCategories] = useState([]);
 	const [products, setProducts] = useState([]);
+
+	async function fetchTheCategories() {
+		try {
+			const result = await fetchCategories(baseURL)
+			setCategories(result)
+
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	useEffect(() => {
+		fetchTheCategories()
+	}, []);
 
 	async function fetchTheProducts() {
 		try {
@@ -52,11 +68,34 @@ const Products = (props) => {
 		fetchTheProducts()
 	}, [])
 
+	async function fetchTheCategoryProducts(){
+		event.preventDefault();
+		const selector = document.getElementById("categorySelect");
+		const categoryId = selector.options[selector.selectedIndex].value;
+		const result = await fetchProductsByCategory(baseURL, categoryId);
+		result.map(product => {
+			const fetchedProduct = fetchProductById(baseURL, product.productId);
+			console.log('fetchedProduct', fetchedProduct)
+		})
+
+	}
+
 	return <div id="products">
 		<h1>Products</h1>
 		<section>
-			Category select goes here. Dropdown?
+			<form onSubmit={fetchTheCategoryProducts}>
+				<label>Categories: </label>
+				<select id="categorySelect">
+					{
+						categories.map((category) => {
+						const { id, name } = category;
+						return <option value={id} key={id}>{name}</option>
+						})
+					}
+				</select> <button>Search</button>
+			</form>
 		</section>
+
 		{
 			products.map((product) => {
 				const {id, name, description, quantityAvailable, price, photoName} = product;
