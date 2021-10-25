@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState, useEffect} from 'react';
 
 async function fetchProducts(baseURL) {
 	try {
@@ -13,31 +13,46 @@ async function fetchProducts(baseURL) {
 	}
 }
 
+const fetchProductById = (baseURL, productId) => {
+	const [product, setProduct] = useState([]);
+	useEffect(() => {
+		fetch(`${baseURL}/products/${productId}`, {
+			method: 'GET',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(res => res.json())
+		.then((result) => {
+			const response = result;
+			setProduct(response);
+		})
+		.catch(console.error)
+	}, []);
+	return product
+}
+
 async function fetchProductsByCategory(baseURL, categoryId){
 	try {
 		const result = await fetch(`${baseURL}/category_products/${categoryId}`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		})
-		const data = await result.json()
+		const data = await result.json();
+
+		const products = [];
+		data.map((product)=> {
+			products.push(product.productId);
+		})
+		console.log(products);
+
+
+
+
 		return data;
 	} catch(error) {
 		throw error
 	}
 }
 
-async function fetchProductById(baseURL, productId) {
-	try {
-		const result = await fetch(`${baseURL}/products/${productId}`, {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json' }
-		})
-		const data = await result.json()
-		return data;
-	} catch(error){
-		throw error
-	}
-}
 async function newProduct(baseURL, name, desc, quantity, price, photoName) {
 	const result = await fetch(`${baseURL}/products`, {
 		method: 'POST',
@@ -126,8 +141,8 @@ async function deleteProduct(baseURL, productId) {
 
 export {
 	fetchProducts,
-	fetchProductsByCategory,
 	fetchProductById,
+	fetchProductsByCategory,
 	newProduct,
 	editProduct,
 	deleteProduct

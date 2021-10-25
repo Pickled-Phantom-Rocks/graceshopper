@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
 import {fetchProducts, fetchProductsByCategory, fetchProductById} from '.'
 import {getCartByUserId, updateItemQuantityAvailable, addToUsersCart } from '../cart/cartUtils';
 import { fetchCategories } from '..';
@@ -12,7 +13,6 @@ const Products = (props) => {
 		try {
 			const result = await fetchCategories(baseURL)
 			setCategories(result)
-
 		} catch (error) {
 			console.error(error);
 		}
@@ -72,11 +72,7 @@ const Products = (props) => {
 		event.preventDefault();
 		const selector = document.getElementById("categorySelect");
 		const categoryId = selector.options[selector.selectedIndex].value;
-		const result = await fetchProductsByCategory(baseURL, categoryId);
-		result.map(product => {
-			const fetchedProduct = fetchProductById(baseURL, product.productId);
-			console.log('fetchedProduct', fetchedProduct)
-		})
+		const result = await fetchProductsByCategory(baseURL, categoryId);		
 
 	}
 
@@ -101,11 +97,10 @@ const Products = (props) => {
 				const {id, name, description, quantityAvailable, price, photoName} = product;
 				
 				const photoURL = "images/Products/" + photoName + ".jpg";
-
 				return <div className="productList" key={id}>
-					<img src={process.env.PUBLIC_URL + photoURL} />
+					<Link to={`/product/${id}`}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
 					<div className="productInfo">
-						<h3>{name}</h3>
+						<Link to={`/product/${id}`}><h3>{name}</h3></Link>
 						<label>Description:</label> {description}<br/>
 						<label>Quantity:</label> {quantityAvailable}<br/>
 						<label>Price:</label> {"$" + price}<br/>

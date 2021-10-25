@@ -11,7 +11,8 @@ import {
 	Products,
 	Cart,
 	Orders,
-	Admin
+	Admin,
+	SingleProduct
 } from './components';
 
 const App = () => {
@@ -43,6 +44,9 @@ const App = () => {
 				</Route>
 				<Route path="/products">
 					<Products baseURL={baseURL} userId={userId}/>
+				</Route>
+				<Route path="/product/:id">
+					<SingleProduct baseURL={baseURL}/>
 				</Route>
 				<Route path="/cart">
 					<Cart userId={userId} username={username} baseURL={baseURL}/>

@@ -10,7 +10,7 @@ const Admin = (props) => {
 	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(false);
 	const [showNewCategory, setShowNewCategory] = useState(false);
 	const [showEditCategory, setShowEditCategory] = useState(false);
-	const [showDeleteCategory, setShowDeleteCategory] = useState(true);
+	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 	const [showUsers, setShowUsers] = useState(false);
 	
 	return <div className="adminPanel">

@@ -8,8 +8,8 @@ export {default as RemoveProduct} from './RemoveProduct';
 
 export {
 	fetchProducts,
-	fetchProductsByCategory,
 	fetchProductById,
+	fetchProductsByCategory,
 	newProduct,
 	editProduct,
 	deleteProduct

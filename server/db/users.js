@@ -55,7 +55,6 @@ async function getUserByUsername(username) {
             FROM users
             WHERE name = $1
         `, [username])  
-
         return user
     } catch (error) {
         throw error
@@ -69,11 +68,6 @@ async function getUserById(userId) {
             FROM users
             WHERE id = ${userId};
       `);
-
-        if (!user) {
-            return null
-        }
-        
         return user;
     } catch (error) {
         throw error;
