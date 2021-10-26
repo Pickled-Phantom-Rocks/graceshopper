@@ -83,7 +83,7 @@ const Cart = (props) => {
 		<div style={{border: "2px solid darkGreen"}}>
 			{productList.map(product => renderCartProducts(product))}
 			<div>
-				<h2>Total Price: {totalPrice}</h2>
+				<h2>Total Price: {`$${totalPrice}`}</h2>
 			</div>
 		</div>
 		

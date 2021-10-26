@@ -35,12 +35,13 @@ async function getCart_ProductById(id) {
 
 async function getCart_ProductByCartId(cartId) {
     try {
-		const { rows: [cart_product]} = await client.query(`
-			SELECT *
-			FROM cart_products
-			WHERE "cartId"=$1;
-		`, [cartId]);
-        console.log("product inside cart By cartId:", cart_product );
+      const { rows: cart_product } = await client.query(`
+        SELECT *
+        FROM cart_products
+        WHERE "cartId"=$1;
+      `, [cartId]);
+
+      console.log("product inside cart By cartId:", cart_product );
 		return cart_product;
 	} catch(error) {
 		throw error;
