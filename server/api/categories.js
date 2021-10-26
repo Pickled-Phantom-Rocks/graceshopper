@@ -12,10 +12,6 @@ const {
 	updateCategory,
 	deleteCategory
 } = require('../db/categories');
-const { 
-	getCategoryProductsByCategory, 
-	addProductToCategory 
-} = require('../db/category_products');
 
 categoriesRouter.use((req, res, next) => {
 	console.log("A request is being made to /categories");
@@ -96,38 +92,5 @@ categoriesRouter.delete('/:categoryId', async (req, res, next) => {
 		next(error);
 	}
 });
-
-categoriesRouter.post('/:categoryId/products', async (req, res, next) => {
-	try {
-		const {categoryId} = req.params;
-		const {productId} = req.body;
-		const categoryProducts = await getCategoryProductsByCategory(categoryId);
-
-		if(categoryProducts.length != 0) {
-			categoryProducts.map((product) => {
-				if(product.productId == productId){
-					res.send({
-						name: "Duplication Error",
-						message: "This product already exists in the category."
-					})
-				} else {
-					const result = addProductToCategory(categoryId, productId);
-					res.send({
-						status: 204,
-						message: "Product successfully added to the category."
-					})
-				}
-			})
-		} else {
-			const result = await addProductToCategory(categoryId, productId);
-			res.send({
-				status: 204,
-				message: "Product successfully added to the category."
-			})
-		}
-	} catch(error){
-		next(error);
-	}
-})
 
 module.exports = categoriesRouter;

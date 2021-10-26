@@ -13,5 +13,6 @@ export {
 	newProduct,
 	editProduct,
 	deleteProduct,
-	addProduct
+	addProduct,
+	removeProduct
 } from './productUtils';

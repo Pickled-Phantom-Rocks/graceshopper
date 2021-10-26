@@ -8,7 +8,8 @@ const {
 	getAllCategoryProducts,
 	getCategoryProductsByCategory,
 	updateCategoryProduct,
-	deleteCategoryProduct
+	deleteCategoryProduct,
+	addProductToCategory
 } = require('../db/category_products');
 
 categoryProductsRouter.use((req, res, next) => {
@@ -33,6 +34,39 @@ categoryProductsRouter.get('/:categoryId', async (req, res, next) => {
 		res.send(categoryProducts);
 
 	} catch(error) {
+		next(error);
+	}
+})
+
+categoryProductsRouter.post('/:categoryId/products', async (req, res, next) => {
+	try {
+		const {categoryId} = req.params;
+		const {productId} = req.body;
+		const products = await getCategoryProductsByCategory(categoryId);
+		if(products.length != 0) {
+			products.map((product) => {
+				if(product.productId == productId){
+					console.log("dup");
+					res.send({
+						name: "Duplication Error",
+						message: "This product already exists in the category."
+					})
+				} else {
+					const result = addProductToCategory({categoryId, productId});
+					res.send({
+						status: 204,
+						message: "Product successfully added to the category."
+					})
+				}
+			})
+		} else {
+			const result = await addProductToCategory({categoryId, productId});
+			res.send({
+				status: 204,
+				message: "Product successfully added to the category."
+			})
+		}
+	} catch(error){
 		next(error);
 	}
 })
