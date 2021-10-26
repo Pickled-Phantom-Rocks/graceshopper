@@ -2,7 +2,7 @@ import {React, useState, useEffect} from 'react';
 import {fetchUsers, deleteUser, changeAdmin} from '.';
 
 const UserList = (props) => {
-	const {baseURL} = props;
+	const {baseURL, userToken} = props;
 	const [userList, setUserList] = useState([]);
 
 	async function fetchTheUsers() {
@@ -24,30 +24,27 @@ const UserList = (props) => {
 
 	async function makeAdmin(id) {
 		const admin = true;
-		const results = await changeAdmin(baseURL, id, admin);
+		const results = await changeAdmin(baseURL, userToken, id, admin);
 	}
 
 	async function removeAdmin(id) {
 		const admin = false;
-		const results = await changeAdmin(baseURL, id, admin);
+		const results = await changeAdmin(baseURL, userToken, id, admin);
 	}
-
-
 	return 	<div className="userList">
 		{
 			userList.map((user) => {
 				const {id, name, isAdmin} = user;
 				return <div className="userListItem" key={id}>
-					Name: {name}<br/>
-					Admin: {
+					<div>
+					<label>Name:</label> {name}<br/>
+					<label>Admin:</label> {
 						isAdmin ? "Yes" : "No"
 					}
-					<br/>
-					{
-						!isAdmin ? <button onClick={() => makeAdmin({id})}>Make Admin</button> : <button onClick={() => removeAdmin({id})}>Remove Admin</button>
-					}
-					
-					<button onClick={() => deleteTheUser({id})}>Delete User</button>
+					</div>
+					<div>
+						{!isAdmin ? <button onClick={() => makeAdmin(id)}>Make Admin</button> : <button onClick={() => removeAdmin(id)}>Remove Admin</button>} <button onClick={() => deleteTheUser({id})}>Delete User</button>
+					</div>
 				</div>
 			})
 		}
