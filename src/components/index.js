@@ -15,15 +15,14 @@ export {
 	Products,
 	SingleProduct,
 	NewProduct,
-	EditProduct
+	EditProduct,
+	DeleteProduct,
+	AddProduct,
+	RemoveProduct
 } from './products';
 
 export {
 	NewCategory,
-	EditCategory
+	EditCategory,
+	DeleteCategory
 } from './categories';
-
-export {
-	fetchProducts,
-	fetchCategories
-} from './utils';

@@ -1,10 +1,9 @@
 import {React, useState, useEffect} from 'react';
-import {fetchCategories, editCategory} from '.';
+import { fetchCategories, deleteCategory } from '.';
 
-const EditCategory = (props) => {
-	const {baseURL, userToken} = props;
-	const [categories, setCategories] = useState([]);
-	const [newName, setNewName] = useState('');
+const DeleteCategory = (props) => {
+	const {baseURL} = props;
+	const [categories, setCategories] = useState([])
 
 	async function fetchTheCategories() {
 		try {
@@ -15,25 +14,23 @@ const EditCategory = (props) => {
 			console.error(error);
 		}
 	}
-
 	useEffect(() => {
 		fetchTheCategories()
 	}, [])
 
-	async function sendEditCategory(){
+	async function deleteTheCategory() {
 		event.preventDefault();
 
 		const selector = document.getElementById("categorySelect");
 		const categoryId = selector.options[selector.selectedIndex].value;
-
-		editCategory(baseURL, userToken, categoryId, newName)
+		await deleteCategory(baseURL, categoryId);
 	}
 
 	return <div className="form">
-		<h3>Edit Category</h3>
+		<h3>Delete a Category</h3>
 		<br/>
-		<form onSubmit={sendEditCategory}>
-		<select id="categorySelect" size="10">
+		<form onSubmit={deleteTheCategory}>
+			<select id="categorySelect" size="10">
 				{
 					categories.map((category) => {
 						const { id, name } = category;
@@ -41,18 +38,9 @@ const EditCategory = (props) => {
 					})
 				}
 			</select><br/><br/>
-			<label>Name: </label><br/>
-			<input
-				className="newInputLine"
-				type="text"
-				value={newName}
-				onChange={(event) => {
-					setNewName(event.target.value);
-				}}
-			></input><br/>
-			<button>Submit</button>
+			<button>Delete</button>
 		</form>
 	</div>
 };
 
-export default EditCategory;
+export default DeleteCategory;

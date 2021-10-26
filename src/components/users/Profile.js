@@ -10,9 +10,21 @@ const Profile = (props) => {
 	return <div id="profile">
 		<h1>Hello, {username}!</h1>
 		<section className="userOptions">
-			{showEditUser ? <button onClick={()=> setShowEditUser(false)}>Hide Edit Info</button> : <button onClick={()=> setShowEditUser(true)}>Edit Info</button>}
-			{showEditBilling ? <button onClick={()=> setShowEditBilling(false)}>Hide Edit Billing Info</button> : <button onClick={()=> setShowEditBilling(true)}>Edit Billing Info</button>}
-			{showNewPassword ? <button onClick={()=> setShowNewPassword(false)}>Hide Set Password</button> : <button onClick={()=> setShowNewPassword(true)}>Set New Password</button>}
+			{showEditUser ? <button onClick={()=> setShowEditUser(false)}>Hide Edit Info</button> : <button onClick={()=> {
+				setShowEditUser(true);
+				setShowNewPassword(false);
+				setShowEditBilling(false);
+			}}>Edit Info</button>}
+			{showEditBilling ? <button onClick={()=> setShowEditBilling(false)}>Hide Edit Billing Info</button> : <button onClick={()=> {
+				setShowEditBilling(true);
+				setShowEditUser(false);
+				setShowNewPassword(false);
+			}}>Edit Billing Info</button>}
+			{showNewPassword ? <button onClick={()=> setShowNewPassword(false)}>Hide Set Password</button> : <button onClick={()=> {
+				setShowNewPassword(true);
+				setShowEditBilling(false);
+				setShowEditUser(false);
+			}}>Set New Password</button>}
 		</section>
 		{!showEditUser ? null : <EditUser baseURL={baseURL} userToken={userToken} userId={userId}/>	}
 		{!showEditBilling ? null: <EditUserBilling baseURL={baseURL} userToken={userToken} userId={userId} userId={userId}/>}

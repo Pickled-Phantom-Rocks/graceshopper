@@ -4,13 +4,11 @@ import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCar
 
 const Products = (props) => {
 	const {baseURL, userId} = props;
-	const [selectedProduct, setSelectedProduct] = useState((''))
 	const [products, setProducts] = useState([]);
 
 	async function fetchTheProducts() {
 		try {
 			const results = await fetchProducts(baseURL)
-
 			setProducts(results)
 		} catch (error) {
 			throw error

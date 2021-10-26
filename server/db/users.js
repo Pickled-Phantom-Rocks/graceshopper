@@ -1,6 +1,5 @@
 const client = require('./client');
 const bcrypt = require('bcrypt');
-const { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } = require('react-dom/cjs/react-dom.development');
 
 async function createUser({
     email,
@@ -129,9 +128,9 @@ async function updateUserInfo (id, fields) {
       return;
     }
     try {
-      const { rows: [ user ]} = await client.query(`
+      const {rows: [ user ]} = await client.query(`
         UPDATE users
-        SET ${ setString }
+        SET ${setString}
         WHERE id=${id}
         RETURNING *;
       `, Object.values(fields));

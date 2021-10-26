@@ -38,7 +38,10 @@ categoriesRouter.post('/', async (req, res, next) => {
 
 		if(!existingCategory){
 			const newCategory = await createCategory(name);
-			res.send(newCategory);			
+			res.send({
+				status: 204,
+				message: "Category successfully created."
+			});			
 		} else {
 			next({
 				name: "Already Exists",
@@ -52,13 +55,24 @@ categoriesRouter.post('/', async (req, res, next) => {
 
 categoriesRouter.patch('/:categoryId', async (req, res, next) => {
 	try {
-		const id = req.params.categoryId;
+		const {categoryId} = req.params;
+		console.log(categoryId);
 		const {name} = req.body;
-		const categoryToUpdate = await getCategoryById(id);
+		const categoryToUpdate = await getCategoryById(categoryId);
 
 		if(categoryToUpdate) {
-			const updatedCategory = await updateCategory(id, name);
-			res.send(updatedCategory);
+			const updated = await updateCategory(categoryId, name);
+			if(updated){
+				res.send({
+					status: 204,
+					message: "Category successfully updated."
+				});
+			} else {
+				res.send({
+					name: "Duplication Error",
+					message: "A category with this name already exists."
+				})
+			}
 		} else {
 			next({
 				name: "Not Found",
@@ -72,18 +86,12 @@ categoriesRouter.patch('/:categoryId', async (req, res, next) => {
 
 categoriesRouter.delete('/:categoryId', async (req, res, next) => {
 	try {
-		const id = req.params.categoryId;
-		const categoryToDelete = await getCategoryById(id);
-
-		if(categoryToDelete){
-			const deletedCategory = await deleteCategory(id);
-			res.send(deletedCategory);
-		} else {
-			next({
-				name: "Not Found",
-				message: "This category does not exist.",
-			});
-		}
+		const {categoryId} = req.params;
+		await deleteCategory(categoryId);
+		res.send({
+			status: 204,
+			message: "Category successfully deleted."
+		})
 	} catch(error) {
 		next(error);
 	}

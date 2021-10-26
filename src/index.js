@@ -15,10 +15,10 @@ import {
 } from './components';
 
 const App = () => {
-	const baseURL = 'http://localhost:3140/api';
+	const baseURL = 'http://localhost:3154/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
-	const [isAdmin, setIsAdmin] = useState(useState(localStorage.getItem("isAdmin")));
+	const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));
 	const [username, setUsername] = useState(localStorage.getItem("username"));
 	const [userToken, setUserToken] = useState(localStorage.getItem("token"));
 	const [userId, setUserId] = useState(localStorage.getItem("userId"));
@@ -48,10 +48,10 @@ const App = () => {
 					<Cart userId={userId} username={username} baseURL={baseURL}/>
 				</Route>
 				<Route path="/orders">
-					<Orders />
+					<Orders baseURL={baseURL} userId={userId} username={username} />
 				</Route>
 				<Route path="/admin">
-					<Admin baseURL={baseURL} />
+					<Admin baseURL={baseURL} userToken={userToken} />
 				</Route>
 				<Route>
 					<h1>404 Page Not Found</h1>

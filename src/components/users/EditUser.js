@@ -54,7 +54,7 @@ const EditUser = (props) => {
 					setState(event.target.value);
 				}}
 			></input><br/>
-			<button>Submit</button>
+			<button className="submit">Submit</button>
 		</form>
 	</div>
 }

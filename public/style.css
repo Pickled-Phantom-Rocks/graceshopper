@@ -66,11 +66,12 @@ main {
 	grid-row:2;
 	background-color:white;
 	padding:10px;
+	overflow-y: scroll;
 }
 section {
 	margin-bottom: 10px;
 }
-.userOptions {
+.userOptions, .adminOptions {
 	text-align:center;
 }
 .userOptions button {
