@@ -88,10 +88,13 @@ async function createTables() {
     CREATE TABLE order_products(
         id SERIAL PRIMARY KEY,
         "orderId" INTEGER REFERENCES orders(id),
-        "productId" INTEGER REFERENCES products(id),
         "cartProductsId" INTEGER REFERENCES cart_products(id),
         "quantityOrdered" INTEGER,
-        "priceWhenOrdered" DECIMAL
+        "priceWhenOrdered" DECIMAL,
+        name VARCHAR(255) UNIQUE NOT NULL,
+        description VARCHAR (255),
+        price DECIMAL NOT NULL,
+        "photoName" VARCHAR(255)
     );
 
     CREATE TABLE categories(
