@@ -153,23 +153,34 @@ async function addProduct(baseURL, categoryId, productId){
 }
 
 async function removeProduct(baseURL, categoryId, productId){
-	//get the categoryProductId 
-	
 
-	// await fetch(`${baseURL}/category_products/${categoryProductId}`,{
-	// 	method: 'DELETE',
-	// 	headers: {'Content-Type': 'application/json'}
-	// })
-	// .then(res => res.json())
-	// .then((result) => {
-	// 	if(result.status == 204){
-	// 		alert("Product was removed.");
-	// 		location.reload();
-	// 	} else {
-	// 		alert("This product does not exist in this category.");
-	// 	}
-	// })
-	// .catch(err => console.error(err));
+	await fetch(`${baseURL}/category_products/${categoryId}/${productId}`, {
+		method: 'GET',
+		headers: {'Content-Type': 'application/json'}
+	})
+	.then(res => res.json())
+	.then((result) => {
+		if(result.id){
+			const categoryProductId = result.id;
+			fetch(`${baseURL}/category_products/${categoryProductId}`,{
+				method: 'DELETE',
+				headers: {'Content-Type': 'application/json'}
+			})
+			.then(res => res.json())
+			.then((result) => {
+				console.log('result: ', result);
+				if(result.status == 204){
+					alert("Product was removed from the category.");
+					location.reload();
+				} else {
+					alert("short nope.");
+				}
+			})
+			.catch(err => console.error(err));
+		} else {
+			alert("This product does not exist in this category.")
+		}
+	})
 }
 export {
 	fetchProducts,
