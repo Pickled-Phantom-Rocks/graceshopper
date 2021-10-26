@@ -14,6 +14,30 @@ async function addProductToCategory({categoryId, productId}) {
 	}
 }
 
+async function getCategoryProduct(categoryId, productId) {
+	try {
+		const { rows: [categoryProduct]} = await client.query(`
+			SELECT *
+			FROM category_products
+			WHERE "categoryId"=${categoryId} AND "productId"=${productId};
+		`);
+		return categoryProduct;
+	} catch(error) {
+		throw error;
+	}
+}
+
+async function getAllCategoryProducts() {
+	try {
+		const { rows: categoryProducts} = await client.query(`
+			SELECT *
+			FROM category_products;
+		`);
+		return categoryProducts;
+	} catch(error) {
+		throw error;
+	}
+}
 async function getCategoryProductById(id) {
 	try {
 		const { rows: [categoryProduct]} = await client.query(`
@@ -81,6 +105,8 @@ async function deleteCategoryProduct(id) {
 
 module.exports = {
 	addProductToCategory,
+	getCategoryProduct,
+	getAllCategoryProducts,
 	getCategoryProductById,
 	getCategoryProductsByCategory,
 	updateCategoryProduct,

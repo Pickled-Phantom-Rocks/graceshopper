@@ -16,10 +16,14 @@ export {
 	SingleProduct,
 	NewProduct,
 	EditProduct,
-	DeleteProduct
+	DeleteProduct,
+	AddProduct,
+	RemoveProduct
 } from './products';
 
 export {
+	fetchCategories,
 	NewCategory,
-	EditCategory
+	EditCategory,
+	DeleteCategory
 } from './categories';

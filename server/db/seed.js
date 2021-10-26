@@ -7,7 +7,9 @@ const {
     createOrder,
     getAllCarts,
     getAllProducts,
-    addProductToCart
+    addProductToCart,
+    getAllCategories,
+    addProductToCategory
 } = require('./')
 
 async function dropTables() {
@@ -19,7 +21,7 @@ async function dropTables() {
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS cart_products;
     DROP TABLE IF EXISTS carts;
-    DROP TABLE IF EXISTS product_categories;
+    DROP TABLE IF EXISTS category_products;
     DROP TABLE IF EXISTS categories;
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS users;
@@ -97,7 +99,7 @@ async function createTables() {
         name VARCHAR(255) UNIQUE NOT NULL
     );
 
-    CREATE TABLE product_categories(
+    CREATE TABLE category_products(
         id SERIAL PRIMARY KEY,
         "productId" INTEGER REFERENCES products(id),
         "categoryId" INTEGER REFERENCES categories(id)
@@ -279,9 +281,9 @@ async function createInitialCategories() {
         console.log("Starting to create initial categories!")
 
         const categoriesToCreate = [
-            { name: 'Fantasy?' },
-            { name: 'Everything Pickles' },
-            { name: 'Pet Rocks' }
+            'Fantasy?',
+            'Everything Pickles',
+            'Pet Rocks'
         ]
 
         const categories = await Promise.all(categoriesToCreate.map(createCategory))
@@ -294,7 +296,7 @@ async function createInitialCategories() {
     }
 }
 
-async function createInitialProductCategories() {
+async function createInitialCategoryProducts() {
     try {
         console.log("Starting to create initial product_categories")
         const [firstBorn, burgerPickle, petRock] = await getAllProducts()
@@ -328,7 +330,7 @@ async function rebuildDB() {
         await createInitialOrders();
         // await createInitialOrderProducts();
         await createInitialCategories();
-        // await createInitialProductCategories();
+        await createInitialCategoryProducts();
         console.log("RebuildDB function was successfull!")
     } catch (error) {
         console.log('Error during rebuildDB');

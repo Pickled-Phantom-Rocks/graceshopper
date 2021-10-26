@@ -23,7 +23,7 @@ productsRouter.get('/', async (req, res, next) => {
 
 productsRouter.get('/:productId', async (req, res, next) => {
     try {
-        const {productId} = req.params
+        const {productId} = req.params;
         const product = await getProductById(productId)
         res.send(product)
     } catch (error) {

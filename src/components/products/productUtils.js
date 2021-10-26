@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState, useEffect} from 'react';
 
 async function fetchProducts(baseURL) {
 	try {
@@ -9,6 +9,41 @@ async function fetchProducts(baseURL) {
 		const data = await result.json()
 		return data;
 	} catch (error) {
+		throw error
+	}
+}
+
+const fetchProductById = (baseURL, productId) => {
+	const [product, setProduct] = useState([]);
+	useEffect(() => {
+		fetch(`${baseURL}/products/${productId}`, {
+			method: 'GET',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(res => res.json())
+		.then((result) => {
+			const response = result;
+			setProduct(response);
+		})
+		.catch(console.error)
+	}, []);
+	return product
+}
+
+async function fetchProductsByCategory(baseURL, categoryId){
+	try {
+		const result = await fetch(`${baseURL}/category_products/${categoryId}`, {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
+		})
+		const data = await result.json();
+
+		const products = [];
+		data.map((product)=> {
+			products.push(product.productId);
+		})
+		return products;
+	} catch(error) {
 		throw error
 	}
 }
@@ -88,7 +123,6 @@ async function deleteProduct(baseURL, productId) {
 	})
 	.then(res => res.json())
 	.then((result) => {
-		console.log(result);
 		if(result.status == 204){
 			alert("Product was deleted.");
 			location.reload();
@@ -99,9 +133,62 @@ async function deleteProduct(baseURL, productId) {
 	.catch(err => console.error(err));
 }
 
+async function addProduct(baseURL, categoryId, productId){
+	await fetch(`${baseURL}/category_products/${categoryId}/products`, {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			productId: productId,
+		})
+	})
+	.then(res => res.json())
+	.then((result) => {
+		if(result.status){
+			alert("Product successfully added to category.")
+		} else {
+			alert("This product is already in the category.")
+		}
+	})
+	.catch(console.error);
+}
+
+async function removeProduct(baseURL, categoryId, productId){
+
+	await fetch(`${baseURL}/category_products/${categoryId}/${productId}`, {
+		method: 'GET',
+		headers: {'Content-Type': 'application/json'}
+	})
+	.then(res => res.json())
+	.then((result) => {
+		if(result.id){
+			const categoryProductId = result.id;
+			fetch(`${baseURL}/category_products/${categoryProductId}`,{
+				method: 'DELETE',
+				headers: {'Content-Type': 'application/json'}
+			})
+			.then(res => res.json())
+			.then((result) => {
+				console.log('result: ', result);
+				if(result.status == 204){
+					alert("Product was removed from the category.");
+					location.reload();
+				} else {
+					alert("short nope.");
+				}
+			})
+			.catch(err => console.error(err));
+		} else {
+			alert("This product does not exist in this category.")
+		}
+	})
+}
 export {
 	fetchProducts,
+	fetchProductById,
+	fetchProductsByCategory,
 	newProduct,
 	editProduct,
-	deleteProduct
+	deleteProduct,
+	addProduct,
+	removeProduct
 }
