@@ -11,7 +11,7 @@ const Admin = (props) => {
 	const [showNewCategory, setShowNewCategory] = useState(false);
 	const [showEditCategory, setShowEditCategory] = useState(false);
 	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
-	const [showUsers, setShowUsers] = useState(true);
+	const [showUsers, setShowUsers] = useState(false);
 	
 	return <div className="adminPanel">
 		<h1>Admin Panel</h1>
@@ -87,6 +87,7 @@ const Admin = (props) => {
 			{showUsers? <button onClick={()=> setShowUsers(false)}>Hide</button> : <button onClick={()=> setShowUsers(true)}>Show User List</button>}
 		</section>
 		{!showUsers ? null : <UserList baseURL={baseURL} userToken={userToken} />}
+		<p>Add pagination so only ten users at a time are shown.</p>
 		<h2>Orders</h2>
 		<section className="userOptions">
 			<button>View All Orders</button>

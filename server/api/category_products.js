@@ -61,10 +61,16 @@ categoryProductsRouter.post('/:categoryId/products', async (req, res, next) => {
 		const {categoryId} = req.params;
 		const {productId} = req.body;
 		const products = await getCategoryProductsByCategory(categoryId);
-		if(products.length != 0) {
+		if(products.length == 0) {
+			console.log('products:',products);
+			const result = addProductToCategory({categoryId, productId});
+			res.send({
+				status: 204,
+				message: "Product successfully added to the category."
+			})
+		} else {
 			products.map((product) => {
 				if(product.productId == productId){
-					console.log("dup");
 					res.send({
 						name: "Duplication Error",
 						message: "This product already exists in the category."
@@ -76,12 +82,6 @@ categoryProductsRouter.post('/:categoryId/products', async (req, res, next) => {
 						message: "Product successfully added to the category."
 					})
 				}
-			})
-		} else {
-			const result = await addProductToCategory({categoryId, productId});
-			res.send({
-				status: 204,
-				message: "Product successfully added to the category."
 			})
 		}
 	} catch(error){

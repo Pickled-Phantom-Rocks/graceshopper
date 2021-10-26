@@ -138,11 +138,12 @@ async function addProduct(baseURL, categoryId, productId){
 		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({
-			productId: productId,
+			productId,
 		})
 	})
 	.then(res => res.json())
 	.then((result) => {
+		console.log(result);
 		if(result.status){
 			alert("Product successfully added to category.")
 		} else {
