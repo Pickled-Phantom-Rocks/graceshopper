@@ -92,7 +92,7 @@ async function deleteOrder (orderId) {
     }
 }
 
-async function getAllOrders () {
+async function getOrdersWithoutProducts () {
     try {
         const { rows } = await client.query(`
             SELECT *
@@ -104,11 +104,36 @@ async function getAllOrders () {
     }
 }
 
+async function getAllOrders() {
+    try {
+    const { rows: orders } = await client.query(`
+        SELECT orders.*
+        FROM orders
+        JOIN users
+        ON orders."userId"=users.id;
+     `) 
+    for (const order of orders) {
+        const { rows: products } = await client.query(`
+            SELECT *
+            FROM products
+            JOIN order_products ON products.id = order_products."product.Id"
+            WHERE "orderId" = $1
+      `, [order.id]);
+            order.products = products;
+        }
+
+        return orders;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     createOrder,
     getOrdersByUserId,
     getOrderById,
     updateOrder,
     deleteOrder,
+    getOrdersWithoutProducts,
     getAllOrders
 }
