@@ -50,6 +50,10 @@ header, footer {
 header {
 	border-bottom: 2px solid orange;
 }
+nav {
+	display:flex;
+	justify-content: space-between;
+}
 .navLink {
 	padding:5px;
 	background-color:black;
