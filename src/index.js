@@ -16,7 +16,7 @@ import {
 } from './components';
 
 const App = () => {
-	const baseURL = 'http://localhost:3154/api';
+	const baseURL = 'http://localhost:3155/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));

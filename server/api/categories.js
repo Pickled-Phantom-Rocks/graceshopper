@@ -99,29 +99,31 @@ categoriesRouter.delete('/:categoryId', async (req, res, next) => {
 
 categoriesRouter.post('/:categoryId/products', async (req, res, next) => {
 	try {
-		const {productId} = req.body;
 		const {categoryId} = req.params;
+		const {productId} = req.body;
+		const categoryProducts = await getCategoryProductsByCategory(categoryId);
 
-		const foundCategoryProducts = await getCategoryProductsByCategory(categoryId);
-		const existingCategoryProducts = foundCategoryProducts
-			&& foundCategoryProducts.filter(categoryProduct => categoryProduct.productId === productId);
-
-		if(existingCategoryProducts && existingCategoryProducts.length) {
-			res.status(401)
-			next({
-				name: "Already Exists",
-				message: "That product already exists in the category."
+		if(categoryProducts.length != 0) {
+			categoryProducts.map((product) => {
+				if(product.productId == productId){
+					res.send({
+						name: "Duplication Error",
+						message: "This product already exists in the category."
+					})
+				} else {
+					const result = addProductToCategory(categoryId, productId);
+					res.send({
+						status: 204,
+						message: "Product successfully added to the category."
+					})
+				}
 			})
 		} else {
-			const createdCategoryProduct = await addProductToCategory({categoryId, productId});
-			if(createdCategoryProduct) {
-				res.send(createdCategoryProduct);
-			} else (
-				next({
-					name: "Addition Failed",
-					message: "Unable to add this product to the category."
-				})
-			)
+			const result = await addProductToCategory(categoryId, productId);
+			res.send({
+				status: 204,
+				message: "Product successfully added to the category."
+			})
 		}
 	} catch(error){
 		next(error);

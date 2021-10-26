@@ -8,11 +8,11 @@ const SingleProduct = (props) => {
 
 	const product = fetchProductById(baseURL, productId);
 	const {name, description, quantityAvailable, price, photoName} = product;
-	const photoURL = "images/Products/" + photoName + ".jpg";
+	const photoURL = process.env.PUBLIC_URL + "images/Products/" + photoName + ".jpg";
 
 	return <div className="singleProduct">
 		<h2>{name}</h2>
-		<img src={process.env.PUBLIC_URL + photoURL} />
+		<img src={photoURL} />
 		<br/>
 		<br/>
 		<label>Description:</label> {description}<br/>

@@ -6,7 +6,7 @@ const Admin = (props) => {
 	const [showNewProduct, setShowNewProduct] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
-	const [showAddToCategory, setShowAddToCategory] = useState(false);
+	const [showAddToCategory, setShowAddToCategory] = useState(true);
 	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(false);
 	const [showNewCategory, setShowNewCategory] = useState(false);
 	const [showEditCategory, setShowEditCategory] = useState(false);

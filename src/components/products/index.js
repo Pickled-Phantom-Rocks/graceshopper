@@ -12,5 +12,6 @@ export {
 	fetchProductsByCategory,
 	newProduct,
 	editProduct,
-	deleteProduct
+	deleteProduct,
+	addProduct
 } from './productUtils';

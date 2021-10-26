@@ -42,12 +42,7 @@ async function fetchProductsByCategory(baseURL, categoryId){
 		data.map((product)=> {
 			products.push(product.productId);
 		})
-		console.log(products);
-
-
-
-
-		return data;
+		return products;
 	} catch(error) {
 		throw error
 	}
@@ -139,11 +134,32 @@ async function deleteProduct(baseURL, productId) {
 	.catch(err => console.error(err));
 }
 
+async function addProduct(baseURL, categoryId, productId){
+	await fetch(`${baseURL}/categories/${categoryId}/products`, {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			productId: productId,
+		})
+	})
+	.then(res => res.json())
+	.then((result) => {
+		console.log('from utils: ', result);
+		if(result.status){
+			alert("Product successfully added to category.")
+		} else {
+			alert("This product is already in the category.")
+		}
+	})
+	.catch(console.error)
+
+}
 export {
 	fetchProducts,
 	fetchProductById,
 	fetchProductsByCategory,
 	newProduct,
 	editProduct,
-	deleteProduct
+	deleteProduct,
+	addProduct
 }

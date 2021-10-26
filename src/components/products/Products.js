@@ -72,7 +72,10 @@ const Products = (props) => {
 		event.preventDefault();
 		const selector = document.getElementById("categorySelect");
 		const categoryId = selector.options[selector.selectedIndex].value;
-		const result = await fetchProductsByCategory(baseURL, categoryId);		
+		const result = await fetchProductsByCategory(baseURL, categoryId);	
+		console.log('category productIDs:', result);
+
+		//figure out how to then fetch the product info by id from the result array
 
 	}
 

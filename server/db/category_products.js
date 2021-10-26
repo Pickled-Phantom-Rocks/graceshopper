@@ -1,6 +1,6 @@
 const client = require('./client');
 
-async function addProductToCategory({categoryId, productId}) {
+async function addProductToCategory(categoryId, productId) {
 	try {
 		const { rows: [categoryProduct]} = await client.query(`
 			INSERT INTO category_products("categoryId", "productId")
