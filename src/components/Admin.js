@@ -11,7 +11,7 @@ const Admin = (props) => {
 	const [showNewCategory, setShowNewCategory] = useState(false);
 	const [showEditCategory, setShowEditCategory] = useState(false);
 	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
-	const [showUsers, setShowUsers] = useState(false);
+	const [showUsers, setShowUsers] = useState(true);
 	
 	return <div className="adminPanel">
 		<h1>Admin Panel</h1>
@@ -83,15 +83,17 @@ const Admin = (props) => {
 		{showEditCategory ? <EditCategory baseURL={baseURL} userToken={userToken} /> : null}
 		{showDeleteCategory ? <DeleteCategory baseURL={baseURL}/> : null}
 		<h2>Users</h2>
-		{
-			showUsers? <button onClick={()=> setShowUsers(false)}>Hide</button> : <button onClick={()=> setShowUsers(true)}>Show User List</button>
-		}
-		{
-			!showUsers ? null : 
-			<section>
-				<UserList baseURL={baseURL}/>
-			</section>
-		}
+		<section className="userOptions">
+			{showUsers? <button onClick={()=> setShowUsers(false)}>Hide</button> : <button onClick={()=> setShowUsers(true)}>Show User List</button>}
+		</section>
+		{!showUsers ? null : <UserList baseURL={baseURL} userToken={userToken} />}
+		<h2>Orders</h2>
+		<section className="userOptions">
+			<button>View All Orders</button>
+			<button>Change Order Status</button>
+			<p>Will need to be able to filter orders by status on the view</p>
+			<p>Order statuses should be: Created, Processing, Cancelled, Completed</p>
+		</section>
 	</div>
 }
 

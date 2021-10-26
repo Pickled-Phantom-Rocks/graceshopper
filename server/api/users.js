@@ -32,34 +32,6 @@ usersRouter.get('/', async (req, res, next) => {
     }
 })
 
-// usersRouter.get('/:username', async (req, res, next) => {
-
-// 	const {username} = req.params
-	
-// 	try {
-// 		const user = await getUserByUsername(username)
-
-// 		res.send(username)
-// 	} catch (error) {
-// 		throw error
-// 	}
-// })
-
-// usersRouter.get('/:userId', async (req, res, next) => {
-
-// 	const {userId} = req.params
-
-// 	try {
-
-// 		const user = await getUserById(userId)
-		
-// 		res.send(user)
-// 	} catch (error) {
-// 		throw error
-// 	}
-
-// })
-
 usersRouter.post('/register', async (req, res, next) => {
 	const {email, password} = req.body;
 	try {
@@ -227,9 +199,14 @@ usersRouter.patch('/:userId/password', async (req, res, next) => {
 usersRouter.patch('/:userId/admin', async (req, res, next) => {
 	try {
 		const {userId} = req.params;
-		const {isAdmin} = req.body;
-		const updated = await updateAdmin(userId, isAdmin)
-		res.send(updated)
+		const {admin} = req.body;
+		console.log('from api: admin: ', admin);
+		const updated = await updateAdmin(userId, admin);
+		console.log('from api: updated: ', updated)
+		res.send({
+			status: 204,
+			message: "User's admin status has been changed'."
+		});
 	} catch(error) {
 		next(error);
 	}
@@ -243,7 +220,6 @@ usersRouter.delete('/:userId', async (req, res, next) => {
 	} catch(error) {
 		next(error);
 	};
-
 });
 
 module.exports = {usersRouter};
