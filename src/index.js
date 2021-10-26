@@ -23,21 +23,27 @@ const App = () => {
 	const [username, setUsername] = useState(localStorage.getItem("username"));
 	const [userToken, setUserToken] = useState(localStorage.getItem("token"));
 	const [userId, setUserId] = useState(localStorage.getItem("userId"));
+	const [showLog, setShowLog] = useState(true);
 
 	return <Router>
 		<Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} setUsername={setUsername} setUserToken={setUserToken} setUserId={setUserId} />
 		<main>
 			<Switch>
 				<Route exact path="/">
-					<div id="greeting">
-						If you see this, Javascript is working.
-					</div>
-				</Route>
-				<Route path="/register">
-					<Register baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setUserId={setUserId} setIsLoggedIn={setIsLoggedIn} />
-				</Route>
-				<Route path="/login">
-					<Login baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setUserId={setUserId} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />
+					{isLoggedIn ? <div id="greeting">If you see this, Javascript is working and you're logged in.</div> : null}
+					{isLoggedIn ? null : 
+						<div id="logReg">
+							{showLog ? <div>
+								<Login baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setUserId={setUserId} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} /><br/>
+								Not a member?<br/><br/>
+								<button onClick={() => setShowLog(false)}>Register</button>
+							</div> : <div>
+								<Register baseURL={baseURL} setUsername= {setUsername} setUserToken={setUserToken} setUserId={setUserId} setIsLoggedIn={setIsLoggedIn} />
+								Already a member?<br/><br/>
+								<button onClick={() => setShowLog(true)}>Login</button>
+								</div>}
+						</div>
+					}
 				</Route>
 				<Route path="/profile/">
 					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId}/>
