@@ -22,6 +22,7 @@ export {
 } from './products';
 
 export {
+	fetchCategories,
 	NewCategory,
 	EditCategory,
 	DeleteCategory

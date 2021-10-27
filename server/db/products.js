@@ -55,15 +55,13 @@ async function getAllProducts() {
 }
 
 async function getProductById(productId) {
-
     try {
-
-        const { rows: product } = await client.query(`
+        const { rows: [product] } = await client.query(`
             SELECT *
             FROM products
             WHERE id=$1;
         `, [productId]);
-        return product
+        return product;
     } catch (error) {
         throw error
     }
@@ -78,12 +76,6 @@ async function getProductByName(name){
         `, [name]);
         return product;
     } catch(error) {
-        throw error
-    }
-}
-async function getProductByCategory(category) {
-    try {
-    } catch (error) {
         throw error
     }
 }

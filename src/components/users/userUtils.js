@@ -92,19 +92,21 @@ async function newBilling(baseURL, userToken, userId, card, cvv) {
 	.catch(err => console.error(err));
 }
 
-async function changeAdmin(baseURL, userId, admin) {
+async function changeAdmin(baseURL, userToken, userId, admin) {
 	const response = await fetch(`${baseURL}/users/${userId}/admin`, {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${userToken}`
 		},
 		body: JSON.stringify({
-			isAdmin: admin
+			admin
 		})
 	})
 	.then(res => res.json())
 	.then((result) => {
-		console.log(result);
+		alert("User's admin status has successfully changed.");
+		location.reload();
 	})
 	.catch(err => console.error(err));
 }
