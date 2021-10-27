@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {fetchProducts} from '.'
 
 const ProductList = (props) => {
-	const {baseURL} = props;
+	const {baseURL, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
 	const [products, setProducts] = useState([]);
 
 	async function fetchTheProducts() {
@@ -26,9 +26,19 @@ const ProductList = (props) => {
 				
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
-					<Link to={`/product/${productId}`}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
+					<Link to="/products" onClick={()=>{
+						setShowSingleProduct(true);
+						setSingleProductId(productId);
+						setShowAllProducts(false);
+						setShowProductsByCategory(false);
+					}}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
 					<div className="productInfo">
-						<Link to={`/product/${productId}`}><h3>{name}</h3></Link>
+					<Link to="/products" onClick={()=>{
+						setShowSingleProduct(true);
+						setSingleProductId(productId);
+						setShowAllProducts(false);
+						setShowProductsByCategory(false);
+					}}><h3>{name}</h3></Link>
 						<label>Description:</label> {description}<br/>
 						<label>Quantity:</label> {quantityAvailable}<br/>
 						<label>Price:</label> {"$" + price}<br/>

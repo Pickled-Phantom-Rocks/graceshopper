@@ -10,7 +10,7 @@ const Products = (props) => {
 	const [showAllProducts, setShowAllProducts] = useState(true);
 	const [showSingleProduct, setShowSingleProduct] = useState(false);
 	const [showProductsByCategory, setShowProductsByCategory] = useState(false);
-	const [singleProductId, setShowSingleProductId] = useState('');
+	const [singleProductId, setSingleProductId] = useState('');
 	const [productsCategory, setProductsCategory] = useState('');
 
 	async function fetchTheCategories() {
@@ -103,10 +103,16 @@ const Products = (props) => {
 					}
 				</select> <button>Search</button>
 			</form>
+			{showAllProducts ? null: <button onClick={()=>{
+				setShowSingleProduct(false);
+				setSingleProductId('');
+				setShowAllProducts(true);
+				setShowProductsByCategory(false);				
+			}}>Show All Products</button>}
 		</section>
-		{showAllProducts ? <ProductList baseURL={baseURL} setSingleProductId/> : null}
-		{showSingleProduct ? <SingleProduct baseURL={baseURL}/> : "no single"}
-		{showProductsByCategory ? <ProductsByCategory baseURL={baseURL}/> : "no category"}
+		{showAllProducts ? <ProductList baseURL={baseURL} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
+		{showSingleProduct ? <SingleProduct baseURL={baseURL} singleProductId={singleProductId}/> : null}
+		{showProductsByCategory ? <ProductsByCategory baseURL={baseURL} productsCategory={productsCategory} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} /> : null}
 
 	</div>
 }

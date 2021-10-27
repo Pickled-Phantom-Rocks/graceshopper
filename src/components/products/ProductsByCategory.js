@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import { fetchProductsByCategory } from '.';
 
 const ProductsByCategory = (props) => {
-	const {baseURL} = props;
+	const {baseURL, productsCategory} = props;
 	const {id: categoryId} = useParams();
 
 	async function fetchTheCategoryProducts(){

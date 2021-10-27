@@ -108,7 +108,7 @@ label {
 	border: 1px solid purple;
 	margin-bottom:10px;
 }
-.productList img {
+.productList img, .singleProduct img {
 	width:156px;
 	height:156px;
 }
