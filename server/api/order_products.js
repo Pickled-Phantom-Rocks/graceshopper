@@ -41,7 +41,7 @@ orderProductsRouter.get('/:orderId', async (req, res, next) => {
 
 orderProductsRouter.patch('/:order_productId', async (req, res, next) => {
     const {order_productId} = req.params;
-    const {orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered} = req.body;
+    const {orderId, cartProductsId, quantityOrdered, priceWhenOrdered, name, description, price, photoName } = req.body;
 
     const order_ProductToUpdate = {};
     orderToUpdate.id = order_productId;
@@ -59,6 +59,18 @@ orderProductsRouter.patch('/:order_productId', async (req, res, next) => {
     }
     if (priceWhenOrdered) {
         orderToUpdate.priceWhenOrdered = priceWhenOrdered;
+    }
+    if (name) {
+        orderToUpdate.name = name;
+    }
+    if (description) {
+        orderToUpdate.description = description;
+    }
+    if (price) {
+        orderToUpdate.price = price;
+    }
+    if (photoName) {
+        orderToUpdate.photoName = photoName;
     }
     try {
        const updatedOrder = await updateOrder_Product(orderToUpdate); 

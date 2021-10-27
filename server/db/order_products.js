@@ -1,12 +1,12 @@
 const client = require('./client');
 
-async function createOrder_Product({ orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered }) {
+async function createOrder_Product({ orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered, name, description, price, photoName }) {
     try {
 		const { rows: [order_product]} = await client.query(`
-			INSERT INTO order_products("orderId", "productId", "cartProductsId", "quantityOrdered", "priceWhenOrdered")
-			VALUES($1, $2, $3, $4, $5)
+			INSERT INTO order_products("orderId", "productId", "cartProductsId", "quantityOrdered", "priceWhenOrdered", name, description, price, "photoName")
+			VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
 			RETURNING *;
-		`, [orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered]);
+		`, [orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered, name, description, price, photoName]);
         console.log("CreateOrderProduct:", order_product);
 		return order_product;
     } catch (error) {
