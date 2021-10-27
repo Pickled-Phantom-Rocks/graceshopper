@@ -88,7 +88,7 @@ async function createTables() {
     CREATE TABLE order_products(
         id SERIAL PRIMARY KEY,
         "orderId" INTEGER REFERENCES orders(id),
-        "cartProductsId" INTEGER REFERENCES cart_products(id),
+        "productId" INTEGER,
         "quantityOrdered" INTEGER,
         "priceWhenOrdered" DECIMAL,
         name VARCHAR(255) UNIQUE NOT NULL,

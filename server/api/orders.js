@@ -10,7 +10,9 @@ const {
     updateOrder,
     deleteOrder,
     getAllOrders,
-    getUserByUsername
+    getUserByUsername,
+    getOrder_ProductsByOrderId,
+    getProductById
 } = require('../db');
 
 ordersRouter.use((req, res, next) => {
@@ -53,15 +55,26 @@ ordersRouter.get('/:orderId', async (req, res, next) => {
 });
 
 ordersRouter.post('/:orderId/products', async (req, res, next) => {
-    const { orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered } = req.body;
+    const { orderId } = req.params;
+    const { cartProductsId, quantityOrdered, priceWhenOrdered, productId } = req.body;
 
     try {//adds product to the order
+        if ( !cartProductsId || !quantityOrdered || !priceWhenOrdered || !productId) {
+            res.send({
+                name: "Information Required",
+                message: "More information is needed to POST."
+            })
+        }
+        const product = await getProductById(productId);
         const orderProductToMake = {};
         orderProductToMake.orderId = orderId;
-        orderProductToMake.productId = productId;
         orderProductToMake.cartProductsId = cartProductsId;
         orderProductToMake.quantityOrdered = quantityOrdered;
         orderProductToMake.priceWhenOrdered = priceWhenOrdered;
+        orderProductToMake.name = product.name;
+        orderProductToMake.description = product.description;
+        orderProductToMake.price = product.price;
+        orderProductToMake.photoName = product.photoName;
 
         const newOrderProduct = await createOrder_Product(orderProductToMake);
 

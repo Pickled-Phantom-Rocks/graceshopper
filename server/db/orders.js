@@ -116,7 +116,7 @@ async function getAllOrders() {
         const { rows: products } = await client.query(`
             SELECT *
             FROM products
-            JOIN order_products ON products.id = order_products."product.Id"
+            JOIN order_products ON products.id = order_products."productId"
             WHERE "orderId" = $1
       `, [order.id]);
             order.products = products;
