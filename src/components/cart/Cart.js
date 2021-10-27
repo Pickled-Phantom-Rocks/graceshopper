@@ -13,6 +13,7 @@ const Cart = (props) => {
 			const result = await getCartByUserId(userId, baseURL)
 			//console.log("RESULT", result)
 			setUsersCart(result[0])
+			//console.log("RESULT SOMETHING: ", result[0].products)
 			setProductList(result[0].products)
 
 		} catch (error) {
@@ -26,8 +27,8 @@ const Cart = (props) => {
 	}, [])
 
 	
-	console.log("user's cart: ", usersCart)
-	console.log("Product List: ", productList)
+	//console.log("user's cart: ", usersCart)
+	//console.log("Product List: ", productList)
 
 	function renderCartProducts(prodList) {
 		const {id, name, description, photoName, price, quantityOfItem} = prodList
