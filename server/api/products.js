@@ -31,14 +31,6 @@ productsRouter.get('/:productId', async (req, res, next) => {
     }
 })
 
-productsRouter.get('/:category', async (req, res, next) => {
-    try {
-
-    } catch (error) {
-        throw error
-    }
-})
-
 productsRouter.post('/', async (req, res, next) => {
     try {
             const product = req.body;

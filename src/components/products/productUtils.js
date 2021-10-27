@@ -40,7 +40,16 @@ async function fetchProductsByCategory(baseURL, categoryId){
 
 		const products = [];
 		data.map((product)=> {
-			products.push(product.productId);
+			const pID = product.productId;
+
+			const p = fetch(`${baseURL}/products/${pID}`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			})
+			.then(res => res.json())
+			.then(result => {
+				products.push(result);
+			})
 		})
 		return products;
 	} catch(error) {
@@ -143,9 +152,9 @@ async function addProduct(baseURL, categoryId, productId){
 	})
 	.then(res => res.json())
 	.then((result) => {
-		console.log(result);
 		if(result.status){
-			alert("Product successfully added to category.")
+			alert("Product successfully added to category.");
+			location.reload();
 		} else {
 			alert("This product is already in the category.")
 		}

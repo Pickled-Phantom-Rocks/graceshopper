@@ -11,12 +11,11 @@ import {
 	Products,
 	Cart,
 	Orders,
-	Admin,
-	SingleProduct
+	Admin
 } from './components';
 
 const App = () => {
-	const baseURL = 'http://localhost:3155/api';
+	const baseURL = 'http://localhost:3001/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));
@@ -50,9 +49,6 @@ const App = () => {
 				</Route>
 				<Route path="/products">
 					<Products baseURL={baseURL} userId={userId}/>
-				</Route>
-				<Route path="/product/:id">
-					<SingleProduct baseURL={baseURL}/>
 				</Route>
 				<Route path="/cart">
 					<Cart userId={userId} username={username} baseURL={baseURL}/>
