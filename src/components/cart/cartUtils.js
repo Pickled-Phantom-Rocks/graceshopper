@@ -109,3 +109,20 @@ export async function getAllCartProductsByCartId(cartId, baseUrl) {
         throw error
     }
 }
+
+export async function deleteProductFromCartByProductId(ProductId, baseUrl) {
+    try {
+        const result = await fetch(`${baseUrl}/cart-products/${ProductId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const data = await result.json()
+
+        return data
+    } catch (error) {
+        throw error
+    }
+}

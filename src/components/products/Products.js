@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
-import {fetchProducts} from '../'
-import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId } from '../cart/cartUtils';
+import {fetchProducts} from './index'
+import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId, deleteProductFromCartByProductId } from '../cart/cartUtils';
 
 const Products = (props) => {
 	const {baseURL, userId} = props;
@@ -21,22 +21,36 @@ const Products = (props) => {
 
 			const _cart = await getCartByUserId(userId, baseURL)
 			const cart = _cart[0]
-			console.log("Cart: ", cart)
+			console.log("CART", cart)
+
 
 			const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
-			console.log("CART PRODUCTS: ", cartProducts)
-			let productQuantity = 1
+			console.log("Cart Products", cartProducts)
 
-			cartProducts.map(product => {
-				if (product.productId === productBeingAdded.id) {
-					productQuantity += 1
-				}
+
+			const productIds = cartProducts.map(product => {
+				return product.productId
 			})
 
-			console.log("Product: ", productBeingAdded)
-			//remove matching productId from cart
-			const addedProducts = await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, productQuantity, baseURL)
-			console.log("Added Products: ", addedProducts)
+			console.log(productIds)
+			
+			if(productIds.includes(productBeingAdded.id)) {
+				//remove matching productId from cart
+				const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
+				console.log("PRODUCT HERE", _product)
+				const product = _product[0]
+				const quantity = product.quantityOfItem + 1
+				await deleteProductFromCartByProductId(product.productId, baseURL)
+				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantity, baseURL)
+			} else {
+				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
+			}
+			
+			
+			
+			
+			
+			
 
 		} catch (error) {
 			throw error
