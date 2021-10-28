@@ -6,7 +6,7 @@ import { fetchProductById } from '.';
 const ProductsByCategory = (props) => {
 	const {baseURL, selectedCategory} = props;
 	const [categoryProducts, setCategoryProducts] = useState([]);
-	const [products, setProducts] = useState([]);
+	const products = [];
 	const category = fetchCategoryById(baseURL, selectedCategory);
 
 	async function fetchTheCategoryProducts() {
@@ -18,26 +18,33 @@ const ProductsByCategory = (props) => {
 			})
 			.then(res => res.json())
 			.then((result) => {
-				console.log(result);
-
-				const response = result;
-				setCategoryProducts(response);
-			})
+				setCategoryProducts(result);
+			});
 		} catch (error) {
 			throw error
 		}
 	}
 
-
+	
 	async function fetchTheProducts() {
-		// try {
-		// 	categoryProducts.map((cp) => {
-		// 		const p = fetchProductById(cp.productId);
-		// 		console.log(p);
-		// 	})
-		// } catch (error) {
-		// 	throw error
-		// }
+		try{
+			if(categoryProducts){
+				categoryProducts.map((cp)=>{
+					fetch(`${baseURL}/products/${cp.productId}`, {
+						method: 'GET',
+						headers: {'Content-Type': 'application/json'}
+					})
+					.then(res => res.json())
+					.then((result) => {
+						const response = result;
+						products.push(response);
+					})
+					.catch(console.error)
+				})
+			}
+		}catch(error) {
+			console.error(error);
+		}
 	}
 
 	useEffect(() => {
@@ -50,7 +57,8 @@ const ProductsByCategory = (props) => {
 		<div className="productPageList">
 		{!categoryProducts ? "None" :
 
-			categoryProducts.map((product) => {
+			products.map((product) => {
+				console.log(product);
 				const {id: productId, name, description, quantityAvailable, price, photoName, categories} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
