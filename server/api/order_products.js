@@ -41,40 +41,40 @@ orderProductsRouter.get('/:orderId', async (req, res, next) => {
 
 orderProductsRouter.patch('/:order_productId', async (req, res, next) => {
     const {order_productId} = req.params;
-    const {orderId, cartProductsId, quantityOrdered, priceWhenOrdered, name, description, price, photoName } = req.body;
+    const {orderId, productId, cartProductsId, quantityOrdered, priceWhenOrdered, name, description, price, photoName } = req.body;
 
     const order_ProductToUpdate = {};
-    orderToUpdate.id = order_productId;
+    order_ProductToUpdate.id = order_productId;
     if (orderId) {
-        orderToUpdate.orderId = orderId;
+        order_ProductToUpdate.orderId = orderId;
     }
     if (productId) {
-        orderToUpdate.productId = productId;
+        order_ProductToUpdate.productId = productId;
     }
     if (cartProductsId) {
-        orderToUpdate.cartProductsId = cartProductsId;
+        order_ProductToUpdate.cartProductsId = cartProductsId;
     }
     if (quantityOrdered) {
-        orderToUpdate.quantityOrdered = quantityOrdered;
+        order_ProductToUpdate.quantityOrdered = quantityOrdered;
     }
     if (priceWhenOrdered) {
-        orderToUpdate.priceWhenOrdered = priceWhenOrdered;
+        order_ProductToUpdate.priceWhenOrdered = priceWhenOrdered;
     }
     if (name) {
-        orderToUpdate.name = name;
+        order_ProductToUpdate.name = name;
     }
     if (description) {
-        orderToUpdate.description = description;
+        order_ProductToUpdate.description = description;
     }
     if (price) {
-        orderToUpdate.price = price;
+        order_ProductToUpdate.price = price;
     }
     if (photoName) {
-        orderToUpdate.photoName = photoName;
+        order_ProductToUpdate.photoName = photoName;
     }
     try {
-       const updatedOrder = await updateOrder_Product(orderToUpdate); 
-       res.send(updatedOrder);
+       const updatedOrder_Product = await updateOrder_Product(order_ProductToUpdate); 
+       res.send(updatedOrder_Product);
     } catch (error) {
         next(error);
     }
