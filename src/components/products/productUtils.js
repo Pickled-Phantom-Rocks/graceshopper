@@ -47,30 +47,6 @@ const fetchProductById = (baseURL, productId) => {
 	return product
 }
 
-async function fetchProductsByCategory(baseURL, categoryId){
-	const products = [];
-	try {
-		const result = await fetch(`${baseURL}/category_products/${categoryId}`, {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json' }
-		})
-		.then(res => res.json())
-		.then((result) => {
-			//console.log('from utils: ', result)
-			if(result.length != 0){
-				result.map((product) => {
-					const p = fetchProductById(baseURL, p.productId);
-					products.push(p);
-				})
-			}
-			return products;
-		})
-		.catch(console.error)
-	} catch(error) {
-		throw error
-	}
-}
-
 async function newProduct(baseURL, name, desc, quantity, price, photoName) {
 	const result = await fetch(`${baseURL}/products`, {
 		method: 'POST',
@@ -209,7 +185,6 @@ async function removeProduct(baseURL, categoryId, productId){
 export {
 	fetchProducts,
 	fetchProductById,
-	fetchProductsByCategory,
 	newProduct,
 	editProduct,
 	deleteProduct,

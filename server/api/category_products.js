@@ -38,7 +38,7 @@ categoryProductsRouter.get('/:productId', async (req, res, next) => {
 	}
 })
 
-categoryProductsRouter.get('/:categoryId', async (req, res, next) => {
+categoryProductsRouter.get('/category/:categoryId', async (req, res, next) => {
 	try	{
 		const {categoryId} = req.params;
 		const categoryProducts = await getCategoryProductsByCategory(categoryId);

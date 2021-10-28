@@ -1,25 +1,48 @@
 import {React, useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import { fetchProductsByCategory } from '.';
 import { fetchCategoryById } from '../categories/categoryUtils';
+import { fetchProductById } from '.';
 
 const ProductsByCategory = (props) => {
 	const {baseURL, selectedCategory} = props;
 	const [categoryProducts, setCategoryProducts] = useState([]);
+	const [products, setProducts] = useState([]);
 	const category = fetchCategoryById(baseURL, selectedCategory);
 
 	async function fetchTheCategoryProducts() {
 		try {
 			const categoryId = selectedCategory;
-			// const results = await fetchProductsByCategory(baseURL, categoryId);
-			// setCategoryProducts(results);
+			fetch(`${baseURL}/category_products/category/${categoryId}`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			})
+			.then(res => res.json())
+			.then((result) => {
+				console.log(result);
+
+				const response = result;
+				setCategoryProducts(response);
+			})
 		} catch (error) {
 			throw error
 		}
 	}
 
+
+	async function fetchTheProducts() {
+		// try {
+		// 	categoryProducts.map((cp) => {
+		// 		const p = fetchProductById(cp.productId);
+		// 		console.log(p);
+		// 	})
+		// } catch (error) {
+		// 	throw error
+		// }
+	}
+
 	useEffect(() => {
 		fetchTheCategoryProducts();
+		fetchTheProducts();
 	}, [])
 
 	return <div>

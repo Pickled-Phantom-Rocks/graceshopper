@@ -11,7 +11,6 @@ export {default as ProductsByCategory} from './ProductsByCategory'
 export {
 	fetchProducts,
 	fetchProductById,
-	fetchProductsByCategory,
 	newProduct,
 	editProduct,
 	deleteProduct,

@@ -5,8 +5,7 @@ import {fetchProducts} from '.'
 const ProductList = (props) => {
 	const {baseURL, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
 	const [products, setProducts] = useState([]);
-
-
+	
 	async function fetchTheProducts() {
 		try {
 			const results = await fetchProducts(baseURL);
