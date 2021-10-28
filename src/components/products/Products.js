@@ -11,8 +11,8 @@ const Products = (props) => {
 	const [showSingleProduct, setShowSingleProduct] = useState(false);
 	const [showProductsByCategory, setShowProductsByCategory] = useState(false);
 	const [singleProductId, setSingleProductId] = useState('');
-	const [productsCategory, setProductsCategory] = useState('');
-
+	const [selectedCategory, setSelectedCategory] = useState('');
+	
 	async function fetchTheCategories() {
 		try {
 			const result = await fetchCategories(baseURL)
@@ -20,6 +20,21 @@ const Products = (props) => {
 		} catch (error) {
 			console.error(error);
 		}
+	}
+
+	useEffect(() => {
+		fetchTheCategories();
+	}, [])
+
+	async function CategorySelect() {
+		event.preventDefault();
+
+		const cselector = document.getElementById("categorySelect");
+		const categoryId = cselector.options[cselector.selectedIndex].value;
+		setSelectedCategory(categoryId);
+		setShowProductsByCategory(true);
+		setShowAllProducts(false);
+		setShowSingleProduct(false);
 	}
 
 	// async function updateUsersCart(productBeingAdded) {
@@ -83,16 +98,13 @@ const Products = (props) => {
 	// 	}
 	// }
 
-	useEffect(() => {
-		fetchTheCategories();
-	}, [])
 
 
 
 	return <div id="products">
 		<h1>Products</h1>
 		<section>
-			<form>
+			<form onSubmit={CategorySelect}>
 				<label>Categories: </label>
 				<select id="categorySelect">
 					{
@@ -112,7 +124,7 @@ const Products = (props) => {
 		</section>
 		{showAllProducts ? <ProductList baseURL={baseURL} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
 		{showSingleProduct ? <SingleProduct baseURL={baseURL} singleProductId={singleProductId}/> : null}
-		{showProductsByCategory ? <ProductsByCategory baseURL={baseURL} productsCategory={productsCategory} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} /> : null}
+		{showProductsByCategory ? <ProductsByCategory baseURL={baseURL} selectedCategory={selectedCategory}/> : null}
 
 	</div>
 }

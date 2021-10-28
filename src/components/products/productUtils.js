@@ -6,7 +6,24 @@ async function fetchProducts(baseURL) {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		})
-		const data = await result.json()
+		const data = await result.json();
+
+		data.map((p) => {
+			const cat = fetch(`${baseURL}/category_products/${p.id}`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			})
+			.then(res => res.json())
+			.then(result => {
+				const cats = [];
+				if(result.length != 0){
+					result.map((c)=>{
+						cats.push(c.categoryId);
+					})
+				}
+				p.categories = cats;
+			})
+		})
 		return data;
 	} catch (error) {
 		throw error
@@ -31,27 +48,24 @@ const fetchProductById = (baseURL, productId) => {
 }
 
 async function fetchProductsByCategory(baseURL, categoryId){
+	const products = [];
 	try {
 		const result = await fetch(`${baseURL}/category_products/${categoryId}`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		})
-		const data = await result.json();
-
-		const products = [];
-		data.map((product)=> {
-			const pID = product.productId;
-
-			const p = fetch(`${baseURL}/products/${pID}`, {
-				method: 'GET',
-				headers: { 'Content-Type': 'application/json' }
-			})
-			.then(res => res.json())
-			.then(result => {
-				products.push(result);
-			})
+		.then(res => res.json())
+		.then((result) => {
+			//console.log('from utils: ', result)
+			if(result.length != 0){
+				result.map((product) => {
+					const p = fetchProductById(baseURL, p.productId);
+					products.push(p);
+				})
+			}
+			return products;
 		})
-		return products;
+		.catch(console.error)
 	} catch(error) {
 		throw error
 	}

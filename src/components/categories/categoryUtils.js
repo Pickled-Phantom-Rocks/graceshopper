@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {React, useEffect, useState} from 'react';
 
 async function fetchCategories(baseURL) {
 	try {
@@ -11,6 +11,23 @@ async function fetchCategories(baseURL) {
 	} catch (error) {
 		throw error
 	}
+}
+
+const fetchCategoryById = (baseURL, categoryId) => {
+	const [categoryName, setCategoryName] = useState('');
+	useEffect(() => {
+		fetch(`${baseURL}/categories/${categoryId}`, {
+			method: 'GET',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(res => res.json())
+		.then((result) => {
+			const response = result;
+			setCategoryName(response);
+		})
+		.catch(console.error)
+	}, []);
+	return categoryName;
 }
 
 async function newCategory(baseURL, name) {
@@ -100,6 +117,7 @@ async function deleteCategory(baseURL, categoryId){
 }
 export {
 	fetchCategories,
+	fetchCategoryById,
 	newCategory,
 	editCategory,
 	deleteCategory

@@ -8,6 +8,7 @@ const {
 	getCategoryProduct,
 	getAllCategoryProducts,
 	getCategoryProductsByCategory,
+	getCategoryProductsByProduct,
 	updateCategoryProduct,
 	deleteCategoryProduct,
 	addProductToCategory
@@ -27,12 +28,21 @@ categoryProductsRouter.get('/', async (req, res, next) => {
 	}
 })
 
+categoryProductsRouter.get('/:productId', async (req, res, next) => {
+	try {
+		const {productId} = req.params;
+		const productCategories = await getCategoryProductsByProduct(productId);
+		res.send(productCategories);
+	} catch(error) {
+		next(error);
+	}
+})
+
 categoryProductsRouter.get('/:categoryId', async (req, res, next) => {
 	try	{
 		const {categoryId} = req.params;
 		const categoryProducts = await getCategoryProductsByCategory(categoryId);
 		res.send(categoryProducts);
-
 	} catch(error) {
 		next(error);
 	}
@@ -93,10 +103,8 @@ categoryProductsRouter.patch('/:categoryProductId', async (req, res, next) => {
 	try {
 		const {categoryProductId} = req.params;
 		const {categoryId, productId} = req.body;
-
 		const updatedCategoryProduct = await updateCategoryProduct({categoryId, productId});
 		res.send(updatedCategoryProduct)
-
 	} catch(error) {
 		next(error);
 	}
@@ -117,7 +125,6 @@ categoryProductsRouter.delete('/:categoryProductId', async (req, res, next) => {
 				message: "This product is not in the category."
 			});
 		}
-
 	} catch(error) {
 		next(error);
 	}

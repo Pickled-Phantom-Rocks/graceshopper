@@ -6,10 +6,11 @@ const ProductList = (props) => {
 	const {baseURL, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
 	const [products, setProducts] = useState([]);
 
+
 	async function fetchTheProducts() {
 		try {
-			const results = await fetchProducts(baseURL)
-			setProducts(results)
+			const results = await fetchProducts(baseURL);
+			setProducts(results);
 		} catch (error) {
 			throw error
 		}
@@ -22,8 +23,7 @@ const ProductList = (props) => {
 	return <div className="productPageList">
 		{
 			products.map((product) => {
-				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
-				
+				const {id: productId, name, description, quantityAvailable, price, photoName, categories} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
 					<Link to="/products" onClick={()=>{
@@ -42,7 +42,8 @@ const ProductList = (props) => {
 						<label>Description:</label> {description}<br/>
 						<label>Quantity:</label> {quantityAvailable}<br/>
 						<label>Price:</label> {"$" + price}<br/>
-						<label>Category:</label> ???<br/>
+						<label>Category:</label> {categories}
+						<br/>
 					<section className="productOptions">
 						<button onClick={e => updateUsersCart(product)}>Add to Cart</button>
 						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
