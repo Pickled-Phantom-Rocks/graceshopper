@@ -2,7 +2,7 @@ import {React, useState, useEffect} from 'react';
 import {fetchProductById} from '.';
 
 const SingleProduct = (props) => {
-	const {baseURL, singleProductId} = props;
+	const {baseURL, singleProductId, updateUsersCart} = props;
 	const product = fetchProductById(baseURL, singleProductId);
 	const {name, description, quantityAvailable, price, photoName} = product;
 	const photoURL = process.env.PUBLIC_URL + "images/Products/" + photoName + ".jpg";
@@ -17,7 +17,7 @@ const SingleProduct = (props) => {
 		<label>Price:</label> {"$" + price}<br/>
 		<label>Category:</label> ???<br/>
 		<section className="productOptions">
-			<button>Add to Cart</button>
+			<button onClick={e => updateUsersCart(product)}>Add to Cart</button>
 			<button>Remove from Cart</button>
 		</section>
 	</div>

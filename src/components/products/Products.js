@@ -36,9 +36,9 @@ const Products = (props) => {
 		setShowSingleProduct(false);
 	}
 
-	// async function updateUsersCart(productBeingAdded) {
+	async function updateUsersCart(productBeingAdded) {
 
-	// 	try {
+	 	try {
 
 			console.log("PRoduct being added: ", productBeingAdded)
 
@@ -78,11 +78,11 @@ const Products = (props) => {
 			
 			
 
-	// 	} catch (error) {
-	// 		throw error
-	// 	}
+		} catch (error) {
+			throw error
+		}
 
-	// }
+	}
 
 
 
@@ -109,9 +109,9 @@ const Products = (props) => {
 				setShowProductsByCategory(false);				
 			}}>Show All Products</button>}
 		</section>
-		{showAllProducts ? <ProductList baseURL={baseURL} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
-		{showSingleProduct ? <SingleProduct baseURL={baseURL} singleProductId={singleProductId}/> : null}
-		{showProductsByCategory ? <ProductsByCategory baseURL={baseURL} selectedCategory={selectedCategory}/> : null}
+		{showAllProducts ? <ProductList baseURL={baseURL} updateUsersCart={updateUsersCart} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
+		{showSingleProduct ? <SingleProduct baseURL={baseURL} updateUsersCart={updateUsersCart} singleProductId={singleProductId}/> : null}
+		{showProductsByCategory ? <ProductsByCategory baseURL={baseURL} updateUsersCart={updateUsersCart} selectedCategory={selectedCategory}/> : null}
 
 	</div>
 }

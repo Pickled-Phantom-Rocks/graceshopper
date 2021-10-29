@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {fetchProducts} from '.'
 
 const ProductList = (props) => {
-	const {baseURL, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
+	const {baseURL, updateUsersCart, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
 	const [products, setProducts] = useState([]);
 	
 	async function fetchTheProducts() {

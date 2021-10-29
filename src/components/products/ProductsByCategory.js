@@ -4,7 +4,7 @@ import { fetchCategoryById } from '../categories/categoryUtils';
 import { fetchProductById } from '.';
 
 const ProductsByCategory = (props) => {
-	const {baseURL, selectedCategory} = props;
+	const {baseURL, selectedCategory, updateUsersCart} = props;
 	const [categoryProducts, setCategoryProducts] = useState([]);
 	const products = [];
 	const category = fetchCategoryById(baseURL, selectedCategory);
