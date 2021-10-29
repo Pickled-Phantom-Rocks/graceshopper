@@ -18,38 +18,41 @@ const ProductsByCategory = (props) => {
 			})
 			.then(res => res.json())
 			.then((result) => {
-				setCategoryProducts(result);
+				result.map((cp)=>{
+					console.log(cp.productId);
+					// const product = fetchProductById(cp.productId);
+					// console.log(product);
+				})
 			});
 		} catch (error) {
 			throw error
 		}
 	}
 
-	
-	async function fetchTheProducts() {
-		try{
-			if(categoryProducts){
-				categoryProducts.map((cp)=>{
-					fetch(`${baseURL}/products/${cp.productId}`, {
-						method: 'GET',
-						headers: {'Content-Type': 'application/json'}
-					})
-					.then(res => res.json())
-					.then((result) => {
-						const response = result;
-						products.push(response);
-					})
-					.catch(console.error)
-				})
-			}
-		}catch(error) {
-			console.error(error);
-		}
-	}
+	// async function fetchTheProducts() {
+	// 	try{
+	// 		if(categoryProducts){
+	// 			categoryProducts.map((cp)=>{
+	// 				fetch(`${baseURL}/products/${cp.productId}`, {
+	// 					method: 'GET',
+	// 					headers: {'Content-Type': 'application/json'}
+	// 				})
+	// 				.then(res => res.json())
+	// 				.then((result) => {
+	// 					const response = result;
+	// 					products.push(response);
+	// 				})
+	// 				.catch(console.error)
+	// 			})
+	// 		}
+	// 	}catch(error) {
+	// 		console.error(error);
+	// 	}
+	// }
 
 	useEffect(() => {
 		fetchTheCategoryProducts();
-		fetchTheProducts();
+		// fetchTheProducts();
 	}, [])
 
 	return <div>

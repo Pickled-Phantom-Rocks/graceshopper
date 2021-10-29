@@ -8,18 +8,12 @@ const NewProduct = (props) => {
 	const [quantity, setQuantity] = useState('');
 	const [price, setPrice] = useState('');
 	const [photo, setPhoto] = useState('');
-	const [photoName, setPhotoName] = useState('')
+	const [photoName, setPhotoName] = useState('none')
 
 	async function sendNewProduct() {
 		event.preventDefault();
 
-		//figure out the file upload
-
-		if(!photo){
-			setPhotoName("none")
-		} else {
-			setPhotoName(photo)
-		}
+		//figure out the file upload for photo image
 		const result = await newProduct(baseURL, name, desc, quantity,price,photoName);
 
 	}

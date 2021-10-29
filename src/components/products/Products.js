@@ -36,48 +36,48 @@ const Products = (props) => {
 		setShowSingleProduct(false);
 	}
 
-	// async function updateUsersCart(productBeingAdded) {
+	// // async function updateUsersCart(productBeingAdded) {
 
-	// 	try {
+	// // 	try {
 
-			const _cart = await getCartByUserId(userId, baseURL)
-			const cart = _cart[0]
-			console.log("CART", cart)
-
-
-			const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
-			console.log("Cart Products", cartProducts)
+	// 		const _cart = await getCartByUserId(userId, baseURL)
+	// 		const cart = _cart[0]
+	// 		console.log("CART", cart)
 
 
-			const productIds = cartProducts.map(product => {
-				return product.productId
-			})
+	// 		const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
+	// 		console.log("Cart Products", cartProducts)
 
-			console.log(productIds)
+
+	// 		const productIds = cartProducts.map(product => {
+	// 			return product.productId
+	// 		})
+
+	// 		console.log(productIds)
 			
-			if(productIds.includes(productBeingAdded.id)) {
-				//remove matching productId from cart
-				const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
-				console.log("PRODUCT HERE", _product)
-				const product = _product[0]
-				const quantity = product.quantityOfItem + 1
-				await deleteProductFromCartByProductId(product.productId, baseURL)
-				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantity, baseURL)
-			} else {
-				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
-			}
-			
-			
+	// 		if(productIds.includes(productBeingAdded.id)) {
+	// 			//remove matching productId from cart
+	// 			const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
+	// 			console.log("PRODUCT HERE", _product)
+	// 			const product = _product[0]
+	// 			const quantity = product.quantityOfItem + 1
+	// 			await deleteProductFromCartByProductId(product.productId, baseURL)
+	// 			await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantity, baseURL)
+	// 		} else {
+	// 			await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
+	// 		}
 			
 			
 			
 			
+			
+			
 
-	// 	} catch (error) {
-	// 		throw error
-	// 	}
+	// // 	} catch (error) {
+	// // 		throw error
+	// // 	}
 
-	// }
+	// // }
 
 
 
