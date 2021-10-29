@@ -5,7 +5,7 @@ import { fetchCategories } from '..';
 import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId, deleteProductFromCartByProductId } from '../cart/cartUtils';
 
 const Products = (props) => {
-	const {baseURL, userId} = props;
+	const {baseURL, userId, userToken} = props;
 	const [categories, setCategories] = useState([]);
 	const [products, setProducts] = useState([]);
 
@@ -35,6 +35,8 @@ const Products = (props) => {
 
 		try {
 
+			console.log("PRoduct being added: ", productBeingAdded)
+
 			const _cart = await getCartByUserId(userId, baseURL)
 			const cart = _cart[0]
 			console.log("CART", cart)
@@ -48,23 +50,26 @@ const Products = (props) => {
 				return product.productId
 			})
 
-			console.log(productIds)
+			//console.log(productIds)
 			
 			if(productIds.includes(productBeingAdded.id)) {
 				//remove matching productId from cart
 				const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
 				console.log("PRODUCT HERE", _product)
 				const product = _product[0]
-				const quantity = product.quantityOfItem + 1
+				const quantityInCart = product.quantityOfItem + 1
+				const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+				const something = await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
+				console.log("Whatever is returned? : ", something)
 				await deleteProductFromCartByProductId(product.productId, baseURL)
-				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantity, baseURL)
+				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantityInCart, baseURL)
+				location.reload()
 			} else {
+				const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+				await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
 				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
+				location.reload()
 			}
-			
-			
-			
-			
 			
 			
 

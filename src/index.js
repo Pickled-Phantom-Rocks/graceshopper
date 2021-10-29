@@ -49,7 +49,7 @@ const App = () => {
 					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId}/>
 				</Route>
 				<Route path="/products">
-					<Products baseURL={baseURL} userId={userId}/>
+					<Products baseURL={baseURL} userId={userId} userToken={userToken} />
 				</Route>
 				<Route path="/product/:id">
 					<SingleProduct baseURL={baseURL}/>
