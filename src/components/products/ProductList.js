@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {fetchProducts} from '.'
 
 const ProductList = (props) => {
-	const {baseURL, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
+	const {baseURL, updateUsersCart, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
 	const [products, setProducts] = useState([]);
 
 	async function fetchTheProducts() {
@@ -48,7 +48,7 @@ const ProductList = (props) => {
 						<label>Price:</label> {"$" + price}<br/>
 						<label>Category:</label> {categories}<br/>
 					<section className="productOptions">
-						<button onClick={e => updateUsersCart(product)}>Add to Cart</button>
+						<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
 						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
 					</section>
 

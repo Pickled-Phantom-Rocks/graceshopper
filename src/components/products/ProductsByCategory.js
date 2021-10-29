@@ -4,7 +4,7 @@ import { fetchCategoryById } from '../categories/categoryUtils';
 import { fetchProductById } from '.';
 
 const ProductsByCategory = (props) => {
-	const {baseURL, selectedCategory} = props;
+	const {baseURL, selectedCategory, updateUsersCart} = props;
 	const [categoryProducts, setCategoryProducts] = useState([]);
 	const products = [];
 	const category = fetchCategoryById(baseURL, selectedCategory);
@@ -84,7 +84,7 @@ const ProductsByCategory = (props) => {
 						<label>Category:</label> {categories}
 						<br/>
 						<section className="productOptions">
-							<button onClick={e => updateUsersCart(product)}>Add to Cart</button>
+							<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
 							<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
 						</section>
 					</div>
