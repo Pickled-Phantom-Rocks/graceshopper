@@ -17,7 +17,7 @@ const SingleProduct = (props) => {
 		<label>Price:</label> {"$" + price}<br/>
 		<label>Category:</label> ???<br/>
 		<section className="productOptions">
-			<button onClick={e => updateUsersCart(product)}>Add to Cart</button>
+			<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
 			<button>Remove from Cart</button>
 		</section>
 	</div>

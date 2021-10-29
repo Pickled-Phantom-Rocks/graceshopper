@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { getCartByUserId } from './cartUtils';
+import { getCartByUserId, deleteProductFromCartByProductId, updateItemQuantityAvailable } from './cartUtils';
 
 const Cart = (props) => {
 	const [usersCart, setUsersCart] = useState([])
 	const [productList, setProductList] = useState([])
-	const {username, userId, baseURL} = props
+	const {username, userId, baseURL, userToken } = props
 	
 
 	async function fetchUsersCart() {
@@ -49,6 +49,16 @@ const Cart = (props) => {
 						<br/>
 						Price per item: {`$${price}`}
 					</div>
+					<button onClick={async e => {
+						console.log("Product: ", prodList)
+						const _removedProduct = await deleteProductFromCartByProductId(id, baseURL)
+						const removedProduct = await _removedProduct[0]
+						const quantityRemoved = removedProduct.quantityOfItem
+						const quantityAvailable = prodList.quantityAvailable
+						const quantityToReturn = quantityAvailable + quantityRemoved
+
+						await updateItemQuantityAvailable(userToken, id, quantityToReturn, baseURL)
+					}}>Remove all {`${name}'s`}</button>
 				</div>	
 
 			</div>)

@@ -64,8 +64,7 @@ const Products = (props) => {
 				const product = _product[0]
 				const quantityInCart = product.quantityOfItem + 1
 				const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
-				const something = await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
-				console.log("Whatever is returned? : ", something)
+				await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
 				await deleteProductFromCartByProductId(product.productId, baseURL)
 				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantityInCart, baseURL)
 				location.reload()
