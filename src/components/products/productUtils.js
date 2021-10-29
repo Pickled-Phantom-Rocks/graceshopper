@@ -6,7 +6,24 @@ async function fetchProducts(baseURL) {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		})
-		const data = await result.json()
+		const data = await result.json();
+
+		data.map((p) => {
+			const cat = fetch(`${baseURL}/category_products/${p.id}`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			})
+			.then(res => res.json())
+			.then(result => {
+				const cats = [];
+				if(result.length != 0){
+					result.map((c)=>{
+						cats.push(c.categoryId);
+					})
+				}
+				p.categories = cats;
+			})
+		})
 		return data;
 	} catch (error) {
 		throw error
@@ -28,24 +45,6 @@ const fetchProductById = (baseURL, productId) => {
 		.catch(console.error)
 	}, []);
 	return product
-}
-
-async function fetchProductsByCategory(baseURL, categoryId){
-	try {
-		const result = await fetch(`${baseURL}/category_products/${categoryId}`, {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json' }
-		})
-		const data = await result.json();
-
-		const products = [];
-		data.map((product)=> {
-			products.push(product.productId);
-		})
-		return products;
-	} catch(error) {
-		throw error
-	}
 }
 
 async function newProduct(baseURL, name, desc, quantity, price, photoName) {
@@ -138,13 +137,14 @@ async function addProduct(baseURL, categoryId, productId){
 		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({
-			productId: productId,
+			productId,
 		})
 	})
 	.then(res => res.json())
 	.then((result) => {
 		if(result.status){
-			alert("Product successfully added to category.")
+			alert("Product successfully added to category.");
+			location.reload();
 		} else {
 			alert("This product is already in the category.")
 		}
@@ -185,7 +185,6 @@ async function removeProduct(baseURL, categoryId, productId){
 export {
 	fetchProducts,
 	fetchProductById,
-	fetchProductsByCategory,
 	newProduct,
 	editProduct,
 	deleteProduct,

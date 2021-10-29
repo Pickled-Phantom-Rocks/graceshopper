@@ -1,12 +1,9 @@
 import {React, useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
 import {fetchProductById} from '.';
 
 const SingleProduct = (props) => {
-	const {baseURL} = props;
-	const {id: productId} = useParams();
-
-	const product = fetchProductById(baseURL, productId);
+	const {baseURL, singleProductId} = props;
+	const product = fetchProductById(baseURL, singleProductId);
 	const {name, description, quantityAvailable, price, photoName} = product;
 	const photoURL = process.env.PUBLIC_URL + "images/Products/" + photoName + ".jpg";
 

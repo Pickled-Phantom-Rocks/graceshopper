@@ -27,6 +27,16 @@ categoriesRouter.get('/', async (req, res, next) => {
 	}
 });
 
+categoriesRouter.get('/:categoryId', async (req, res, next) => {
+	try {
+		const {categoryId} = req.params;
+		const category = await getCategoryById(categoryId);
+		res.send(category);
+	} catch(error) {
+		next(error);
+	}
+})
+
 categoriesRouter.post('/', async (req, res, next) => {
 	try {
 		const {name} = req.body;

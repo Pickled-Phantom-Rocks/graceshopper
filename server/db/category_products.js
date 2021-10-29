@@ -45,7 +45,6 @@ async function getCategoryProductById(id) {
 			FROM category_products
 			WHERE id=$id;
 		`, [id]);
-
 		return categoryProduct;
 	} catch(error) {
 		throw error;
@@ -59,8 +58,20 @@ async function getCategoryProductsByCategory(categoryId) {
 			FROM category_products
 			WHERE "categoryId"=$1;
 		`, [categoryId]);
+		return categoryProducts;
+	} catch(error) {
+		throw error;
+	}
+}
 
-		return categoryProducts
+async function getCategoryProductsByProduct(productId) {
+	try {
+		const { rows: categoryProducts} = await client.query(`
+			SELECT *
+			FROM category_products
+			WHERE "productId"=$1;
+		`, [productId]);
+		return categoryProducts;
 	} catch(error) {
 		throw error;
 	}
@@ -109,6 +120,7 @@ module.exports = {
 	getAllCategoryProducts,
 	getCategoryProductById,
 	getCategoryProductsByCategory,
+	getCategoryProductsByProduct,
 	updateCategoryProduct,
 	deleteCategoryProduct
 }

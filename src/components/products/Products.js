@@ -1,14 +1,17 @@
 import { React, useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
-import {fetchProducts, fetchProductsByCategory, fetchProductById} from '.'
+import {ProductList, ProductsByCategory, SingleProduct} from '.'
 import { fetchCategories } from '..';
 import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId, deleteProductFromCartByProductId } from '../cart/cartUtils';
 
 const Products = (props) => {
 	const {baseURL, userId, userToken} = props;
 	const [categories, setCategories] = useState([]);
-	const [products, setProducts] = useState([]);
-
+	const [showAllProducts, setShowAllProducts] = useState(true);
+	const [showSingleProduct, setShowSingleProduct] = useState(false);
+	const [showProductsByCategory, setShowProductsByCategory] = useState(false);
+	const [singleProductId, setSingleProductId] = useState('');
+	const [selectedCategory, setSelectedCategory] = useState('');
+	
 	async function fetchTheCategories() {
 		try {
 			const result = await fetchCategories(baseURL)
@@ -19,21 +22,23 @@ const Products = (props) => {
 	}
 
 	useEffect(() => {
-		fetchTheCategories()
-	}, []);
+		fetchTheCategories();
+	}, [])
 
-	async function fetchTheProducts() {
-		try {
-			const results = await fetchProducts(baseURL)
-			setProducts(results)
-		} catch (error) {
-			throw error
-		}
+	async function CategorySelect() {
+		event.preventDefault();
+
+		const cselector = document.getElementById("categorySelect");
+		const categoryId = cselector.options[cselector.selectedIndex].value;
+		setSelectedCategory(categoryId);
+		setShowProductsByCategory(true);
+		setShowAllProducts(false);
+		setShowSingleProduct(false);
 	}
 
-	async function updateUsersCart(productBeingAdded) {
+	// async function updateUsersCart(productBeingAdded) {
 
-		try {
+	// 	try {
 
 			console.log("PRoduct being added: ", productBeingAdded)
 
@@ -73,66 +78,41 @@ const Products = (props) => {
 			
 			
 
-		} catch (error) {
-			throw error
-		}
+	// 	} catch (error) {
+	// 		throw error
+	// 	}
 
-	}
+	// }
 
 
-	useEffect(() => {
-		fetchTheProducts()
-	}, [])
 
-	async function fetchTheCategoryProducts(){
-		event.preventDefault();
-		const selector = document.getElementById("categorySelect");
-		const categoryId = selector.options[selector.selectedIndex].value;
-		const result = await fetchProductsByCategory(baseURL, categoryId);	
-		console.log('category productIDs:', result);
 
-		//figure out how to then fetch the product info by id from the result array
-
-	}
 
 	return <div id="products">
 		<h1>Products</h1>
 		<section>
-			<form onSubmit={fetchTheCategoryProducts}>
+			<form onSubmit={CategorySelect}>
 				<label>Categories: </label>
 				<select id="categorySelect">
 					{
 						categories.map((category) => {
-						const { id, name } = category;
-						return <option value={id} key={id}>{name}</option>
+						const { id: categoryId, name } = category;
+						return <option value={categoryId} key={categoryId}>{name}</option>
 						})
 					}
 				</select> <button>Search</button>
 			</form>
+			{showAllProducts ? null: <button onClick={()=>{
+				setShowSingleProduct(false);
+				setSingleProductId('');
+				setShowAllProducts(true);
+				setShowProductsByCategory(false);				
+			}}>Show All Products</button>}
 		</section>
+		{showAllProducts ? <ProductList baseURL={baseURL} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
+		{showSingleProduct ? <SingleProduct baseURL={baseURL} singleProductId={singleProductId}/> : null}
+		{showProductsByCategory ? <ProductsByCategory baseURL={baseURL} selectedCategory={selectedCategory}/> : null}
 
-		{
-			products.map((product) => {
-				const {id, name, description, quantityAvailable, price, photoName} = product;
-				
-				const photoURL = "images/Products/" + photoName + ".jpg";
-				return <div className="productList" key={id}>
-					<Link to={`/product/${id}`}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
-					<div className="productInfo">
-						<Link to={`/product/${id}`}><h3>{name}</h3></Link>
-						<label>Description:</label> {description}<br/>
-						<label>Quantity:</label> {quantityAvailable}<br/>
-						<label>Price:</label> {"$" + price}<br/>
-						<label>Category:</label> ???<br/>
-					<section className="productOptions">
-						<button onClick={e => updateUsersCart(product)}>Add to Cart</button>
-						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
-					</section>
-
-					</div>
-				</div>
-			})
-		}
 	</div>
 }
 

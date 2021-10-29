@@ -13,7 +13,6 @@ export {
 
 export {
 	Products,
-	SingleProduct,
 	NewProduct,
 	EditProduct,
 	DeleteProduct,
