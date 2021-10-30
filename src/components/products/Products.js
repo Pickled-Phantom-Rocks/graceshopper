@@ -1,15 +1,12 @@
 import { React, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {ProductList, ProductsByCategory, SingleProduct} from '.'
 import { fetchCategories } from '..';
 import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId, deleteProductFromCartByProductId } from '../cart/cartUtils';
 
 const Products = (props) => {
-	const {baseURL, userId, userToken} = props;
+	const {baseURL, userId, userToken, singleProductId, setSingleProductId, showSingleProduct, setShowSingleProduct, showProductsByCategory, setShowProductsByCategory, showAllProducts, setShowAllProducts, showSingleProductFromCart, setShowSingleProductFromCart} = props;
 	const [categories, setCategories] = useState([]);
-	const [showAllProducts, setShowAllProducts] = useState(true);
-	const [showSingleProduct, setShowSingleProduct] = useState(false);
-	const [showProductsByCategory, setShowProductsByCategory] = useState(false);
-	const [singleProductId, setSingleProductId] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('');
 	
 	async function fetchTheCategories() {
@@ -42,19 +39,32 @@ const Products = (props) => {
 
 			console.log("PRoduct being added: ", productBeingAdded)
 
-	// 		const _cart = await getCartByUserId(userId, baseURL)
-	// 		const cart = _cart[0]
-	// 		console.log("CART", cart)
+			// const _cart = await getCartByUserId(userId, baseURL)
+			// const cart = _cart[0]
+			// console.log("CART", cart)
 
 
-	// 		const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
-	// 		console.log("Cart Products", cartProducts)
+			// const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
+			// console.log("Cart Products", cartProducts)
 
 
-	// 		const productIds = cartProducts.map(product => {
-	// 			return product.productId
-	// 		})
+			// const productIds = cartProducts.map(product => {
+			// 	return product.productId
+			// })
 
+			// console.log(productIds)
+			
+			// if(productIds.includes(productBeingAdded.id)) {
+			// 	//remove matching productId from cart
+			// 	const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
+			// 	console.log("PRODUCT HERE", _product)
+			// 	const product = _product[0]
+			// 	const quantity = product.quantityOfItem + 1
+			// 	await deleteProductFromCartByProductId(product.productId, baseURL)
+			// 	await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantity, baseURL)
+			// } else {
+			// 	await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
+			// }
 			//console.log(productIds)
 			
 			if(productIds.includes(productBeingAdded.id)) {
@@ -101,12 +111,19 @@ const Products = (props) => {
 					}
 				</select> <button>Search</button>
 			</form>
-			{showAllProducts ? null: <button onClick={()=>{
+			{showAllProducts && !showSingleProductFromCart ? null: <button onClick={()=>{
 				setShowSingleProduct(false);
 				setSingleProductId('');
 				setShowAllProducts(true);
 				setShowProductsByCategory(false);				
 			}}>Show All Products</button>}
+			{showSingleProductFromCart ? <Link to="/cart"> <button onClick={() => {
+				setShowSingleProduct(false)
+				setSingleProductId('')
+				setShowAllProducts(true)
+				setShowProductsByCategory(false)
+				setShowSingleProductFromCart(false)
+			}}>Return to cart!</button></Link> : null}
 		</section>
 		{showAllProducts ? <ProductList baseURL={baseURL} updateUsersCart={updateUsersCart} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
 		{showSingleProduct ? <SingleProduct baseURL={baseURL} updateUsersCart={updateUsersCart} singleProductId={singleProductId}/> : null}

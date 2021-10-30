@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import {Link} from 'react-router-dom';
 import { getCartByUserId, deleteProductFromCartByProductId, updateItemQuantityAvailable } from './cartUtils';
+import { SingleProduct } from '../products';
 
 const Cart = (props) => {
+	
+	const {username, userId, baseURL, userToken, setShowSingleProduct, setSingleProductId, showSingleProduct, setShowAllProducts, setShowProductsByCategory, showSingleProductFromCart, setShowSingleProductFromCart } = props
 	const [usersCart, setUsersCart] = useState([])
 	const [productList, setProductList] = useState([])
-	const {username, userId, baseURL, userToken } = props
+	const [quantityCounter, setQuantityCounter] = useState(0)
 	
 
 	async function fetchUsersCart() {
@@ -30,22 +34,40 @@ const Cart = (props) => {
 	//console.log("user's cart: ", usersCart)
 	//console.log("Product List: ", productList)
 
+	async function incrementer() {
+		const oneMore = quantityCounter + 1
+		setQuantityCounter(oneMore)
+	}
+
+	async function decrementer() {
+		if(quantityCounter === 0) {
+			return
+		}
+		const oneLess = quantityCounter - 1
+		setQuantityCounter(oneLess)
+	}
+
 	function renderCartProducts(prodList) {
-		const {id, name, description, photoName, price, quantityOfItem} = prodList
+		const {id, name, photoName, price, quantityOfItem} = prodList
 
 		const photoURL = "images/Products/" + photoName + ".jpg"
 		return (<div key={id} style={{ display: "flex", border: "1px solid black", margin: "10px"}}> 
 
+				<Link to="/products" onClick={() => {
+					setShowSingleProduct(true)
+					setSingleProductId(id)
+					setShowAllProducts(false)
+					setShowProductsByCategory(false)
+					setShowSingleProductFromCart(true)
+				}}> 
 				<img src={process.env.PUBLIC_URL + photoURL} width="150px" height="100px"/>
+				</Link>
+				
 
 				<div>
-					<h3>{name}</h3>
+					<h3>{name} x {quantityOfItem}</h3>
 
 					<div> 
-						<br/>
-						Description: {description}
-						<br/>
-						Quantity in cart: {quantityOfItem}
 						<br/>
 						Price per item: {`$${price}`}
 					</div>
@@ -59,6 +81,14 @@ const Cart = (props) => {
 
 						await updateItemQuantityAvailable(userToken, id, quantityToReturn, baseURL)
 					}}>Remove all {`${name}'s`}</button>
+					<div className="PlusMinus">
+						<input type="button" onClick={decrementer} value="-" />
+
+						<input type="text" name="quantity" value={quantityCounter} maxlength="2" max="10" size="1" id="number" />
+
+						<input type="button" onClick={incrementer} value="+" />
+
+					</div>
 				</div>	
 
 			</div>)
