@@ -48,7 +48,7 @@ const Cart = (props) => {
 	}
 
 	function renderCartProducts(prodList) {
-		const {id, name, description, photoName, price, quantityOfItem} = prodList
+		const {id, name, photoName, price, quantityOfItem} = prodList
 
 		const photoURL = "images/Products/" + photoName + ".jpg"
 		return (<div key={id} style={{ display: "flex", border: "1px solid black", margin: "10px"}}> 
