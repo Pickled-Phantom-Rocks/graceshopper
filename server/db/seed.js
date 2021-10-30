@@ -9,7 +9,9 @@ const {
     getAllProducts,
     addProductToCart,
     getAllCategories,
-    addProductToCategory
+    addProductToCategory,
+    createOrder_Product,
+    getAllCartProducts
 } = require('./')
 
 async function dropTables() {
@@ -93,7 +95,6 @@ async function createTables() {
         "priceWhenOrdered" DECIMAL,
         name VARCHAR(255) UNIQUE NOT NULL,
         description VARCHAR (255),
-        price DECIMAL NOT NULL,
         "photoName" VARCHAR(255)
     );
 
@@ -245,7 +246,7 @@ async function createInitialOrders() {
         console.log('starting to create orders!')
 
         const ordersToCreate = [
-            { userId: 2, orderDate: '2020-08-15', deliveryDate: '2020-08-23', totalPrice: 1346.25 }
+            { userId: 1, orderDate: '2020-08-15', deliveryDate: '2020-08-23', totalPrice: 1346.25 }
         ]
 
         const orders = await Promise.all(ordersToCreate.map(createOrder))
@@ -265,11 +266,25 @@ async function createInitialOrderProducts() {
         const [albert1, albert2, sandra1, sandra2, glamgal1, glamgal2, glamgal3] = await getAllCartProducts()
 
         const orderProductsToCreate = [
-            { orderId: 1, productId: burgerPickle.id, cartProductsId: sandra1.id, quantityOrdered: sandra1.quantityOfItem, priceWhenOrdered: sandra1.productPrice },
-            { orderId: 1, productId: firstBorn, cartProductsId: sandra2.id, quantityOrdered: sandra2.quantityOfItem, priceWhenOrdered: sandra2.productPrice }
+            { orderId: 1, 
+                productId: burgerPickle.id, 
+                quantityOrdered: sandra1.quantityOfItem, 
+                priceWhenOrdered: sandra1.productPrice, 
+                name: burgerPickle.name, 
+                description: burgerPickle.description, 
+                price: burgerPickle.price, 
+                photoName: burgerPickle.photoName },
+            { orderId: 1, 
+                productId: firstBorn.id, 
+                quantityOrdered: sandra2.quantityOfItem, 
+                priceWhenOrdered: sandra2.productPrice,
+                name: firstBorn.name,
+                description: firstBorn.description,
+                price: firstBorn.price,
+                photoName: firstBorn.photoName }
         ]
 
-        const orderProducts = await Promise.all(orderProductsToCreate.map(addProductToOrder))
+        const orderProducts = await Promise.all(orderProductsToCreate.map(createOrder_Product))
 
         console.log("Order_products created: ", orderProducts)
         console.log("Finished creating order_products!")
@@ -331,7 +346,7 @@ async function rebuildDB() {
         await createInitialCarts();
         await createInitialCartProducts();
         await createInitialOrders();
-        // await createInitialOrderProducts();
+        await createInitialOrderProducts();
         await createInitialCategories();
         await createInitialCategoryProducts();
         console.log("RebuildDB function was successfull!")

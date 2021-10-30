@@ -17,15 +17,17 @@ const fetchCategories = (baseURL) => {
 	return categories;
 }
 
-async function fetchOrderList (username, baseURL) {
+async function fetchOrderList (userId, baseURL) {
 	try {
-		const result = await fetch(`${baseURL}/${username}/pastorders`, {
+		console.log("fetch Order List is running", userId);
+		const result = await fetch(`${baseURL}/orders/${userId}/pastorders`, {
 			method: "GET",
 			headers: {
 			  'Content-Type': 'application/json',
 			}
 		  });
 		const data = await result.json();
+		console.log("FROM UTILS:", data);
 		return data;
 	} catch (error) {
 		console.error(error);

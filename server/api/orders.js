@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
 const {
-    getOrdersByUserId,
+    //getOrdersByUserId,
     getOrderById,
     createOrder,
     updateOrder,
@@ -12,6 +12,7 @@ const {
     getAllOrders,
     getUserByUsername,
     getOrder_ProductsByOrderId,
+    getAllOrdersByUserId,
     getProductById
 } = require('../db');
 
@@ -29,12 +30,10 @@ ordersRouter.get('/', async ( req, res, next) => {
     }
 })
 
-ordersRouter.get('/:username/pastorders', async (req, res, next) => {
- const {username} = req.params;
+ordersRouter.get('/:userId/pastorders', async (req, res, next) => {
+ const {userId} = req.params;
  try {
-    const user = await getUserByUsername(username);
-    const userId = user.id;
-    const orders = await getOrdersByUserId(userId); 
+    const orders = await getAllOrdersByUserId(userId); 
     console.log(orders);
     res.send(orders);
  } catch (error) {
@@ -56,10 +55,10 @@ ordersRouter.get('/:orderId', async (req, res, next) => {
 
 ordersRouter.post('/:orderId/products', async (req, res, next) => {
     const { orderId } = req.params;
-    const { cartProductsId, quantityOrdered, priceWhenOrdered, productId } = req.body;
+    const { quantityOrdered, priceWhenOrdered, productId } = req.body;
 
     try {//adds product to the order
-        if ( !cartProductsId || !quantityOrdered || !priceWhenOrdered || !productId) {
+        if ( !quantityOrdered || !priceWhenOrdered || !productId) {
             res.send({
                 name: "Information Required",
                 message: "More information is needed to POST."
@@ -68,12 +67,10 @@ ordersRouter.post('/:orderId/products', async (req, res, next) => {
         const product = await getProductById(productId);
         const orderProductToMake = {};
         orderProductToMake.orderId = orderId;
-        orderProductToMake.cartProductsId = cartProductsId;
         orderProductToMake.quantityOrdered = quantityOrdered;
         orderProductToMake.priceWhenOrdered = priceWhenOrdered;
         orderProductToMake.name = product.name;
         orderProductToMake.description = product.description;
-        orderProductToMake.price = product.price;
         orderProductToMake.photoName = product.photoName;
 
         const newOrderProduct = await createOrder_Product(orderProductToMake);
