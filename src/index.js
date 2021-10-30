@@ -23,6 +23,13 @@ const App = () => {
 	const [userToken, setUserToken] = useState(localStorage.getItem("token"));
 	const [userId, setUserId] = useState(localStorage.getItem("userId"));
 	const [showLog, setShowLog] = useState(true);
+	const [singleProductId, setSingleProductId] = useState('');
+	const [showSingleProduct, setShowSingleProduct] = useState(false);
+	const [showProductsByCategory, setShowProductsByCategory] = useState(false);
+	const [showAllProducts, setShowAllProducts] = useState(true);
+	const [showSingleProductFromCart, setShowSingleProductFromCart] = useState(false)
+	
+	
 
 	return <Router>
 		<Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} setUsername={setUsername} setUserToken={setUserToken} setUserId={setUserId} />
@@ -48,10 +55,10 @@ const App = () => {
 					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId}/>
 				</Route>
 				<Route path="/products">
-					<Products baseURL={baseURL} userId={userId}/>
+					<Products baseURL={baseURL} userId={userId} userToken={userToken} singleProductId={singleProductId} setSingleProductId={setSingleProductId} showSingleProduct={showSingleProduct} setShowSingleProduct={setShowSingleProduct} showProductsByCategory={showProductsByCategory} setShowProductsByCategory={setShowProductsByCategory} showAllProducts={showAllProducts} setShowAllProducts={setShowAllProducts} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
 				</Route>
 				<Route path="/cart">
-					<Cart userId={userId} username={username} baseURL={baseURL}/>
+					<Cart userId={userId} username={username} baseURL={baseURL} userToken={userToken} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} showSingleProduct={showSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
 				</Route>
 				<Route path="/orders">
 					<Orders baseURL={baseURL} userId={userId} username={username} />

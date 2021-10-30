@@ -3,26 +3,43 @@ import {Link} from 'react-router-dom';
 import {fetchProducts} from '.'
 
 const ProductList = (props) => {
-	const {baseURL, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
+	const {baseURL, updateUsersCart, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
 	const [products, setProducts] = useState([]);
-	
+
 	async function fetchTheProducts() {
 		try {
 			const results = await fetchProducts(baseURL);
 			setProducts(results);
+
 		} catch (error) {
 			throw error
 		}
-	}
+	} 
+
 
 	useEffect(() => {
 		fetchTheProducts();
 	}, [])
 
+	products.sort((a, b) => {
+		const nameA = a.name.toLowerCase()
+		const nameB = b.name.toLowerCase()
+		if(nameA < nameB) {
+			return -1
+		}
+		if(nameA > nameB) {
+			return 1
+		}
+		return 0
+	})
+
 	return <div className="productPageList">
 		{
 			products.map((product) => {
 				const {id: productId, name, description, quantityAvailable, price, photoName, categories} = product;
+				console.log('categories from product map: ', categories);
+
+
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
 					<Link to="/products" onClick={()=>{
@@ -41,10 +58,9 @@ const ProductList = (props) => {
 						<label>Description:</label> {description}<br/>
 						<label>Quantity:</label> {quantityAvailable}<br/>
 						<label>Price:</label> {"$" + price}<br/>
-						<label>Category:</label> {categories}
-						<br/>
+						<label>Category:</label> {categories}<br/>
 					<section className="productOptions">
-						<button onClick={e => updateUsersCart(product)}>Add to Cart</button>
+						<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
 						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
 					</section>
 

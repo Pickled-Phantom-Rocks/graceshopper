@@ -4,7 +4,7 @@ import { fetchCategoryById } from '../categories/categoryUtils';
 import { fetchProductById } from '.';
 
 const ProductsByCategory = (props) => {
-	const {baseURL, selectedCategory} = props;
+	const {baseURL, selectedCategory, updateUsersCart} = props;
 	const [categoryProducts, setCategoryProducts] = useState([]);
 	const products = [];
 	const category = fetchCategoryById(baseURL, selectedCategory);
@@ -18,38 +18,41 @@ const ProductsByCategory = (props) => {
 			})
 			.then(res => res.json())
 			.then((result) => {
-				setCategoryProducts(result);
+				result.map((cp)=>{
+					console.log(cp.productId);
+					// const product = fetchProductById(cp.productId);
+					// console.log(product);
+				})
 			});
 		} catch (error) {
 			throw error
 		}
 	}
 
-	
-	async function fetchTheProducts() {
-		try{
-			if(categoryProducts){
-				categoryProducts.map((cp)=>{
-					fetch(`${baseURL}/products/${cp.productId}`, {
-						method: 'GET',
-						headers: {'Content-Type': 'application/json'}
-					})
-					.then(res => res.json())
-					.then((result) => {
-						const response = result;
-						products.push(response);
-					})
-					.catch(console.error)
-				})
-			}
-		}catch(error) {
-			console.error(error);
-		}
-	}
+	// async function fetchTheProducts() {
+	// 	try{
+	// 		if(categoryProducts){
+	// 			categoryProducts.map((cp)=>{
+	// 				fetch(`${baseURL}/products/${cp.productId}`, {
+	// 					method: 'GET',
+	// 					headers: {'Content-Type': 'application/json'}
+	// 				})
+	// 				.then(res => res.json())
+	// 				.then((result) => {
+	// 					const response = result;
+	// 					products.push(response);
+	// 				})
+	// 				.catch(console.error)
+	// 			})
+	// 		}
+	// 	}catch(error) {
+	// 		console.error(error);
+	// 	}
+	// }
 
 	useEffect(() => {
 		fetchTheCategoryProducts();
-		fetchTheProducts();
+		// fetchTheProducts();
 	}, [])
 
 	return <div>
@@ -81,7 +84,7 @@ const ProductsByCategory = (props) => {
 						<label>Category:</label> {categories}
 						<br/>
 						<section className="productOptions">
-							<button onClick={e => updateUsersCart(product)}>Add to Cart</button>
+							<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
 							<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
 						</section>
 					</div>
