@@ -39,18 +39,18 @@ const Products = (props) => {
 
 			console.log("PRoduct being added: ", productBeingAdded)
 
-	// 		const _cart = await getCartByUserId(userId, baseURL)
-	// 		const cart = _cart[0]
-	// 		console.log("CART", cart)
+			const _cart = await getCartByUserId(userId, baseURL)
+			const cart = _cart[0]
+			console.log("CART", cart)
 
 
-	// 		const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
-	// 		console.log("Cart Products", cartProducts)
+			const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
+			console.log("Cart Products", cartProducts)
 
 
-	// 		const productIds = cartProducts.map(product => {
-	// 			return product.productId
-	// 		})
+			const productIds = cartProducts.map(product => {
+				return product.productId
+			})
 
 			//console.log(productIds)
 			
