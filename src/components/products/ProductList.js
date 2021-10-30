@@ -16,7 +16,6 @@ const ProductList = (props) => {
 		}
 	} 
 
-
 	useEffect(() => {
 		fetchTheProducts();
 	}, [])
@@ -25,8 +24,7 @@ const ProductList = (props) => {
 		{
 			products.map((product) => {
 				const {id: productId, name, description, quantityAvailable, price, photoName, categories} = product;
-				console.log('categories from product map: ', categories);
-
+				console.log('from productList', categories);
 
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
@@ -46,7 +44,6 @@ const ProductList = (props) => {
 						<label>Description:</label> {description}<br/>
 						<label>Quantity:</label> {quantityAvailable}<br/>
 						<label>Price:</label> {"$" + price}<br/>
-						<label>Category:</label> {categories}<br/>
 					<section className="productOptions">
 						<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
 						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>

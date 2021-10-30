@@ -13,21 +13,36 @@ async function fetchCategories(baseURL) {
 	}
 }
 
-const fetchCategoryById = (baseURL, categoryId) => {
+async function fetchCategoryById(baseURL, categoryId) {
 	const [categoryName, setCategoryName] = useState('');
-	useEffect(() => {
-		fetch(`${baseURL}/categories/${categoryId}`, {
-			method: 'GET',
-			headers: {'Content-Type': 'application/json'}
-		})
-		.then(res => res.json())
-		.then((result) => {
-			const response = result;
-			setCategoryName(response);
-		})
-		.catch(console.error)
-	}, []);
+	const result = await fetch(`${baseURL}/categories/${categoryId}`, {
+		method: 'GET',
+		headers: {'Content-Type': 'application/json'}
+	})
+	.then((result) => {
+		const response = result;
+		setCategoryName(response);
+	})
+	.catch(console.error)
 	return categoryName;
+}
+
+async function fetchCategoriesByProductID(baseURL, productId) {
+	const cats = [];
+	const result = await fetch(`${baseURL}/category_products/${productId}`, {
+		method: 'GET',
+		headers: {'Content-Type': 'application/json'}
+	})
+	.then(res => res.json())
+	.then((response) => {
+		if(response.length > 0){
+			response.map((cat)=>{
+				cats.push(cat.categoryId);
+
+			})
+		}
+	})
+	return cats;
 }
 
 async function newCategory(baseURL, name) {
@@ -118,6 +133,7 @@ async function deleteCategory(baseURL, categoryId){
 export {
 	fetchCategories,
 	fetchCategoryById,
+	fetchCategoriesByProductID,
 	newCategory,
 	editCategory,
 	deleteCategory
