@@ -1,15 +1,12 @@
 import { React, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {ProductList, ProductsByCategory, SingleProduct} from '.'
 import { fetchCategories } from '..';
 import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId, deleteProductFromCartByProductId } from '../cart/cartUtils';
 
 const Products = (props) => {
-	const {baseURL, userId, userToken} = props;
+	const {baseURL, userId, userToken, singleProductId, setSingleProductId, showSingleProduct, setShowSingleProduct, showProductsByCategory, setShowProductsByCategory, showAllProducts, setShowAllProducts, showSingleProductFromCart, setShowSingleProductFromCart} = props;
 	const [categories, setCategories] = useState([]);
-	const [showAllProducts, setShowAllProducts] = useState(true);
-	const [showSingleProduct, setShowSingleProduct] = useState(false);
-	const [showProductsByCategory, setShowProductsByCategory] = useState(false);
-	const [singleProductId, setSingleProductId] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('');
 	
 	async function fetchTheCategories() {
@@ -101,12 +98,19 @@ const Products = (props) => {
 					}
 				</select> <button>Search</button>
 			</form>
-			{showAllProducts ? null: <button onClick={()=>{
+			{showAllProducts && !showSingleProductFromCart ? null: <button onClick={()=>{
 				setShowSingleProduct(false);
 				setSingleProductId('');
 				setShowAllProducts(true);
 				setShowProductsByCategory(false);				
 			}}>Show All Products</button>}
+			{showSingleProductFromCart ? <Link to="/cart"> <button onClick={() => {
+				setShowSingleProduct(false)
+				setSingleProductId('')
+				setShowAllProducts(true)
+				setShowProductsByCategory(false)
+				setShowSingleProductFromCart(false)
+			}}>Return to cart!</button></Link> : null}
 		</section>
 		{showAllProducts ? <ProductList baseURL={baseURL} updateUsersCart={updateUsersCart} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
 		{showSingleProduct ? <SingleProduct baseURL={baseURL} updateUsersCart={updateUsersCart} singleProductId={singleProductId}/> : null}
