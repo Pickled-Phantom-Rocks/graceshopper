@@ -3,46 +3,42 @@ import {fetchAllOrders, changeStatus} from '.';
 
 const OrderList = (props) => {
 	const {baseURL, userToken} = props;
-	const [orders, setOrders] = useState('')
+	const [orders, setOrders] = useState([]);
+	const [newStatus, setNewStatus] = useState('');
 
-	async function fetchTheOrders() {
+	async function fetchTheOrders () {
 		try {
-			const results = await fetchAllOrders(baseURL);
-			setOrders(results);
-		} catch (error) {
-			throw error
-		}
+            const orderList = await fetchAllOrders(baseURL);
+            setOrders(orderList);
+        } catch (error) {
+            console.error(error);
+        }
 	}
-	useEffect(() => {
-		fetchTheOrders();
-	}, []);
+	useEffect(fetchTheOrders, []);
 
 	return <div className="orderList">
-		{/* {
+		{
 			orders.map((order) => {
-				const {id, userId, orderDate, deliveryDate, totalPrice} = order;
+				const {id, userId, orderDate, deliveryDate, totalPrice, orderStatus} = order;
 				return <div className="orderListItem" key={id}>
-					{userId}
+					<div>
+						<label>Order ID: </label>{id}<br/>
+						<label>UserId: </label> {userId}<br/>
+						<label>Order Date: </label>{orderDate.slice(0, 10)}<br/>
+						<label>Delivery Date: </label>{!deliveryDate ? "" : deliveryDate.slice(0, 10)}<br/>
+						<label>Total: </label> {'$' + totalPrice}<br />
+						<label>Status: </label> {orderStatus}<br/>
+					</div>
+					<div className="right">		
+						<label>Change Status:</label><br/>
+						<button>Created</button><br/>
+						<button>Processing</button><br/>
+						<button>Cancelled</button><br/>
+						<button>Completed</button><br/>
+					</div>
 				</div>
 			})
-		} */}
-		<div className="orderListItem" key="1">
-			<div>
-				<label>Order ID: </label>0<br/>
-				<label>Username: </label> Gobta<br/>
-				<label>Order Date: </label>1/1/1111<br/>
-				<label>Delivery Date: </label>2/2/2222<br/>
-				<label>Total: </label> $4<br />
-				<label>Status: </label> Complete<br/>
-			</div>
-			<div className="right">		
-				<label>Change Status:</label><br/>
-				<button>Created</button><br/>
-				<button>Processing</button><br/>
-				<button>Cancelled</button><br/>
-				<button>Completed</button><br/>
-			</div>
-		</div>
+		}
 	</div>
 }
 

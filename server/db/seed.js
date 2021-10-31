@@ -272,10 +272,10 @@ async function createInitialOrders() {
         console.log('starting to create orders!')
 
         const ordersToCreate = [
-            { userId: 1, orderDate: '2020-08-15', deliveryDate: '2020-08-23', totalPrice: 1346.25, orderStatus: 'completed' },
-            { userId: 2, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'created'},
-            { userId: 3, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'processing'},
-            { userId: 1, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'cancelled'}
+            { userId: 1, orderDate: '2020-08-15', deliveryDate: '2020-08-23', totalPrice: 1346.25, orderStatus: 'Completed' },
+            { userId: 2, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'Created'},
+            { userId: 3, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'Processing'},
+            { userId: 1, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'Cancelled'}
         ]
 
         const orders = await Promise.all(ordersToCreate.map(createOrder))

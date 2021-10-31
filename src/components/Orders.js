@@ -27,8 +27,9 @@ const Orders = ({userId, username, baseURL}) => {
 						<div key={order.id}>
 							<h2>Order Number: {order.id}</h2>
 							<p>Order Date: {order.orderDate.slice(0, 10)}</p>
-							<p>Delivery Date: {order.deliveryDate.slice(0, 10)}</p>
+							<p>Delivery Date: {!order.deliveryDate ? "None" : order.deliveryDate.slice(0, 10)}</p>
 							<p>Total Price: {`$`+ order.totalPrice}</p>
+							<p>Order Status: {order.orderStatus}</p>
 							<br></br>
 							{order.orderProducts.map((orderProduct) => (
 								<div key={orderProduct.productId} style={{ display: "flex", border: "1px solid black", margin: "10px"}}>

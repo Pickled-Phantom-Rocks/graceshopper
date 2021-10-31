@@ -17,14 +17,14 @@ const Admin = (props) => {
 	const [showNewProduct, setShowNewProduct] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
-	const [showAddToCategory, setShowAddToCategory] = useState(true);
+	const [showAddToCategory, setShowAddToCategory] = useState(false);
 	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(false);
 	const [showNewCategory, setShowNewCategory] = useState(false);
 	const [showEditCategory, setShowEditCategory] = useState(false);
 	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 	const [showUsers, setShowUsers] = useState(false);
-	const [showOrders, setShowOrders] = useState(false);
-	const [showAllOrders, setShowAllOrders] = useState(false);
+	const [showOrders, setShowOrders] = useState(true);
+	const [showAllOrders, setShowAllOrders] = useState(true);
 	const [showOrdersByStatus, setShowOrdersByStatus] = useState(false);
 	const [orderListStatus, setOrderListStatus] = useState('');
 	
@@ -122,22 +122,22 @@ const Admin = (props) => {
 				<button onClick={() => {
 					setShowAllOrders(false);
 					setShowOrdersByStatus(true);
-					setOrderListStatus('created');
+					setOrderListStatus('Created');
 				}}>Created</button>
 				<button onClick={() => {
 					setShowAllOrders(false);
 					setShowOrdersByStatus(true);
-					setOrderListStatus('processing');
+					setOrderListStatus('Processing');
 				}}>Processing</button>
 				<button onClick={() => {
 					setShowAllOrders(false);
 					setShowOrdersByStatus(true);
-					setOrderListStatus('cancelled');
+					setOrderListStatus('Cancelled');
 				}}>Cancelled</button>
 				<button onClick={() => {
 					setShowAllOrders(false);
 					setShowOrdersByStatus(true);
-					setOrderListStatus('completed');
+					setOrderListStatus('Completed');
 				}}>Completed</button></div>}
 		</section>
 		{!showAllOrders ? null : <OrderList baseURL={baseURL} userToken={userToken} />}
