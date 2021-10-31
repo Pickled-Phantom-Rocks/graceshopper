@@ -4,7 +4,6 @@ import {fetchAllOrders, changeStatus} from '.';
 const OrderList = (props) => {
 	const {baseURL, userToken} = props;
 	const [orders, setOrders] = useState([]);
-	const [newStatus, setNewStatus] = useState('');
 
 	async function fetchTheOrders () {
 		try {
@@ -16,13 +15,18 @@ const OrderList = (props) => {
 	}
 	useEffect(fetchTheOrders, []);
 
+	async function ChangeStatus(orderId, newStatus){
+		event.preventDefault();
+		changeStatus(baseURL, userToken, orderId, newStatus);
+	}
+
 	return <div className="orderList">
 		{
 			orders.map((order) => {
-				const {id, userId, orderDate, deliveryDate, totalPrice, orderStatus} = order;
-				return <div className="orderListItem" key={id}>
+				const {id: orderId, userId, orderDate, deliveryDate, totalPrice, orderStatus} = order;
+				return <div className="orderListItem" key={orderId}>
 					<div>
-						<label>Order ID: </label>{id}<br/>
+						<label>Order ID: </label>{orderId}<br/>
 						<label>UserId: </label> {userId}<br/>
 						<label>Order Date: </label>{orderDate.slice(0, 10)}<br/>
 						<label>Delivery Date: </label>{!deliveryDate ? "" : deliveryDate.slice(0, 10)}<br/>
@@ -31,10 +35,18 @@ const OrderList = (props) => {
 					</div>
 					<div className="right">		
 						<label>Change Status:</label><br/>
-						<button>Created</button><br/>
-						<button>Processing</button><br/>
-						<button>Cancelled</button><br/>
-						<button>Completed</button><br/>
+						<button onClick={()=>{
+							ChangeStatus(orderId, 'Created');
+						}}>Created</button><br/>
+						<button onClick={()=>{
+							ChangeStatus(orderId, 'Processing');
+						}}>Processing</button><br/>
+						<button onClick={()=>{
+							ChangeStatus(orderId, 'Cancelled');
+						}}>Cancelled</button><br/>
+						<button onClick={()=>{
+							ChangeStatus(orderId, 'Completed');
+						}}>Completed</button><br/>
 					</div>
 				</div>
 			})

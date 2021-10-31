@@ -13,7 +13,8 @@ const {
     getOrder_ProductsByOrderId,
     getAllOrdersByUserId,
     getProductById,
-    getOrdersWithoutProducts
+    getOrdersWithoutProducts,
+    updateOrderStatus
 } = require('../db');
 
 ordersRouter.use((req, res, next) => {
@@ -119,6 +120,23 @@ ordersRouter.patch('/:orderId', async (req, res, next) => {
     }
 });
 
+ordersRouter.patch('/:orderId/status', async (req, res, next) => {
+    const { orderId } = req.params;
+    console.log('api', orderId);
+    const {orderStatus} = req.body;
+    console.log('api', orderStatus);
+    try {
+        const updated = await updateOrderStatus(orderId, orderStatus);
+        if(updated){
+            res.send({
+                status: 204,
+                message: "Order status successfully changed."
+            })
+        }
+    } catch(error) {
+        next(error);
+    }
+})
 ordersRouter.delete('/:orderId'), async ( req, res, next) => {
     const { orderId } = req.params;
     try {

@@ -27,7 +27,7 @@ async function fetchOrderList (userId, baseURL) {
 			}
 		  });
 		const data = await result.json();
-		console.log("FROM UTILS:", data);
+		//console.log("FROM UTILS:", data);
 		return data;
 	} catch (error) {
 		console.error(error);

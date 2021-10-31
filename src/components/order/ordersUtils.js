@@ -16,25 +16,41 @@ async function fetchAllOrders(baseURL) {
 	}
 }
 
+async function fetchOrdersByStatus(baseURL, orderStatus) {
+	try {
+		const response = await fetch(`${baseURL}/orders/${orderStatus}`, {
+			method: 'GET',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(res => res.json())
+		.then((result) => {
+			return result;
+		})
+		return response;
+	} catch(error) {
+		throw error
+	}
+}
+
 async function changeStatus(baseURL, userToken, orderId, newStatus){
 	try {
-		const response = await fetch(`${baseURL}/orders/${orderId}`, {
-			method: 'GET',
+		const orderStatus = newStatus;
+		const response = await fetch(`${baseURL}/orders/${orderId}/status`, {
+			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${userToken}`
 			},
 			body: JSON.stringify({
-				newStatus
+				orderStatus
 			})
 		})
 		.then(res => res.json())
 		.then((result) => {
-			console.log(result)
-
-
-			//alert("Order's status has successfully changed.");
-			//location.reload();
+			if(result.status){
+				alert("Order's status has successfully changed.");
+				location.reload();
+			}
 		})
 		.catch(err => console.error(err));
 	} catch(error) {
@@ -43,5 +59,6 @@ async function changeStatus(baseURL, userToken, orderId, newStatus){
 }
 export {
 	fetchAllOrders,
+	fetchOrdersByStatus,
 	changeStatus
 };

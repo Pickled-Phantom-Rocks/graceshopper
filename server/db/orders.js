@@ -205,6 +205,33 @@ async function getAllOrdersByUserId( userId ) {
 //     }
 // }
 
+async function getOrdersByStatus(orderStatus) {
+    try {
+        const { rows: orders } = await client.query(`
+            SELECT *
+            FROM orders
+            WHERE "orderStatus"=$1;
+        `, [orderStatus]);
+        return orders;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function updateOrderStatus(id, orderStatus) {
+    try {
+        const { rows: [order] } = await client.query(`
+            UPDATE orders
+            SET "orderStatus"=$1
+            WHERE id=${id}
+            RETURNING *;
+        `, [orderStatus]);
+        return order;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     createOrder,
     getOrdersByUserId,
@@ -213,5 +240,7 @@ module.exports = {
     deleteOrder,
     getOrdersWithoutProducts,
     getAllOrders,
-    getAllOrdersByUserId
+    getAllOrdersByUserId,
+    getOrdersByStatus,
+    updateOrderStatus
 }
