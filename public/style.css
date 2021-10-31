@@ -91,10 +91,12 @@ section {
 }
 .form {
 	border:1px solid purple;
-	padding:10px;
-	width:auto;
 	max-width: 400px;
 	margin: 0 auto 10px auto;
+}
+form {
+	padding:10px;
+	width:auto;
 }
 label {
 	font-weight:bold;
@@ -113,12 +115,14 @@ select option:checked, select option:hover {
 #products select {
 	width:auto;
 }
-.userListItem, .orderListItem {
+.listItem {
+	border: 1px solid purple;
 	margin-bottom:10px;
+}
+.userListItem, .orderListItem {
 	padding:10px;
 	display:flex;
 	justify-content: space-between;
-	border: 1px solid purple;
 }
 .userListItem {
 	align-items: center;

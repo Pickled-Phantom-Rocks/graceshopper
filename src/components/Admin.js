@@ -14,7 +14,7 @@ import {NewProduct,
 
 const Admin = (props) => {
 	const {baseURL, userToken} = props;
-	const [showNewProduct, setShowNewProduct] = useState(false);
+	const [showNewProduct, setShowNewProduct] = useState(true);
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
 	const [showAddToCategory, setShowAddToCategory] = useState(false);
@@ -23,8 +23,8 @@ const Admin = (props) => {
 	const [showEditCategory, setShowEditCategory] = useState(false);
 	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 	const [showUsers, setShowUsers] = useState(false);
-	const [showOrders, setShowOrders] = useState(true);
-	const [showAllOrders, setShowAllOrders] = useState(true);
+	const [showOrders, setShowOrders] = useState(false);
+	const [showAllOrders, setShowAllOrders] = useState(false);
 	const [showOrdersByStatus, setShowOrdersByStatus] = useState(false);
 	const [orderListStatus, setOrderListStatus] = useState('');
 	
@@ -142,7 +142,7 @@ const Admin = (props) => {
 		</section>
 		{!showAllOrders ? null : <OrderList baseURL={baseURL} userToken={userToken} />}
 		{!showOrdersByStatus ? null : <OrdersByStatus baseURL={baseURL} userToken={userToken} orderListStatus={orderListStatus} />}
-		<p>Add pagination so only ten users at a time are shown.</p>
+		<p>Add pagination so only ten items at a time are shown.</p>
 	</div>
 }
 

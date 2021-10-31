@@ -24,9 +24,10 @@ const OrderList = (props) => {
 		{
 			orders.map((order) => {
 				const {id: orderId, userId, orderDate, deliveryDate, totalPrice, orderStatus} = order;
-				return <div className="orderListItem" key={orderId}>
-					<div>
-						<label>Order ID: </label>{orderId}<br/>
+				return <div  className="listItem" key={orderId}>
+					<h3>Order ID: {orderId}</h3>
+					<div className="orderListItem">
+					<div >
 						<label>UserId: </label> {userId}<br/>
 						<label>Order Date: </label>{orderDate.slice(0, 10)}<br/>
 						<label>Delivery Date: </label>{!deliveryDate ? "" : deliveryDate.slice(0, 10)}<br/>
@@ -47,6 +48,7 @@ const OrderList = (props) => {
 						<button onClick={()=>{
 							ChangeStatus(orderId, 'Completed');
 						}}>Completed</button><br/>
+					</div>
 					</div>
 				</div>
 			})
