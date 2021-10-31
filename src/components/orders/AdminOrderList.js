@@ -2,26 +2,25 @@ import React, { useState, useEffect } from 'react';
 import {
     useHistory
 } from "react-router-dom";
-import { fetchOrderList } from './utils';
+import { fetchAdminOrders } from './ordersUtils';
 
-const Orders = ({userId, username, baseURL}) => {
-	let history = useHistory();
-	const [orders, setOrders] = useState([]);
+const AdminOrderList = (props) => {
+    const {baseURL} = props;
+    let history = useHistory();
+	const [orders, setOrders] = useState(false);
 
-	async function getOrders () {
+	async function getAdminOrders () {
 		try {
-			console.log("Should be a 1:", userId);
-            const orderList = await fetchOrderList(userId, baseURL);
+            const orderList = await fetchAdminOrders(baseURL);
 			console.log(orderList);
             setOrders(orderList);
         } catch (error) {
             console.error(error);
         }
 	}
-	useEffect(getOrders, []);
-
-	return <div id="orders">
-				<h1>Orders</h1>
+	useEffect(getAdminOrders, []);
+	
+	return <div id="adminOrders">
 				{orders ? 
 					orders.map((order) => (
 						<div key={order.id}>
@@ -29,7 +28,7 @@ const Orders = ({userId, username, baseURL}) => {
 							<p>Order Date: {order.orderDate.slice(0, 10)}</p>
 							<p>Delivery Date: {order.deliveryDate.slice(0, 10)}</p>
 							<p>Total Price: {`$`+ order.totalPrice}</p>
-							<br></br>
+							<br/>
 							{order.orderProducts.map((orderProduct) => (
 								<div key={orderProduct.productId} style={{ display: "flex", border: "1px solid black", margin: "10px"}}>
 									<img src={process.env.PUBLIC_URL + "images/Products/" + orderProduct.photoName + ".jpg"} width="150px" height="100px"/>
@@ -49,4 +48,4 @@ const Orders = ({userId, username, baseURL}) => {
 			</div>
 }
 
-export default Orders;
+export default AdminOrderList;

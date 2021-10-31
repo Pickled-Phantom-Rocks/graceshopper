@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {NewProduct, EditProduct, DeleteProduct, AddProduct, RemoveProduct, NewCategory, EditCategory, DeleteCategory, UserList} from '.';
+import { AdminOrderList } from './orders';
 
 const Admin = (props) => {
 	const {baseURL, userToken} = props;
@@ -90,6 +91,7 @@ const Admin = (props) => {
 		<p>Add pagination so only ten users at a time are shown.</p>
 		<h2>Orders</h2>
 		<section className="userOptions">
+			<AdminOrderList baseURL={baseURL}/>
 			<button>View All Orders</button>
 			<button>Change Order Status</button>
 			<p>Will need to be able to filter orders by status on the view</p>
