@@ -14,7 +14,8 @@ const {
     getAllOrdersByUserId,
     getProductById,
     getOrdersWithoutProducts,
-    updateOrderStatus
+    updateOrderStatus,
+    getOrdersByStatus
 } = require('../db');
 
 ordersRouter.use((req, res, next) => {
@@ -120,11 +121,19 @@ ordersRouter.patch('/:orderId', async (req, res, next) => {
     }
 });
 
+ordersRouter.delete('/:orderId'), async ( req, res, next) => {
+    const { orderId } = req.params;
+    try {
+        const orderToDelete = await deleteOrder(orderId);
+        res.send(orderToDelete);
+    } catch (e) {
+        throw e;
+    }
+}
+
 ordersRouter.patch('/:orderId/status', async (req, res, next) => {
     const { orderId } = req.params;
-    console.log('api', orderId);
     const {orderStatus} = req.body;
-    console.log('api', orderStatus);
     try {
         const updated = await updateOrderStatus(orderId, orderStatus);
         if(updated){
@@ -137,16 +146,15 @@ ordersRouter.patch('/:orderId/status', async (req, res, next) => {
         next(error);
     }
 })
-ordersRouter.delete('/:orderId'), async ( req, res, next) => {
-    const { orderId } = req.params;
+
+ordersRouter.get('/:orderStatus/status', async (req, res, next) => {
+    const {orderStatus} = req.params;
     try {
-        const orderToDelete = await deleteOrder(orderId);
-        res.send(orderToDelete);
-    } catch (e) {
-        throw e;
+        const orders = await getOrdersByStatus(orderStatus);
+        res.send(orders);
+    } catch(error) {
+        next(error);
     }
-}
-
-
+})
 
 module.exports = ordersRouter;

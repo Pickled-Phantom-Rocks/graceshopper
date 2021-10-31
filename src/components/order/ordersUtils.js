@@ -18,7 +18,7 @@ async function fetchAllOrders(baseURL) {
 
 async function fetchOrdersByStatus(baseURL, orderStatus) {
 	try {
-		const response = await fetch(`${baseURL}/orders/${orderStatus}`, {
+		const response = await fetch(`${baseURL}/orders/${orderStatus}/status`, {
 			method: 'GET',
 			headers: {'Content-Type': 'application/json'}
 		})
