@@ -71,7 +71,7 @@ async function getCategoryProductsByProduct(productId) {
 			FROM category_products
 			WHERE "productId"=$1;
 		`, [productId]);
-		return 'test';
+		return categoryProducts;
 	} catch(error) {
 		throw error;
 	}

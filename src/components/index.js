@@ -26,3 +26,8 @@ export {
 	EditCategory,
 	DeleteCategory
 } from './categories';
+
+export {
+	OrderList,
+	OrdersByStatus
+} from './order';

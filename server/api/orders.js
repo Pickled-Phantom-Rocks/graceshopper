@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
 const {
-    //getOrdersByUserId,
     getOrderById,
     createOrder,
     updateOrder,
@@ -13,7 +12,8 @@ const {
     getUserByUsername,
     getOrder_ProductsByOrderId,
     getAllOrdersByUserId,
-    getProductById
+    getProductById,
+    getOrdersWithoutProducts
 } = require('../db');
 
 ordersRouter.use((req, res, next) => {
@@ -23,7 +23,7 @@ ordersRouter.use((req, res, next) => {
 
 ordersRouter.get('/', async ( req, res, next) => {
     try {
-        const allOrders = await getAllOrders();
+        const allOrders = await getOrdersWithoutProducts();
         res.send(allOrders);
     } catch (e) {
         next(e);

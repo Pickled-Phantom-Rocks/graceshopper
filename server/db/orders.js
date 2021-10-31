@@ -85,7 +85,7 @@ async function getOrdersWithoutProducts () {
     } catch (e) {
         throw e;
     }
-}
+} 
 
 async function getOrdersByUserId( userId ) {
     if(!userId){
