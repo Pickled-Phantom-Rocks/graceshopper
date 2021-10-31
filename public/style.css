@@ -99,6 +99,17 @@ section {
 label {
 	font-weight:bold;
 }
+select {
+	width:100%;
+	border-color:purple;
+	padding:5px;
+}
+select option {
+	padding:3px;
+}
+select option:checked, select option:hover {
+	background-color:orange;
+}
 .userListItem, .orderListItem {
 	margin-bottom:10px;
 	padding:10px;

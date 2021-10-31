@@ -35,7 +35,7 @@ const DeleteProduct = (props) => {
 		<h3>Delete Product</h3>
 		<br />
 		<form onSubmit={deleteTheProduct}>
-			<select id="productSelect" size="10">
+			<select id="productSelect" size="5">
 				{
 					products.map((product) => {
 						const { id, name } = product;

@@ -5,15 +5,15 @@ async function createOrder({
     userId,
     orderDate,
     deliveryDate,
-    totalPrice
+    totalPrice,
+    orderStatus
 }) {
     try {
         const { rows: [order] } = await client.query(`
-            INSERT INTO orders( "userId", "orderDate", "deliveryDate", "totalPrice") 
-            VALUES($1, $2, $3, $4) 
-            RETURNING id, "userId", "orderDate", "deliveryDate", "totalPrice";
-      `, [userId, orderDate, deliveryDate, totalPrice]);
-        console.log("CREATE ORDER:", order);
+            INSERT INTO orders( "userId", "orderDate", "deliveryDate", "totalPrice", "orderStatus") 
+            VALUES($1, $2, $3, $4, $5) 
+            RETURNING id, "userId", "orderDate", "deliveryDate", "totalPrice", "orderStatus";
+      `, [userId, orderDate, deliveryDate, totalPrice, orderStatus]);
         return order;
     } catch (error) {
         throw error;
