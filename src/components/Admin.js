@@ -14,7 +14,7 @@ import {NewProduct,
 
 const Admin = (props) => {
 	const {baseURL, userToken} = props;
-	const [showNewProduct, setShowNewProduct] = useState(true);
+	const [showNewProduct, setShowNewProduct] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
 	const [showAddToCategory, setShowAddToCategory] = useState(false);
@@ -23,9 +23,8 @@ const Admin = (props) => {
 	const [showEditCategory, setShowEditCategory] = useState(false);
 	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 	const [showUsers, setShowUsers] = useState(false);
-	const [showOrders, setShowOrders] = useState(false);
-	const [showAllOrders, setShowAllOrders] = useState(false);
-	const [showOrdersByStatus, setShowOrdersByStatus] = useState(false);
+	const [showOrders, setShowOrders] = useState(true);
+	const [showAllOrders, setShowAllOrders] = useState(true);
 	const [orderListStatus, setOrderListStatus] = useState('');
 	
 	return <div className="adminPanel">
@@ -115,33 +114,27 @@ const Admin = (props) => {
 			{ !showOrders ? null : <div>
 				<br/>
 				<button onClick={() => {
-					setShowAllOrders(true);
-					setShowOrdersByStatus(false);
 					setOrderListStatus('');
+					setShowAllOrders(true);
 				}}>All</button>
 				<button onClick={() => {
-					setShowAllOrders(false);
-					setShowOrdersByStatus(true);
 					setOrderListStatus('Created');
+					setShowAllOrders(false);
 				}}>Created</button>
 				<button onClick={() => {
-					setShowAllOrders(false);
-					setShowOrdersByStatus(true);
 					setOrderListStatus('Processing');
+					setShowAllOrders(false);
 				}}>Processing</button>
 				<button onClick={() => {
-					setShowAllOrders(false);
-					setShowOrdersByStatus(true);
 					setOrderListStatus('Cancelled');
+					setShowAllOrders(false);
 				}}>Cancelled</button>
 				<button onClick={() => {
-					setShowAllOrders(false);
-					setShowOrdersByStatus(true);
 					setOrderListStatus('Completed');
+					setShowAllOrders(false);
 				}}>Completed</button></div>}
 		</section>
-		{!showAllOrders ? null : <OrderList baseURL={baseURL} userToken={userToken} />}
-		{!showOrdersByStatus ? null : <OrdersByStatus baseURL={baseURL} userToken={userToken} orderListStatus={orderListStatus} />}
+		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : <OrdersByStatus baseURL={baseURL} userToken={userToken} orderListStatus={orderListStatus} />}
 		<p>Add pagination so only ten items at a time are shown.</p>
 	</div>
 }

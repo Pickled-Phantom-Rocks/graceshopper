@@ -8,6 +8,11 @@ body {
 	width:100%;
 	background-image: url(./images/439767.jpg);
 }
+a {
+	text-decoration: none;
+	color:black;
+	border:none;
+}
 h1, h2, h3, .navLink {
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
@@ -128,22 +133,26 @@ select option:checked, select option:hover {
 	align-items: center;
 }
 .productList {
-	display:flex;
 	border: 1px solid purple;
 	margin-bottom:10px;
 }
 .productList img, .singleProduct img {
 	width:156px;
-	height:156px;
+	max-height:156px;
+}
+.productListInner {
+	padding:5px 5px 1px 5px;
+	display:flex;
+	justify-content: space-between;
+	width:100%;
+	border-bottom: 1px solid purple;
+}
+.productListInfo {
+	width:100%;
+	text-align:justify;
+	padding: 0 5px;
 }
 .right {
-	text-align: right;
-}
-.productInfo {
-	width:100%;
-	padding:5px;
-}
-.productOptions {
 	text-align: right;
 }
 footer {

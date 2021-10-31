@@ -45,23 +45,24 @@ const ProductList = (props) => {
 						setSingleProductId(productId);
 						setShowAllProducts(false);
 						setShowProductsByCategory(false);
-					}}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
-					<div className="productInfo">
-					<Link to="/products" onClick={()=>{
+					}}><h3>{name}</h3></Link>
+					<div className="productListInner">
+						<Link to="/products" onClick={()=>{
 						setShowSingleProduct(true);
 						setSingleProductId(productId);
 						setShowAllProducts(false);
 						setShowProductsByCategory(false);
-					}}><h3>{name}</h3></Link>
-						<label>Description:</label> {description}<br/>
-						<label>Quantity:</label> {quantityAvailable}<br/>
-						<label>Price:</label> {"$" + price}<br/>
-					<section className="productOptions">
+						}}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
+						<div className="productListInfo">
+							<label>Description:</label> {description}<br/>
+							<label>Quantity:</label> {quantityAvailable}<br/>
+							<label>Price:</label> {"$" + price}
+						</div>
+					</div>
+					<section className="userOptions">
 						<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
 						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
 					</section>
-
-					</div>
 				</div>
 			})
 		}
