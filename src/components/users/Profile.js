@@ -30,7 +30,11 @@ const Profile = (props) => {
 		{!showEditBilling ? null: <EditUserBilling baseURL={baseURL} userToken={userToken} userId={userId} userId={userId}/>}
 		{!showNewPassword ? null : <EditPassword baseURL={baseURL} userToken={userToken} userId={userId}/>}
 		<section>
-			<h2>My Past Orders</h2>
+			<h2>Open Orders</h2>
+			stuff...
+		</section>
+		<section>
+			<h2>Closed Orders</h2>
 			stuff...
 		</section>
 	</div>
