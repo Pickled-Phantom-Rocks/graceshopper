@@ -22,7 +22,7 @@ const Orders = ({userId, username, baseURL}) => {
 	if (orders === []) {
 		setOrders(null);
 	}
-	
+
 	return <div id="orders">
 				<h1>Orders</h1>
 				{orders ? 
@@ -30,7 +30,7 @@ const Orders = ({userId, username, baseURL}) => {
 						<div key={order.id}>
 							<h2>Order Number: {order.id}</h2>
 							<p>Order Date: {order.orderDate.slice(0, 10)}</p>
-							<p>Delivery Date: {order.deliveryDate.slice(0, 10)}</p>
+							<p>Delivery Date: {!order.deliveryDate ? "None" : order.deliveryDate.slice(0, 10)}</p>
 							<p>Total Price: {`$`+ order.totalPrice}</p>
 							<br/>
 							{order.orderProducts.map((orderProduct) => (

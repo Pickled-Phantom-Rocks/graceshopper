@@ -49,7 +49,8 @@ const RemoveProduct = (props) => {
 		<h3>Remove a Product from a Category</h3>
 		<br/>
 		<form onSubmit={removeTheProduct}>
-			<select id="categorySelect" size="10">
+			<label>Categories</label>
+			<select id="categorySelect" size="5">
 				{
 					categories.map((category) => {
 						const { id, name } = category;
@@ -57,7 +58,9 @@ const RemoveProduct = (props) => {
 					})
 				}
 			</select>
-			<select id="productSelect" size="10">
+			<br/><br/>
+			<label>Products: </label>
+			<select id="productSelect" size="5">
 				{
 					products.map((product) => {
 						const { id, name } = product;

@@ -1,4 +1,5 @@
 import {React, useState, useEffect} from 'react';
+import {fetchCategoriesByProductID, fetchCategoryById} from '../categories/categoryUtils'
 
 async function fetchProducts(baseURL) {
 	try {
@@ -8,22 +9,22 @@ async function fetchProducts(baseURL) {
 		})
 		const data = await result.json();
 
-		data.map((p) => {
-			const cat = fetch(`${baseURL}/category_products/${p.id}`, {
-				method: 'GET',
-				headers: { 'Content-Type': 'application/json' }
+		data.map(async (p) => {
+			const cats = await fetchCategoriesByProductID(baseURL, p.id);
+			p.categories = cats;
+			cats.map(async (categoryId) => {
+				const result = await fetch(`${baseURL}/categories/${categoryId}`, {
+					method: 'GET',
+					headers: {'Content-Type': 'application/json'}
+				})
+				.then((result) => {
+					console.log('result', result);
+				})
+				.catch(console.error)
 			})
-			.then(res => res.json())
-			.then(result => {
-				const cats = [];
-				if(result.length != 0){
-					result.map((c)=>{
-						cats.push(c.categoryId);
-					})
-				}
-				p.categories = cats;
-			})
+		
 		})
+
 		return data;
 	} catch (error) {
 		throw error
@@ -38,8 +39,10 @@ const fetchProductById = (baseURL, productId) => {
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(res => res.json())
-		.then((result) => {
+		.then(async (result) => {
 			const response = result;
+			const category = await fetchCategoriesByProductID(baseURL, response.id);
+			response.categories = category;
 			setProduct(response);
 		})
 		.catch(console.error)

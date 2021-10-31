@@ -37,7 +37,7 @@ const EditProduct = (props) => {
 		<h3>Edit Product</h3>
 		<br/>
 		<form onSubmit={sendEditProduct}>
-			<select id="productSelect" size="10">
+			<select id="productSelect" size="5">
 				{
 					products.map((product) => {
 						const { id, name } = product;

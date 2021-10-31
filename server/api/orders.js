@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
 const {
-    //getOrdersByUserId,
     getOrderById,
     createOrder,
     updateOrder,
@@ -13,7 +12,10 @@ const {
     getUserByUsername,
     getOrder_ProductsByOrderId,
     getAllOrdersByUserId,
-    getProductById
+    getProductById,
+    getOrdersWithoutProducts,
+    updateOrderStatus,
+    getOrdersByStatus
 } = require('../db');
 
 ordersRouter.use((req, res, next) => {
@@ -23,7 +25,7 @@ ordersRouter.use((req, res, next) => {
 
 ordersRouter.get('/', async ( req, res, next) => {
     try {
-        const allOrders = await getAllOrders();
+        const allOrders = await getOrdersWithoutProducts();
         res.send(allOrders);
     } catch (e) {
         next(e);
@@ -129,6 +131,30 @@ ordersRouter.delete('/:orderId'), async ( req, res, next) => {
     }
 }
 
+ordersRouter.patch('/:orderId/status', async (req, res, next) => {
+    const { orderId } = req.params;
+    const {orderStatus} = req.body;
+    try {
+        const updated = await updateOrderStatus(orderId, orderStatus);
+        if(updated){
+            res.send({
+                status: 204,
+                message: "Order status successfully changed."
+            })
+        }
+    } catch(error) {
+        next(error);
+    }
+})
 
+ordersRouter.get('/:orderStatus/status', async (req, res, next) => {
+    const {orderStatus} = req.params;
+    try {
+        const orders = await getOrdersByStatus(orderStatus);
+        res.send(orders);
+    } catch(error) {
+        next(error);
+    }
+})
 
 module.exports = ordersRouter;

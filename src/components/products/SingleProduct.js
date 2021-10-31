@@ -1,5 +1,6 @@
 import {React, useState, useEffect} from 'react';
 import {fetchProductById} from '.';
+import {fetchCategoryById} from '../categories';
 
 const SingleProduct = (props) => {
 	const {baseURL, singleProductId, updateUsersCart} = props;

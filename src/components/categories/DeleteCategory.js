@@ -30,7 +30,7 @@ const DeleteCategory = (props) => {
 		<h3>Delete a Category</h3>
 		<br/>
 		<form onSubmit={deleteTheCategory}>
-			<select id="categorySelect" size="10">
+			<select id="categorySelect" size="5">
 				{
 					categories.map((category) => {
 						const { id, name } = category;

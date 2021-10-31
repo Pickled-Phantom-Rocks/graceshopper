@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import {NewProduct, EditProduct, DeleteProduct, AddProduct, RemoveProduct, NewCategory, EditCategory, DeleteCategory, UserList} from '.';
 import { AdminOrderList } from './orders';
+import {NewProduct, 
+	EditProduct, 
+	DeleteProduct, 
+	AddProduct, 
+	RemoveProduct, 
+	NewCategory, 
+	EditCategory, 
+	DeleteCategory, 
+	UserList, 
+	OrderList,
+	OrdersByStatus
+} from '.';
 
 const Admin = (props) => {
 	const {baseURL, userToken} = props;
@@ -13,6 +24,10 @@ const Admin = (props) => {
 	const [showEditCategory, setShowEditCategory] = useState(false);
 	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 	const [showUsers, setShowUsers] = useState(false);
+	const [showOrders, setShowOrders] = useState(true);
+	const [showAllOrders, setShowAllOrders] = useState(true);
+	const [showOrdersByStatus, setShowOrdersByStatus] = useState(false);
+	const [orderListStatus, setOrderListStatus] = useState('');
 	
 	return <div className="adminPanel">
 		<h1>Admin Panel</h1>
@@ -88,7 +103,6 @@ const Admin = (props) => {
 			{showUsers? <button onClick={()=> setShowUsers(false)}>Hide</button> : <button onClick={()=> setShowUsers(true)}>Show User List</button>}
 		</section>
 		{!showUsers ? null : <UserList baseURL={baseURL} userToken={userToken} />}
-		<p>Add pagination so only ten users at a time are shown.</p>
 		<h2>Orders</h2>
 		<section className="userOptions">
 			<AdminOrderList baseURL={baseURL}/>
@@ -96,7 +110,45 @@ const Admin = (props) => {
 			<button>Change Order Status</button>
 			<p>Will need to be able to filter orders by status on the view</p>
 			<p>Order statuses should be: Created, Processing, Cancelled, Completed</p>
+			{ showOrders ? <button onClick={()=> {
+				setShowOrders(false);
+				setShowAllOrders(false);
+				setShowOrdersByStatus(false);
+			}}>Hide Orders</button> : <button onClick={()=> {
+				setShowOrders(true);
+				setShowAllOrders(true);
+			}}>View All Orders</button>}
+			{ !showOrders ? null : <div>
+				<br/>
+				<button onClick={() => {
+					setShowAllOrders(true);
+					setShowOrdersByStatus(false);
+					setOrderListStatus('');
+				}}>All</button>
+				<button onClick={() => {
+					setShowAllOrders(false);
+					setShowOrdersByStatus(true);
+					setOrderListStatus('Created');
+				}}>Created</button>
+				<button onClick={() => {
+					setShowAllOrders(false);
+					setShowOrdersByStatus(true);
+					setOrderListStatus('Processing');
+				}}>Processing</button>
+				<button onClick={() => {
+					setShowAllOrders(false);
+					setShowOrdersByStatus(true);
+					setOrderListStatus('Cancelled');
+				}}>Cancelled</button>
+				<button onClick={() => {
+					setShowAllOrders(false);
+					setShowOrdersByStatus(true);
+					setOrderListStatus('Completed');
+				}}>Completed</button></div>}
 		</section>
+		{!showAllOrders ? null : <OrderList baseURL={baseURL} userToken={userToken} />}
+		{!showOrdersByStatus ? null : <OrdersByStatus baseURL={baseURL} userToken={userToken} orderListStatus={orderListStatus} />}
+		<p>Add pagination so only ten users at a time are shown.</p>
 	</div>
 }
 

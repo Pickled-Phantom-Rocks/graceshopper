@@ -5,15 +5,15 @@ async function createOrder({
     userId,
     orderDate,
     deliveryDate,
-    totalPrice
+    totalPrice,
+    orderStatus
 }) {
     try {
         const { rows: [order] } = await client.query(`
-            INSERT INTO orders( "userId", "orderDate", "deliveryDate", "totalPrice") 
-            VALUES($1, $2, $3, $4) 
-            RETURNING id, "userId", "orderDate", "deliveryDate", "totalPrice";
-      `, [userId, orderDate, deliveryDate, totalPrice]);
-        console.log("CREATE ORDER:", order);
+            INSERT INTO orders( "userId", "orderDate", "deliveryDate", "totalPrice", "orderStatus") 
+            VALUES($1, $2, $3, $4, $5) 
+            RETURNING id, "userId", "orderDate", "deliveryDate", "totalPrice", "orderStatus";
+      `, [userId, orderDate, deliveryDate, totalPrice, orderStatus]);
         return order;
     } catch (error) {
         throw error;
@@ -80,7 +80,7 @@ async function deleteOrder (orderId) {
     } catch (e) {
         throw e;
     }
-}
+} 
 
 async function getOrdersByUserId( userId ) {
     if(!userId){
@@ -147,6 +147,33 @@ async function getAllOrdersByUserId( userId ) {
     }
 }
 
+async function getOrdersByStatus(orderStatus) {
+    try {
+        const { rows: orders } = await client.query(`
+            SELECT *
+            FROM orders
+            WHERE "orderStatus"=$1;
+        `, [orderStatus]);
+        return orders;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function updateOrderStatus(id, orderStatus) {
+    try {
+        const { rows: [order] } = await client.query(`
+            UPDATE orders
+            SET "orderStatus"=$1
+            WHERE id=${id}
+            RETURNING *;
+        `, [orderStatus]);
+        return order;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     createOrder,
     getOrdersByUserId,
@@ -154,5 +181,7 @@ module.exports = {
     updateOrder,
     deleteOrder,
     getAllOrders,
-    getAllOrdersByUserId
+    getAllOrdersByUserId,
+    getOrdersByStatus,
+    updateOrderStatus
 }

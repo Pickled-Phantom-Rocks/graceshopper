@@ -33,7 +33,7 @@ const EditCategory = (props) => {
 		<h3>Edit Category</h3>
 		<br/>
 		<form onSubmit={sendEditCategory}>
-		<select id="categorySelect" size="10">
+		<select id="categorySelect" size="5">
 				{
 					categories.map((category) => {
 						const { id, name } = category;
@@ -41,7 +41,7 @@ const EditCategory = (props) => {
 					})
 				}
 			</select><br/><br/>
-			<label>Name: </label><br/>
+			<label>New Name: </label><br/>
 			<input
 				className="newInputLine"
 				type="text"

@@ -43,7 +43,8 @@ const AddProduct = (props) => {
 		<h3>Add a Product to a Category</h3>
 		<br/>
 		<form onSubmit={createCategoryProduct}>
-			<select id="productSelect" size="10">
+			<label>Products: </label><br />
+			<select id="productSelect" size="5">
 				{
 					products.map((product) => {
 						const { id, name } = product;
@@ -51,7 +52,9 @@ const AddProduct = (props) => {
 					})
 				}
 			</select>
-			<select id="categorySelect" size="10">
+			<br/><br/>
+			<label>Categories: </label>
+			<select id="categorySelect" size="5">
 				{
 					categories.map((category) => {
 						const { id, name } = category;

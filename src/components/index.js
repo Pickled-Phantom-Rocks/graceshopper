@@ -29,4 +29,9 @@ export {
 export {
 	Orders,
 	AdminOrderList
-} from './orders'
+} from './orders';
+
+export {
+	OrderList,
+	OrdersByStatus
+} from './order';

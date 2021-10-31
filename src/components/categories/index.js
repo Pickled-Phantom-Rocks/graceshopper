@@ -5,6 +5,7 @@ export {default as DeleteCategory} from './DeleteCategory';
 export {
 	fetchCategories,
 	fetchCategoryById,
+	fetchCategoriesByProductID,
 	newCategory,
 	editCategory,
 	deleteCategory

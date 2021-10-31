@@ -29,6 +29,10 @@ h3 {
 	padding:5px;
 	background-color:orange;
 }
+button {
+	padding:3px;
+	margin:3px 0;
+}
 #app {
 	display:grid;
     grid-template-columns: 1fr;
@@ -95,13 +99,26 @@ section {
 label {
 	font-weight:bold;
 }
-.userListItem {
+select {
+	width:100%;
+	border-color:purple;
+	padding:5px;
+}
+select option {
+	padding:3px;
+}
+select option:checked, select option:hover {
+	background-color:orange;
+}
+.userListItem, .orderListItem {
 	margin-bottom:10px;
 	padding:10px;
 	display:flex;
 	justify-content: space-between;
-	align-items: center;
 	border: 1px solid purple;
+}
+.userListItem {
+	align-items: center;
 }
 .productList {
 	display:flex;
@@ -111,6 +128,9 @@ label {
 .productList img, .singleProduct img {
 	width:156px;
 	height:156px;
+}
+.right {
+	text-align: right;
 }
 .productInfo {
 	width:100%;

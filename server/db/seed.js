@@ -84,7 +84,8 @@ async function createTables() {
         "userId" INTEGER REFERENCES users(id),
         "orderDate" DATE NOT NULL,
         "deliveryDate" DATE DEFAULT NULL,
-        "totalPrice" DECIMAL
+        "totalPrice" DECIMAL,
+        "orderStatus" VARCHAR(255)
     );
 
     CREATE TABLE order_products(
@@ -271,7 +272,10 @@ async function createInitialOrders() {
         console.log('starting to create orders!')
 
         const ordersToCreate = [
-            { userId: 1, orderDate: '2020-08-15', deliveryDate: '2020-08-23', totalPrice: 1346.25 }
+            { userId: 1, orderDate: '2020-08-15', deliveryDate: '2020-08-23', totalPrice: 1346.25, orderStatus: 'Completed' },
+            { userId: 2, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'Created'},
+            { userId: 3, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'Processing'},
+            { userId: 1, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'Cancelled'}
         ]
 
         const orders = await Promise.all(ordersToCreate.map(createOrder))
