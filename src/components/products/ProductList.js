@@ -35,9 +35,7 @@ const ProductList = (props) => {
 	return <div className="productPageList">
 		{
 			products.map((product) => {
-				const {id: productId, name, description, quantityAvailable, price, photoName, categories} = product;
-				console.log('from productList', categories);
-
+				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
 					<Link to="/products" onClick={()=>{

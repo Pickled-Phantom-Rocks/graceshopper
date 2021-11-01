@@ -5,9 +5,14 @@ import { fetchProductById } from '.';
 
 const ProductsByCategory = (props) => {
 	const {baseURL, selectedCategory, updateUsersCart} = props;
+	const [category, setCategory] = useState('');
 	const [categoryProducts, setCategoryProducts] = useState([]);
-	const products = [];
-	const category = fetchCategoryById(baseURL, selectedCategory);
+	const [productList, setProductList] = useState([]);
+
+	async function fetchTheCategory() {
+		const response = await fetchCategoryById(baseURL, selectedCategory);
+		setCategory(response.name);
+	};
 
 	async function fetchTheCategoryProducts() {
 		try {
@@ -18,51 +23,35 @@ const ProductsByCategory = (props) => {
 			})
 			.then(res => res.json())
 			.then((result) => {
-				result.map((cp)=>{
-					console.log(cp.productId);
-					// const product = fetchProductById(cp.productId);
-					// console.log(product);
-				})
+				setCategoryProducts(result);
 			});
 		} catch (error) {
 			throw error
 		}
+	};
+
+	async function fetchTheProducts() {
+		const products = [];
+		categoryProducts.map(async (catProd) => {
+			const product = await fetchProductById(baseURL, catProd.productId);
+			products.push(product);
+		})
+		setProductList(products);
 	}
 
-	// async function fetchTheProducts() {
-	// 	try{
-	// 		if(categoryProducts){
-	// 			categoryProducts.map((cp)=>{
-	// 				fetch(`${baseURL}/products/${cp.productId}`, {
-	// 					method: 'GET',
-	// 					headers: {'Content-Type': 'application/json'}
-	// 				})
-	// 				.then(res => res.json())
-	// 				.then((result) => {
-	// 					const response = result;
-	// 					products.push(response);
-	// 				})
-	// 				.catch(console.error)
-	// 			})
-	// 		}
-	// 	}catch(error) {
-	// 		console.error(error);
-	// 	}
-	// }
-
 	useEffect(() => {
+		fetchTheCategory();
 		fetchTheCategoryProducts();
-		// fetchTheProducts();
-	}, [])
+		fetchTheProducts();
+	}, []);
 
 	return <div>
-		<h2>Products in {category.name}</h2>
+		<h2>Products in {category}</h2>
 		<div className="productPageList">
-		{!categoryProducts ? "None" :
-
-			products.map((product) => {
-				console.log(product);
-				const {id: productId, name, description, quantityAvailable, price, photoName, categories} = product;
+			{productList.length > 0 ? null : "There are no products in this category."}
+			{
+			productList.map((product) => {
+				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
 					<Link to="/products" onClick={()=>{
@@ -70,27 +59,27 @@ const ProductsByCategory = (props) => {
 						setSingleProductId(productId);
 						setShowAllProducts(false);
 						setShowProductsByCategory(false);
-					}}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
-					<div className="productInfo">
+					}}><h3>{name}</h3></Link>
+					<div className="productListInner">
 						<Link to="/products" onClick={()=>{
 						setShowSingleProduct(true);
 						setSingleProductId(productId);
 						setShowAllProducts(false);
 						setShowProductsByCategory(false);
-						}}><h3>{name}</h3></Link>
-						<label>Description:</label> {description}<br/>
-						<label>Quantity:</label> {quantityAvailable}<br/>
-						<label>Price:</label> {"$" + price}<br/>
-						<label>Category:</label> {categories}
-						<br/>
-						<section className="productOptions">
-							<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
-							<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
-						</section>
+						}}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
+						<div className="productListInfo">
+							<label>Description:</label> {description}<br/>
+							<label>Quantity:</label> {quantityAvailable}<br/>
+							<label>Price:</label> {"$" + price}
+						</div>
 					</div>
+					<section className="userOptions">
+						<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
+						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
+					</section>
 				</div>
 			})
-		}
+			}
 		</div>
 	</div>
 }

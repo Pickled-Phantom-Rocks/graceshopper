@@ -17,7 +17,6 @@ const Products = (props) => {
 			console.error(error);
 		}
 	}
-
 	useEffect(() => {
 		fetchTheCategories();
 	}, [])
@@ -114,6 +113,7 @@ const Products = (props) => {
 			{showAllProducts && !showSingleProductFromCart ? null: <button onClick={()=>{
 				setShowSingleProduct(false);
 				setSingleProductId('');
+				setSelectedCategory('');
 				setShowAllProducts(true);
 				setShowProductsByCategory(false);				
 			}}>Show All Products</button>}

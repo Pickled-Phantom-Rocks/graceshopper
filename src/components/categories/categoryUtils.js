@@ -14,17 +14,16 @@ async function fetchCategories(baseURL) {
 }
 
 async function fetchCategoryById(baseURL, categoryId) {
-	const [categoryName, setCategoryName] = useState('');
-	const result = await fetch(`${baseURL}/categories/${categoryId}`, {
+	const response = await fetch(`${baseURL}/categories/${categoryId}`, {
 		method: 'GET',
 		headers: {'Content-Type': 'application/json'}
 	})
+	.then(res => res.json())
 	.then((result) => {
-		const response = result;
-		setCategoryName(response);
+		return result;
 	})
 	.catch(console.error)
-	return categoryName;
+	return response;
 }
 
 async function fetchCategoriesByProductID(baseURL, productId) {

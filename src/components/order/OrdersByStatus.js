@@ -17,12 +17,12 @@ const OrdersByStatus = (props) => {
 
 	return <div className="orderList">
 		<h3>{orderListStatus} Orders</h3>
-		{
+		{/* {
 			orders.map((order) => {
 				const {id: orderId, userId, orderDate, deliveryDate, totalPrice, orderStatus} = order;
 				return {orderId};
 			})
-		}
+		} */}
 	</div>
 }
 

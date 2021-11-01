@@ -106,7 +106,6 @@ const Admin = (props) => {
 			{ showOrders ? <button onClick={()=> {
 				setShowOrders(false);
 				setShowAllOrders(false);
-				setShowOrdersByStatus(false);
 			}}>Hide Orders</button> : <button onClick={()=> {
 				setShowOrders(true);
 				setShowAllOrders(true);

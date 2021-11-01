@@ -8,46 +8,23 @@ async function fetchProducts(baseURL) {
 			headers: { 'Content-Type': 'application/json' }
 		})
 		const data = await result.json();
-
-		// data.map(async (p) => {
-		// 	const cats = await fetchCategoriesByProductID(baseURL, p.id);
-		// 	p.categories = cats;
-		// 	cats.map(async (categoryId) => {
-		// 		const result = await fetch(`${baseURL}/categories/${categoryId}`, {
-		// 			method: 'GET',
-		// 			headers: {'Content-Type': 'application/json'}
-		// 		})
-		// 		.then((result) => {
-		// 			console.log('result', result);
-		// 		})
-		// 		.catch(console.error)
-		// 	})
-		
-		// })
-
 		return data;
 	} catch (error) {
 		throw error
 	}
 }
 
-const fetchProductById = (baseURL, productId) => {
-	const [product, setProduct] = useState([]);
-	useEffect(() => {
-		fetch(`${baseURL}/products/${productId}`, {
-			method: 'GET',
-			headers: {'Content-Type': 'application/json'}
-		})
-		.then(res => res.json())
-		.then(async (result) => {
-			const response = result;
-			const category = await fetchCategoriesByProductID(baseURL, response.id);
-			response.categories = category;
-			setProduct(response);
-		})
-		.catch(console.error)
-	}, []);
-	return product
+async function fetchProductById(baseURL, productId) {
+	const response = await fetch(`${baseURL}/products/${productId}`, {
+		method: 'GET',
+		headers: {'Content-Type': 'application/json'}
+	})
+	.then(res => res.json())
+	.then((result) => {
+		return result;
+	})
+	.catch(console.error)
+	return response;
 }
 
 async function newProduct(baseURL, name, desc, quantity, price, photoName) {
