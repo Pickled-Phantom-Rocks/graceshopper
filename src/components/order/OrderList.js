@@ -62,10 +62,8 @@ const OrderList = (props) => {
 							ChangeStatus(orderId, 'Completed');
 						}}>Completed</button><br/>
 					</div>
+					</div>})}
 				</div>
-			})
 		}
-	</div>
-}
 
 export default OrderList;

@@ -9,21 +9,21 @@ async function fetchProducts(baseURL) {
 		})
 		const data = await result.json();
 
-		data.map(async (p) => {
-			const cats = await fetchCategoriesByProductID(baseURL, p.id);
-			p.categories = cats;
-			cats.map(async (categoryId) => {
-				const result = await fetch(`${baseURL}/categories/${categoryId}`, {
-					method: 'GET',
-					headers: {'Content-Type': 'application/json'}
-				})
-				.then((result) => {
-					console.log('result', result);
-				})
-				.catch(console.error)
-			})
+		// data.map(async (p) => {
+		// 	const cats = await fetchCategoriesByProductID(baseURL, p.id);
+		// 	p.categories = cats;
+		// 	cats.map(async (categoryId) => {
+		// 		const result = await fetch(`${baseURL}/categories/${categoryId}`, {
+		// 			method: 'GET',
+		// 			headers: {'Content-Type': 'application/json'}
+		// 		})
+		// 		.then((result) => {
+		// 			console.log('result', result);
+		// 		})
+		// 		.catch(console.error)
+		// 	})
 		
-		})
+		// })
 
 		return data;
 	} catch (error) {

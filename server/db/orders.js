@@ -155,6 +155,15 @@ async function getOrdersByStatus(orderStatus) {
             WHERE "orderStatus"=$1;
         `, [orderStatus]);
         console.log("getOrdersByStatus:", orders);
+        for (const order of orders) {
+            const { rows: orderProducts } = await client.query(`
+                SELECT *
+                FROM order_products
+                JOIN orders ON order_products."orderId" = orders.id
+                WHERE orders.id = $1;
+            `, [order.id]);
+                order.orderProducts = orderProducts;
+            }
         return orders;
     } catch (error) {
         throw error;
@@ -169,6 +178,7 @@ async function updateOrderStatus(id, orderStatus) {
             WHERE id=${id}
             RETURNING *;
         `, [orderStatus]);
+        
         return order;
     } catch (error) {
         throw error;

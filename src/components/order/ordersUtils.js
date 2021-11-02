@@ -28,6 +28,7 @@ async function fetchOrdersByStatus(baseURL, orderStatus) {
 			return result;
 		})
 		.catch( err => console.error(err));
+		return response;
 	} catch(error) {
 		throw error
 	}

@@ -35,15 +35,13 @@ const UserList = (props) => {
 		{
 			userList.map((user) => {
 				const {id, name, isAdmin} = user;
-				return <div className="userListItem" key={id}>
-					<div>
-					<label>Name:</label> {name}<br/>
-					<label>Admin:</label> {
-						isAdmin ? "Yes" : "No"
-					}
-					</div>
-					<div>
+				return <div className="listItem" key={id}>
+					<h3>{name}</h3>
+					<div className="userListItem">
+					<div><label>Admin:</label> {isAdmin ? "Yes" : "No"}</div>
+					<div className="userOptions">
 						{!isAdmin ? <button onClick={() => makeAdmin(id)}>Make Admin</button> : <button onClick={() => removeAdmin(id)}>Remove Admin</button>} <button onClick={() => deleteTheUser({id})}>Delete User</button>
+					</div>
 					</div>
 				</div>
 			})
