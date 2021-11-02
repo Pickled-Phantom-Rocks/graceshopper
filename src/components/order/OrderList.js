@@ -16,23 +16,36 @@ const OrderList = (props) => {
 	useEffect(fetchTheOrders, []);
 
 	async function ChangeStatus(orderId, newStatus){
+		try {
 		event.preventDefault();
-		changeStatus(baseURL, userToken, orderId, newStatus);
+		await changeStatus(baseURL, userToken, orderId, newStatus);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	return <div className="orderList">
 		{
 			orders.map((order) => {
-				const {id: orderId, userId, orderDate, deliveryDate, totalPrice, orderStatus} = order;
-				return <div  className="listItem" key={orderId}>
-					<h3>Order ID: {orderId}</h3>
-					<div className="orderListItem">
-					<div >
-						<label>UserId: </label> {userId}<br/>
-						<label>Order Date: </label>{orderDate.slice(0, 10)}<br/>
-						<label>Delivery Date: </label>{!deliveryDate ? "" : deliveryDate.slice(0, 10)}<br/>
-						<label>Total: </label> {'$' + totalPrice}<br />
-						<label>Status: </label> {orderStatus}<br/>
+				const {id: orderId } = order;
+				return <div className="orderListItem" key={orderId}>
+					<div>
+					<h2>Order Number: {order.id}</h2>
+                            <p>Order Status: {order.orderStatus}</p>
+							<p>Order Date: {order.orderDate ? order.orderDate.slice(0, 10) : null}</p>
+							<p>Delivery Date: {order.deliveryDate ? order.deliveryDate.slice(0, 10) : null}</p>
+							<p>Total Price: {`$`+ order.totalPrice}</p>
+							<br/>
+							{order.orderProducts.map((orderProduct) => (
+								<div key={orderProduct.productId} style={{ display: "flex", border: "1px solid black", margin: "10px"}}>
+									<img src={process.env.PUBLIC_URL + "images/Products/" + orderProduct.photoName + ".jpg"} width="150px" height="100px"/>
+									<p>Name of Item: {orderProduct.name}</p>
+									<p>Description: {orderProduct.description}</p>
+									<p>Price of Item: {`$`+ orderProduct.priceWhenOrdered}</p>
+									<p>quantity ordered: {orderProduct.quantityOrdered}</p>
+									<br/>
+								</div>
+							))}
 					</div>
 					<div className="right">		
 						<label>Change Status:</label><br/>
@@ -49,11 +62,8 @@ const OrderList = (props) => {
 							ChangeStatus(orderId, 'Completed');
 						}}>Completed</button><br/>
 					</div>
-					</div>
+					</div>})}
 				</div>
-			})
 		}
-	</div>
-}
 
 export default OrderList;

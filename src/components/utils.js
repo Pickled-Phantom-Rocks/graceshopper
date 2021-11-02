@@ -35,6 +35,5 @@ async function fetchOrderList (userId, baseURL) {
 
 }
 export {
-	fetchCategories,
-	fetchOrderList
+	fetchCategories
 };

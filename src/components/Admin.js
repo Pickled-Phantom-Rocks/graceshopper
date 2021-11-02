@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {NewProduct, 
 	EditProduct, 
 	DeleteProduct, 
@@ -23,10 +24,13 @@ const Admin = (props) => {
 	const [showEditCategory, setShowEditCategory] = useState(false);
 	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 	const [showUsers, setShowUsers] = useState(false);
-	const [showOrders, setShowOrders] = useState(true);
 	const [showAllOrders, setShowAllOrders] = useState(true);
 	const [orderListStatus, setOrderListStatus] = useState('');
-	
+	const [completed, setCompleted] = useState(true);
+	const [cancelled, setCancelled] = useState(true);
+	const [processing, setProcessing] = useState(true);
+	const [created, setCreated] = useState(true);
+
 	return <div className="adminPanel">
 		<h1>Admin Panel</h1>
 		<h2>Products</h2>
@@ -102,38 +106,54 @@ const Admin = (props) => {
 		</section>
 		{!showUsers ? null : <UserList baseURL={baseURL} userToken={userToken} />}
 		<h2>Orders</h2>
-		<section className="userOptions">
-			{ showOrders ? <button onClick={()=> {
+		<section className="userOptions">		
+			{/* { showOrders ? <button onClick={()=> {
 				setShowOrders(false);
 				setShowAllOrders(false);
 			}}>Hide Orders</button> : <button onClick={()=> {
 				setShowOrders(true);
 				setShowAllOrders(true);
-			}}>View All Orders</button>}
-			{ !showOrders ? null : <div>
+			}}>View All Orders</button>} */}
+			{<div>
 				<br/>
 				<button onClick={() => {
-					setOrderListStatus('');
 					setShowAllOrders(true);
+					setCancelled(true);
+					setCompleted(true);
+					setProcessing(true);
+					setCreated(true);
 				}}>All</button>
-				<button onClick={() => {
+				{created ? <button onClick={() => {
 					setOrderListStatus('Created');
 					setShowAllOrders(false);
-				}}>Created</button>
-				<button onClick={() => {
+					setCancelled(false);
+					setCompleted(false);
+					setProcessing(false);
+				}}>Created</button> : null}
+				{processing ? <button onClick={() => {
 					setOrderListStatus('Processing');
 					setShowAllOrders(false);
-				}}>Processing</button>
-				<button onClick={() => {
+					setCancelled(false);
+					setCompleted(false);
+					setCreated(false);
+				}}>Processing</button> : null}
+				{cancelled ? <button onClick={() => {
 					setOrderListStatus('Cancelled');
 					setShowAllOrders(false);
-				}}>Cancelled</button>
-				<button onClick={() => {
+					setCompleted(false);
+					setProcessing(false);
+					setCreated(false);
+				}}>Cancelled</button> : null}
+				{completed ? <button onClick={() => {
 					setOrderListStatus('Completed');
 					setShowAllOrders(false);
-				}}>Completed</button></div>}
+					setProcessing(false);
+					setCreated(false);
+					setCancelled(false);
+				}}>Completed</button> : null}
+			</div>}
 		</section>
-		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : <OrdersByStatus baseURL={baseURL} userToken={userToken} orderListStatus={orderListStatus} />}
+		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : <OrdersByStatus baseURL={baseURL} userToken={userToken} orderListStatus={orderListStatus}/> }
 		<p>Add pagination so only ten items at a time are shown.</p>
 	</div>
 }
