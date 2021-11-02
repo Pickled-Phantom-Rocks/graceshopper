@@ -54,23 +54,12 @@ const Products = (props) => {
 
 			console.log(productIds)
 			
+
 			if(productIds.includes(productBeingAdded.id)) {
 				//remove matching productId from cart
 				const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
 				console.log("PRODUCT HERE", _product)
-				const product = _product[0]
-				const quantity = product.quantityOfItem + 1
-				await deleteProductFromCartByProductId(product.productId, baseURL)
-				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantity, baseURL)
-			} else {
-				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
-			}
-			console.log(productIds)
-			
-			if(productIds.includes(productBeingAdded.id)) {
-				//remove matching productId from cart
-				const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
-				console.log("PRODUCT HERE", _product)
+				
 				const product = _product[0]
 				const quantityInCart = product.quantityOfItem + 1
 				const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
