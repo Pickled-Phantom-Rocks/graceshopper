@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AdminOrderList } from './orders';
+import { AdminOrderList } from './ordersForProfile';
 import {NewProduct, 
 	EditProduct, 
 	DeleteProduct, 
@@ -105,11 +105,8 @@ const Admin = (props) => {
 		{!showUsers ? null : <UserList baseURL={baseURL} userToken={userToken} />}
 		<h2>Orders</h2>
 		<section className="userOptions">
-			<AdminOrderList baseURL={baseURL}/>
-			<button>View All Orders</button>
-			<button>Change Order Status</button>
 			<p>Will need to be able to filter orders by status on the view</p>
-			<p>Order statuses should be: Created, Processing, Cancelled, Completed</p>
+			
 			{ showOrders ? <button onClick={()=> {
 				setShowOrders(false);
 				setShowAllOrders(false);

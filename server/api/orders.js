@@ -13,7 +13,6 @@ const {
     getOrder_ProductsByOrderId,
     getAllOrdersByUserId,
     getProductById,
-    getOrdersWithoutProducts,
     updateOrderStatus,
     getOrdersByStatus
 } = require('../db');
@@ -25,7 +24,8 @@ ordersRouter.use((req, res, next) => {
 
 ordersRouter.get('/', async ( req, res, next) => {
     try {
-        const allOrders = await getOrdersWithoutProducts();
+        const allOrders = await getAllOrders();
+        console.log(allOrders)
         res.send(allOrders);
     } catch (e) {
         next(e);

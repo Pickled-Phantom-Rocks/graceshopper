@@ -114,7 +114,7 @@ async function getAllOrders() {
         `, [order.id]);
             order.orderProducts = orderProducts;
         }
-
+        console.log("IS THIS RUNNING!!!! TEST TEST TEST TEST TEST")
         return orders;
     } catch (error) {
         throw error;
@@ -154,6 +154,7 @@ async function getOrdersByStatus(orderStatus) {
             FROM orders
             WHERE "orderStatus"=$1;
         `, [orderStatus]);
+        console.log("getOrdersByStatus:", orders);
         return orders;
     } catch (error) {
         throw error;

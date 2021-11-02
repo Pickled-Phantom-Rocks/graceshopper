@@ -6,10 +6,11 @@ async function fetchAllOrders(baseURL) {
 			method: 'GET',
 			headers: {'Content-Type': 'application/json'}
 		})
-		.then(res => res.json())
+		.then(res =>  res.json())
 		.then((result) => {
 			return result;
 		})
+		.catch( err => console.error(err));
 		return response;
 	} catch(error) {
 		throw error
@@ -26,7 +27,7 @@ async function fetchOrdersByStatus(baseURL, orderStatus) {
 		.then((result) => {
 			return result;
 		})
-		return response;
+		.catch( err => console.error(err));
 	} catch(error) {
 		throw error
 	}

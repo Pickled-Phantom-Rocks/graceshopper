@@ -2,35 +2,32 @@ import React, { useState, useEffect } from 'react';
 import {
     useHistory
 } from "react-router-dom";
-import { fetchOrderList } from './ordersUtils';
+import { fetchAdminOrders } from './ordersUtils';
 
-const Orders = ({userId, username, baseURL}) => {
-	let history = useHistory();
-	const [orders, setOrders] = useState([]);
+const AdminOrderList = (props) => {
+    const {baseURL} = props;
+    let history = useHistory();
+	const [orders, setOrders] = useState(false);
 
-	async function getOrders () {
+	async function getAdminOrders () {
 		try {
-            const orderList = await fetchOrderList(userId, baseURL);
+            const orderList = await fetchAdminOrders(baseURL);
 			console.log(orderList);
             setOrders(orderList);
         } catch (error) {
             console.error(error);
         }
 	}
-	useEffect(getOrders, []);
-
-	if (orders === []) {
-		setOrders(null);
-	}
-
-	return <div id="orders">
-				<h1>Orders</h1>
+	useEffect(getAdminOrders, []);
+	
+	return <div id="adminOrders">
 				{orders ? 
 					orders.map((order) => (
 						<div key={order.id}>
 							<h2>Order Number: {order.id}</h2>
-							<p>Order Date: {order.orderDate.slice(0, 10)}</p>
-							<p>Delivery Date: {!order.deliveryDate ? "None" : order.deliveryDate.slice(0, 10)}</p>
+                            <p>Order Status: {order.orderStatus}</p>
+							<p>Order Date: {order.orderDate ? order.orderDate.slice(0, 10) : null}</p>
+							<p>Delivery Date: {order.deliveryDate ? order.deliveryDate.slice(0, 10) : null}</p>
 							<p>Total Price: {`$`+ order.totalPrice}</p>
 							<br/>
 							{order.orderProducts.map((orderProduct) => (
@@ -52,4 +49,4 @@ const Orders = ({userId, username, baseURL}) => {
 			</div>
 }
 
-export default Orders;
+export default AdminOrderList;

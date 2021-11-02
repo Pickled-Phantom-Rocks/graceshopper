@@ -29,7 +29,7 @@ export {
 export {
 	Orders,
 	AdminOrderList
-} from './orders';
+} from './ordersForProfile';
 
 export {
 	OrderList,
