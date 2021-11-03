@@ -4,10 +4,55 @@ import {fetchCategoryById} from '../categories/categoryUtils';
 import {fetchProductsByCategory, fetchProductById} from '.';
 
 const ProductsByCategory = (props) => {
-	const {baseURL} = props;
+	const { baseURL, userToken, userId } = props;
 	const {categoryId} = useParams();
 	const category = fetchCategoryById(baseURL, categoryId);
 	const categoryProducts = fetchProductsByCategory(baseURL, categoryId);
+
+	async function updateUsersCart(productBeingAdded) {
+
+		try {
+
+		   console.log("PRoduct being added: ", productBeingAdded)
+
+		   const _cart = await getCartByUserId(userId, baseURL)
+		   const cart = _cart[0]
+		   console.log("CART", cart)
+
+
+		   const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
+		   console.log("Cart Products", cartProducts)
+
+
+		   const productIds = cartProducts.map(product => {
+			   return product.productId
+		   })
+
+		   console.log(productIds)
+		   
+
+		   if(productIds.includes(productBeingAdded.id)) {
+			   //remove matching productId from cart
+			   const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
+			   console.log("PRODUCT HERE", _product)
+			   
+			   const product = _product[0]
+			   const quantityInCart = product.quantityOfItem + 1
+			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
+			   await deleteProductFromCartByProductId(product.productId, baseURL)
+			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantityInCart, baseURL)
+			   location.reload()
+		   } else {
+			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
+			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
+			   location.reload()
+		   }
+	   } catch (error) {
+		   throw error
+	   }
+   }
 
 	return <div>
 		<h1>Products in {category.name}</h1>
