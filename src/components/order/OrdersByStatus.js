@@ -2,7 +2,7 @@ import {React, useState, useEffect} from 'react';
 import { fetchOrdersByStatus, changeStatus } from '.';
 
 const OrdersByStatus = (props) => {
-	const {baseURL, orderListStatus } = props;
+	const {baseURL, orderListStatus, userToken } = props;
 	const [orders, setOrders] = useState([]);
 
 	async function fetchTheOrders () {
