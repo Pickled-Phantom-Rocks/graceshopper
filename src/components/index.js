@@ -16,7 +16,9 @@ export {
 	EditProduct,
 	DeleteProduct,
 	AddProduct,
-	RemoveProduct
+	RemoveProduct,
+	SingleProduct,
+	ProductsByCategory
 } from './products';
 
 export {

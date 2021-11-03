@@ -1,72 +1,27 @@
 import {React, useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
-import { fetchCategoryById } from '../categories/categoryUtils';
-import { fetchProductById } from '.';
+import {useParams, Link} from 'react-router-dom';
+import {fetchCategoryById} from '../categories/categoryUtils';
+import {fetchProductsByCategory, fetchProductById} from '.';
 
 const ProductsByCategory = (props) => {
-	const {baseURL, selectedCategory, updateUsersCart} = props;
-	const [category, setCategory] = useState('');
-	const [categoryProducts, setCategoryProducts] = useState([]);
-	const [productList, setProductList] = useState([]);
-
-	async function fetchTheCategory() {
-		const response = await fetchCategoryById(baseURL, selectedCategory);
-		setCategory(response.name);
-	};
-
-	async function fetchTheCategoryProducts() {
-		try {
-			const categoryId = selectedCategory;
-			fetch(`${baseURL}/category_products/category/${categoryId}`, {
-				method: 'GET',
-				headers: { 'Content-Type': 'application/json' }
-			})
-			.then(res => res.json())
-			.then((result) => {
-				setCategoryProducts(result);
-			});
-		} catch (error) {
-			throw error
-		}
-	};
-
-	async function fetchTheProducts() {
-		const products = [];
-		categoryProducts.map(async (catProd) => {
-			const product = await fetchProductById(baseURL, catProd.productId);
-			products.push(product);
-		})
-		setProductList(products);
-	}
-
-	useEffect(() => {
-		fetchTheCategory();
-		fetchTheCategoryProducts();
-		fetchTheProducts();
-	}, []);
+	const {baseURL} = props;
+	const {categoryId} = useParams();
+	const category = fetchCategoryById(baseURL, categoryId);
+	const categoryProducts = fetchProductsByCategory(baseURL, categoryId);
 
 	return <div>
-		<h2>Products in {category}</h2>
+		<h1>Products in {category.name}</h1>
+		<Link to="/products"><button>Back to All Products</button></Link>
 		<div className="productPageList">
-			{productList.length > 0 ? null : "There are no products in this category."}
+			None...
 			{
-			productList.map((product) => {
+			categoryProducts.map((product) => {
 				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
-					<Link to="/products" onClick={()=>{
-						setShowSingleProduct(true);
-						setSingleProductId(productId);
-						setShowAllProducts(false);
-						setShowProductsByCategory(false);
-					}}><h3>{name}</h3></Link>
+					<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
 					<div className="productListInner">
-						<Link to="/products" onClick={()=>{
-						setShowSingleProduct(true);
-						setSingleProductId(productId);
-						setShowAllProducts(false);
-						setShowProductsByCategory(false);
-						}}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
+						<Link to={ `/product/${productId}`} ><img src={process.env.PUBLIC_URL + photoURL} /></Link>
 						<div className="productListInfo">
 							<label>Description:</label> {description}<br/>
 							<label>Quantity:</label> {quantityAvailable}<br/>

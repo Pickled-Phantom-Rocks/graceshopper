@@ -13,17 +13,21 @@ async function fetchCategories(baseURL) {
 	}
 }
 
-async function fetchCategoryById(baseURL, categoryId) {
-	const response = await fetch(`${baseURL}/categories/${categoryId}`, {
-		method: 'GET',
-		headers: {'Content-Type': 'application/json'}
-	})
-	.then(res => res.json())
-	.then((result) => {
-		return result;
-	})
-	.catch(console.error)
-	return response;
+const fetchCategoryById = (baseURL, categoryId) => {
+	const [category, setCategory] = useState([]);
+	useEffect(() => {
+		fetch(`${baseURL}/categories/${categoryId}`, {
+			method: 'GET',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(res => res.json())
+		.then((res) => {
+			const response = res;
+			setCategory(response);
+		})
+		.catch(error => console.error(error))
+	}, []);
+	return category
 }
 
 async function fetchCategoriesByProductID(baseURL, productId) {
@@ -90,7 +94,6 @@ async function editCategory(baseURL, userToken, categoryId, newName){
 }
 
 async function deleteCategory(baseURL, categoryId){
-
 	await fetch(`${baseURL}/category_Products/${categoryId}`, {
 		method: 'GET',
 		headers: {'Content-Type': 'application/json'}
@@ -112,7 +115,6 @@ async function deleteCategory(baseURL, categoryId){
 		}
 	})
 	.catch(console.error);
-
 
 	await fetch(`${baseURL}/categories/${categoryId}`, {
 		method: 'DELETE',

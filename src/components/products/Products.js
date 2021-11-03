@@ -1,13 +1,13 @@
 import { React, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {ProductList, ProductsByCategory, SingleProduct} from '.'
 import { fetchCategories } from '..';
 import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId, deleteProductFromCartByProductId } from '../cart/cartUtils';
 
 const Products = (props) => {
-	const {baseURL, userId, userToken, singleProductId, setSingleProductId, showSingleProduct, setShowSingleProduct, showProductsByCategory, setShowProductsByCategory, showAllProducts, setShowAllProducts, showSingleProductFromCart, setShowSingleProductFromCart} = props;
+	const {baseURL, userId, userToken, showProductsByCategory, setShowProductsByCategory, showAllProducts, setShowAllProducts, showSingleProductFromCart, setShowSingleProductFromCart} = props;
 	const [categories, setCategories] = useState([]);
-	const [selectedCategory, setSelectedCategory] = useState('');
+	const [selectedCategory, setSelectedCategory] = useState('1');
 	
 	async function fetchTheCategories() {
 		try {
@@ -20,17 +20,6 @@ const Products = (props) => {
 	useEffect(() => {
 		fetchTheCategories();
 	}, [])
-
-	async function CategorySelect() {
-		event.preventDefault();
-
-		const cselector = document.getElementById("categorySelect");
-		const categoryId = cselector.options[cselector.selectedIndex].value;
-		setSelectedCategory(categoryId);
-		setShowProductsByCategory(true);
-		setShowAllProducts(false);
-		setShowSingleProduct(false);
-	}
 
 	async function updateUsersCart(productBeingAdded) {
 
@@ -83,50 +72,37 @@ const Products = (props) => {
 				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
 				location.reload()
 			}
-			
-			
-
 		} catch (error) {
 			throw error
 		}
-
 	}
-
-
-
-
 
 	return <div id="products">
 		<h1>Products</h1>
 		<section>
-			<form onSubmit={CategorySelect}>
+			<form >
 				<label>Categories: </label>
-				<select id="categorySelect">
+				<select id="categorySelect"
+					onChange={(event) => {
+						setSelectedCategory(event.target.value);
+					}}>
 					{
 						categories.map((category) => {
 						const { id: categoryId, name } = category;
-						return <option value={categoryId} key={categoryId}>{name}</option>
+						return <option value={categoryId} name={name} key={categoryId}>{name}</option>
 						})
 					}
-				</select> <button>Search</button>
+				</select> 
+					<button><Link to={`/category/${selectedCategory}`}>Search</Link></button>
 			</form>
 			{showAllProducts && !showSingleProductFromCart ? null: <button onClick={()=>{
-				setShowSingleProduct(false);
-				setSingleProductId('');
-				setSelectedCategory('');
-				setShowAllProducts(true);
-				setShowProductsByCategory(false);				
+				setShowAllProducts(true);			
 			}}>Show All Products</button>}
 			{showSingleProductFromCart ? <Link to="/cart"> <button onClick={() => {
-				setShowSingleProduct(false)
-				setSingleProductId('')
 				setShowAllProducts(true)
-				setShowProductsByCategory(false)
-				setShowSingleProductFromCart(false)
 			}}>Return to cart!</button></Link> : null}
 		</section>
-		{showAllProducts ? <ProductList baseURL={baseURL} updateUsersCart={updateUsersCart} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
-		{showSingleProduct ? <SingleProduct baseURL={baseURL} updateUsersCart={updateUsersCart} singleProductId={singleProductId}/> : null}
+		{showAllProducts ? <ProductList baseURL={baseURL} updateUsersCart={updateUsersCart} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
 		{showProductsByCategory ? <ProductsByCategory baseURL={baseURL} updateUsersCart={updateUsersCart} selectedCategory={selectedCategory}/> : null}
 
 	</div>
