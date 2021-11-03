@@ -6,6 +6,7 @@
 body {
 	height:100vh;
 	width:100%;
+	font-size:16px;
 	background-image: url(./images/439767.jpg);
 }
 a {
@@ -13,7 +14,7 @@ a {
 	color:black;
 	border:none;
 }
-h1, h2, h3, .navLink {
+h1, h2, h3, h4, .navLink {
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 h1 {
@@ -29,10 +30,15 @@ h2 {
 	color:orange;
 	border-bottom:1px solid purple;
 }
-h3 {
+h3, h4 {
+	font-size:20px;
 	text-align: right;
 	padding:5px;
 	background-color:orange;
+}
+h4 {
+	background-color:purple;
+	color:white;
 }
 button {
 	padding:3px;
@@ -124,7 +130,7 @@ select option:checked, select option:hover {
 	border: 1px solid purple;
 	margin-bottom:10px;
 }
-.userListItem, .orderListItem {
+.userListItem, .orderListItemInner {
 	padding:10px;
 	display:flex;
 	justify-content: space-between;
@@ -154,6 +160,23 @@ select option:checked, select option:hover {
 }
 .right {
 	text-align: right;
+}
+.orderListItem {
+	border: 1px solid purple;
+	margin-bottom:10px;
+}
+.orderListItemInner {
+	border-bottom: 1px solid purple;
+}
+.orderListItemProductSingle {
+	margin:10px 10%;
+	border:1px solid orange;
+}
+.orderListProductSingleInner {
+	display:flex;
+}
+.orderListItemProductInfo {
+	padding:5px;
 }
 footer {
 	grid-row:3;
