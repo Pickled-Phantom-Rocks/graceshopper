@@ -8,9 +8,10 @@ const ProductsByCategory = (props) => {
 	const {categoryId} = useParams();
 	const category = fetchCategoryById(baseURL, categoryId);
 	const categoryProducts = fetchProductsByCategory(baseURL, categoryId);
+	console.log('from prodByCat', categoryProducts);
 
 	return <div>
-		<h1>Products in {category.name}</h1>
+		<h1>{category.name} Rocks</h1>
 		<Link to="/products"><button>Back to All Products</button></Link>
 		<div className="productPageList">
 			None...
