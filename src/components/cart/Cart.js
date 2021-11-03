@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
 import { getCartByUserId, deleteProductFromCartByProductId, updateItemQuantityAvailable } from './cartUtils';
-import { SingleProduct } from '../products';
 
 const Cart = (props) => {
 	
@@ -74,7 +73,9 @@ const Cart = (props) => {
 					<button onClick={async e => {
 						console.log("Product: ", prodList)
 						const _removedProduct = await deleteProductFromCartByProductId(id, baseURL)
+						console.log("first", _removedProduct)
 						const removedProduct = await _removedProduct[0]
+						
 						const quantityRemoved = removedProduct.quantityOfItem
 						const quantityAvailable = prodList.quantityAvailable
 						const quantityToReturn = quantityAvailable + quantityRemoved
@@ -84,7 +85,7 @@ const Cart = (props) => {
 					<div className="PlusMinus">
 						<input type="button" onClick={decrementer} value="-" />
 
-						<input type="text" name="quantity" value={quantityCounter} maxlength="2" max="10" size="1" id="number" />
+						<input type="text" name="quantity" value={quantityCounter} readOnly={true} size="1" id="number" />
 
 						<input type="button" onClick={incrementer} value="+" />
 

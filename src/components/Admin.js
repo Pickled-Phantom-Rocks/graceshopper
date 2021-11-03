@@ -14,7 +14,7 @@ import {NewProduct,
 } from '.';
 
 const Admin = (props) => {
-	const {baseURL, userToken} = props;
+	const {baseURL, userToken } = props;
 	const [showNewProduct, setShowNewProduct] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
@@ -106,14 +106,7 @@ const Admin = (props) => {
 		</section>
 		{!showUsers ? null : <UserList baseURL={baseURL} userToken={userToken} />}
 		<h2>Orders</h2>
-		<section className="userOptions">		
-			{/* { showOrders ? <button onClick={()=> {
-				setShowOrders(false);
-				setShowAllOrders(false);
-			}}>Hide Orders</button> : <button onClick={()=> {
-				setShowOrders(true);
-				setShowAllOrders(true);
-			}}>View All Orders</button>} */}
+		<section className="userOptions">
 			{<div>
 				<br/>
 				<button onClick={() => {
@@ -153,7 +146,7 @@ const Admin = (props) => {
 				}}>Completed</button> : null}
 			</div>}
 		</section>
-		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : <OrdersByStatus baseURL={baseURL} userToken={userToken} orderListStatus={orderListStatus}/> }
+		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} /> }
 		<p>Add pagination so only ten items at a time are shown.</p>
 	</div>
 }

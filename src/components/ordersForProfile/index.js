@@ -1,4 +1,4 @@
-export {default as Orders} from './Orders';
+export {default as ProfileOrders} from './ProfileOrders';
 
 export {
     fetchOrderList,

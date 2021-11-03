@@ -1,11 +1,13 @@
 import {React, useState} from 'react';
-import {EditUser, EditUserBilling, EditPassword} from './'
+import {EditUser, EditUserBilling, EditPassword} from './';
+import { ProfileOrders } from '../ordersForProfile';
 
 const Profile = (props) => {
-	const {baseURL, username, userToken, userId} = props;
+	const {baseURL, username, userToken, userId } = props;
 	const [showEditUser, setShowEditUser] = useState(false)
 	const [showEditBilling, setShowEditBilling] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
+
 
 	return <div id="profile">
 		<h1>Hello, {username}!</h1>
@@ -30,12 +32,7 @@ const Profile = (props) => {
 		{!showEditBilling ? null: <EditUserBilling baseURL={baseURL} userToken={userToken} userId={userId} userId={userId}/>}
 		{!showNewPassword ? null : <EditPassword baseURL={baseURL} userToken={userToken} userId={userId}/>}
 		<section>
-			<h2>Open Orders</h2>
-			stuff...
-		</section>
-		<section>
-			<h2>Closed Orders</h2>
-			stuff...
+			<ProfileOrders baseURL={baseURL} userId={userId}/>
 		</section>
 	</div>
 }
