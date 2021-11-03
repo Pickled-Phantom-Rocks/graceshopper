@@ -121,14 +121,11 @@ async function getAllOrders() {
     }
 }
 
-
 async function getAllOrdersByUserId( userId ) {
     try {
     const { rows: orders } = await client.query(`
         SELECT *
         FROM orders
-        JOIN users
-        ON orders."userId"=users.id
         WHERE "userId"=$1;
      `, [userId]); 
 
