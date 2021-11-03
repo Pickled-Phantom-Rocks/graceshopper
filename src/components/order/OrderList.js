@@ -56,7 +56,6 @@ const OrderList = (props) => {
 				<div className="orderListItemProducts">
 					{order.orderProducts.map((orderProduct) => (
 						<div key={orderProduct.productId} className="orderListItemProductSingle">
-							<br/>
 							<h4>{orderProduct.name}</h4>
 							<p><label>Quantity:</label> {orderProduct.quantityOrdered}</p>
 							<p><label>Price:</label> {`$`+ orderProduct.priceWhenOrdered}</p>
