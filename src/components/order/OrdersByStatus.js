@@ -25,30 +25,20 @@ const OrdersByStatus = (props) => {
 	}
 
 	return <div className="orderList">
-		<h3>{orderListStatus} Orders</h3>
+		<h2>{orderListStatus} Orders</h2>
 		{
 			orders.map((order) => {
 				const {id: orderId } = order;
 				return <div className="orderListItem" key={orderId}>
-					<div>
-					<h2>Order Number: {order.id}</h2>
-                            <p>Order Status: {order.orderStatus}</p>
-							<p>Order Date: {order.orderDate ? order.orderDate.slice(0, 10) : null}</p>
-							<p>Delivery Date: {order.deliveryDate ? order.deliveryDate.slice(0, 10) : null}</p>
-							<p>Total Price: {`$`+ order.totalPrice}</p>
-							<br/>
-							{order.orderProducts.map((orderProduct) => (
-								<div key={orderProduct.productId} style={{ display: "flex", border: "1px solid black", margin: "10px"}}>
-									<img src={process.env.PUBLIC_URL + "images/Products/" + orderProduct.photoName + ".jpg"} width="150px" height="100px"/>
-									<p>Name of Item: {orderProduct.name}</p>
-									<p>Description: {orderProduct.description}</p>
-									<p>Price of Item: {`$`+ orderProduct.priceWhenOrdered}</p>
-									<p>quantity ordered: {orderProduct.quantityOrdered}</p>
-									<br/>
-								</div>
-							))}
-					</div>
-					<div className="right">		
+					<h3>Order Number: {order.id}</h3>
+					<div className="orderListItemInner">
+						<div className="orderListItemInfo">
+                            <p><label>Order Status:</label> {order.orderStatus}</p>
+							<p><label>Order Date:</label> {order.orderDate ? order.orderDate.slice(0, 10) : null}</p>
+							<p><label>Delivery Date:</label> {order.deliveryDate ? order.deliveryDate.slice(0, 10) : null}</p>
+							<p><label>Total Price:</label> {`$`+ order.totalPrice}</p>
+						</div>
+						<div className="right">		
 						<label>Change Status:</label><br/>
 						<button onClick={()=>{
 							ChangeStatus(orderId, 'Created');
@@ -64,7 +54,17 @@ const OrdersByStatus = (props) => {
 						}}>Completed</button><br/>
 					</div>
 				</div>
-			})
+				<div className="orderListItemProducts">
+					{order.orderProducts.map((orderProduct) => (
+						<div key={orderProduct.productId} className="orderListItemProductSingle">
+							<br/>
+							<h4>{orderProduct.name}</h4>
+							<p><label>Quantity:</label> {orderProduct.quantityOrdered}</p>
+							<p><label>Price:</label> {`$`+ orderProduct.priceWhenOrdered}</p>
+						</div>
+					))}
+				</div>
+			</div>})
 		}
 	</div>
 }
