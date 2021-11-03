@@ -273,6 +273,8 @@ async function createInitialOrders() {
 
         const ordersToCreate = [
             { userId: 1, orderDate: '2020-08-15', deliveryDate: '2020-08-23', totalPrice: 1346.25, orderStatus: 'Completed' },
+            { userId: 2, orderDate: '2021-09-15', deliveryDate: '2021-9-23', totalPrice: 136.25, orderStatus: 'Processing' },
+            { userId: 3, orderDate: '2021-10-15', deliveryDate: '2021-10-23', totalPrice: 134.25, orderStatus: 'Processing' },
             { userId: 2, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'Created'},
             { userId: 3, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'Processing'},
             { userId: 1, orderDate: '2021-10-30', totalPrice: 100, orderStatus: 'Cancelled'}
@@ -303,6 +305,14 @@ async function createInitialOrderProducts() {
                 description: burgerPickle.description, 
                 price: burgerPickle.price, 
                 photoName: burgerPickle.photoName },
+            { orderId: 2, 
+                productId: petRock.id, 
+                quantityOrdered: albert1.quantityOfItem, 
+                priceWhenOrdered: albert1.productPrice, 
+                name: petRock.name, 
+                description: petRock.description, 
+                price: petRock.price, 
+                photoName: petRock.photoName },
             { orderId: 1, 
                 productId: firstBorn.id, 
                 quantityOrdered: sandra2.quantityOfItem, 

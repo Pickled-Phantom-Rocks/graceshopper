@@ -26,6 +26,8 @@ const ProfileOrders = ({userId, baseURL}) => {
 
 	useEffect(getOrders, []);
 
+	
+
 	return <div id="orders">
 				<h1>Orders: Created</h1>
 				{ordersCreated ? 

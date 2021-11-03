@@ -12,7 +12,7 @@ async function createOrder({
         const { rows: [order] } = await client.query(`
             INSERT INTO orders( "userId", "orderDate", "deliveryDate", "totalPrice", "orderStatus") 
             VALUES($1, $2, $3, $4, $5) 
-            RETURNING id, "userId", "orderDate", "deliveryDate", "totalPrice", "orderStatus";
+            RETURNING *;
       `, [userId, orderDate, deliveryDate, totalPrice, orderStatus]);
         return order;
     } catch (error) {
