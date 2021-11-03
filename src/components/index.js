@@ -27,7 +27,7 @@ export {
 } from './categories';
 
 export {
-	Orders
+	ProfileOrders
 } from './ordersForProfile';
 
 export {
