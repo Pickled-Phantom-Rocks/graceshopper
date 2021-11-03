@@ -35,24 +35,12 @@ const ProductList = (props) => {
 	return <div className="productPageList">
 		{
 			products.map((product) => {
-				const {id: productId, name, description, quantityAvailable, price, photoName, categories} = product;
-				//console.log('from productList', categories);
-
+				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
-					<Link to="/products" onClick={()=>{
-						setShowSingleProduct(true);
-						setSingleProductId(productId);
-						setShowAllProducts(false);
-						setShowProductsByCategory(false);
-					}}><h3>{name}</h3></Link>
+					<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
 					<div className="productListInner">
-						<Link to="/products" onClick={()=>{
-						setShowSingleProduct(true);
-						setSingleProductId(productId);
-						setShowAllProducts(false);
-						setShowProductsByCategory(false);
-						}}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
+						<Link to={ `/product/${productId}`} ><img src={process.env.PUBLIC_URL + photoURL} /></Link>
 						<div className="productListInfo">
 							<label>Description:</label> {description}<br/>
 							<label>Quantity:</label> {quantityAvailable}<br/>
@@ -60,8 +48,8 @@ const ProductList = (props) => {
 						</div>
 					</div>
 					<section className="userOptions">
-						<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
-						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
+						<button onClick={async e => await updateUsersCart(product)} style={{marginTop: "0.8em"}}>Add to Cart</button>
+						{/* <button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button> */}
 					</section>
 				</div>
 			})

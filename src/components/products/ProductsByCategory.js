@@ -1,96 +1,85 @@
 import {React, useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
-import { fetchCategoryById } from '../categories/categoryUtils';
-import { fetchProductById } from '.';
+import {useParams, Link} from 'react-router-dom';
+import {fetchCategoryById} from '../categories/categoryUtils';
+import {fetchProductsByCategory, fetchProductById} from '.';
 
 const ProductsByCategory = (props) => {
-	const {baseURL, selectedCategory, updateUsersCart} = props;
-	const [categoryProducts, setCategoryProducts] = useState([]);
-	const products = [];
-	const category = fetchCategoryById(baseURL, selectedCategory);
+	const { baseURL, userToken, userId } = props;
+	const {categoryId} = useParams();
+	const category = fetchCategoryById(baseURL, categoryId);
+	const categoryProducts = fetchProductsByCategory(baseURL, categoryId);
 
-	async function fetchTheCategoryProducts() {
+	async function updateUsersCart(productBeingAdded) {
+
 		try {
-			const categoryId = selectedCategory;
-			fetch(`${baseURL}/category_products/category/${categoryId}`, {
-				method: 'GET',
-				headers: { 'Content-Type': 'application/json' }
-			})
-			.then(res => res.json())
-			.then((result) => {
-				result.map((cp)=>{
-					console.log(cp.productId);
-					// const product = fetchProductById(cp.productId);
-					// console.log(product);
-				})
-			});
-		} catch (error) {
-			throw error
-		}
-	}
 
-	// async function fetchTheProducts() {
-	// 	try{
-	// 		if(categoryProducts){
-	// 			categoryProducts.map((cp)=>{
-	// 				fetch(`${baseURL}/products/${cp.productId}`, {
-	// 					method: 'GET',
-	// 					headers: {'Content-Type': 'application/json'}
-	// 				})
-	// 				.then(res => res.json())
-	// 				.then((result) => {
-	// 					const response = result;
-	// 					products.push(response);
-	// 				})
-	// 				.catch(console.error)
-	// 			})
-	// 		}
-	// 	}catch(error) {
-	// 		console.error(error);
-	// 	}
-	// }
+		   console.log("PRoduct being added: ", productBeingAdded)
 
-	useEffect(() => {
-		fetchTheCategoryProducts();
-		// fetchTheProducts();
-	}, [])
+		   const _cart = await getCartByUserId(userId, baseURL)
+		   const cart = _cart[0]
+		   console.log("CART", cart)
+
+
+		   const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
+		   console.log("Cart Products", cartProducts)
+
+
+		   const productIds = cartProducts.map(product => {
+			   return product.productId
+		   })
+
+		   console.log(productIds)
+		   
+
+		   if(productIds.includes(productBeingAdded.id)) {
+			   //remove matching productId from cart
+			   const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
+			   console.log("PRODUCT HERE", _product)
+			   
+			   const product = _product[0]
+			   const quantityInCart = product.quantityOfItem + 1
+			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
+			   await deleteProductFromCartByProductId(product.productId, baseURL)
+			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantityInCart, baseURL)
+			   location.reload()
+		   } else {
+			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
+			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
+			   location.reload()
+		   }
+	   } catch (error) {
+		   throw error
+	   }
+   }
 
 	return <div>
-		<h2>Products in {category.name}</h2>
+		<h1>Products in {category.name}</h1>
+		<Link to="/products"><button>Back to All Products</button></Link>
 		<div className="productPageList">
-		{!categoryProducts ? "None" :
-
-			products.map((product) => {
-				console.log(product);
-				const {id: productId, name, description, quantityAvailable, price, photoName, categories} = product;
+			None...
+			{
+			categoryProducts.map((product) => {
+				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>
-					<Link to="/products" onClick={()=>{
-						setShowSingleProduct(true);
-						setSingleProductId(productId);
-						setShowAllProducts(false);
-						setShowProductsByCategory(false);
-					}}><img src={process.env.PUBLIC_URL + photoURL} /></Link>
-					<div className="productInfo">
-						<Link to="/products" onClick={()=>{
-						setShowSingleProduct(true);
-						setSingleProductId(productId);
-						setShowAllProducts(false);
-						setShowProductsByCategory(false);
-						}}><h3>{name}</h3></Link>
-						<label>Description:</label> {description}<br/>
-						<label>Quantity:</label> {quantityAvailable}<br/>
-						<label>Price:</label> {"$" + price}<br/>
-						<label>Category:</label> {categories}
-						<br/>
-						<section className="productOptions">
-							<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
-							<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
-						</section>
+					<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
+					<div className="productListInner">
+						<Link to={ `/product/${productId}`} ><img src={process.env.PUBLIC_URL + photoURL} /></Link>
+						<div className="productListInfo">
+							<label>Description:</label> {description}<br/>
+							<label>Quantity:</label> {quantityAvailable}<br/>
+							<label>Price:</label> {"$" + price}
+						</div>
 					</div>
+					<section className="userOptions">
+						<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
+						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
+					</section>
 				</div>
 			})
-		}
+			}
 		</div>
 	</div>
 }

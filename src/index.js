@@ -10,15 +10,16 @@ import {
 	Profile,
 	Products,
 	Cart,
-	Orders,
-	Admin
+	Admin,
+	SingleProduct,
+	ProductsByCategory,
+	ProfileOrders
 } from './components';
 
 const App = () => {
-	const baseURL = 'http://localhost:3005/api';
+	const baseURL = 'http://localhost:3006/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
-	const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));
 	const [username, setUsername] = useState(localStorage.getItem("username"));
 	const [userToken, setUserToken] = useState(localStorage.getItem("token"));
 	const [userId, setUserId] = useState(localStorage.getItem("userId"));
@@ -27,8 +28,8 @@ const App = () => {
 	const [showSingleProduct, setShowSingleProduct] = useState(false);
 	const [showProductsByCategory, setShowProductsByCategory] = useState(false);
 	const [showAllProducts, setShowAllProducts] = useState(true);
-	const [showSingleProductFromCart, setShowSingleProductFromCart] = useState(false)
-	
+	const [showSingleProductFromCart, setShowSingleProductFromCart] = useState(false);
+	const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));
 	
 
 	return <Router>
@@ -52,7 +53,7 @@ const App = () => {
 					}
 				</Route>
 				<Route path="/profile/">
-					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId}/>
+					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId} />
 				</Route>
 				<Route path="/products">
 					<Products baseURL={baseURL} userId={userId} userToken={userToken} singleProductId={singleProductId} setSingleProductId={setSingleProductId} showSingleProduct={showSingleProduct} setShowSingleProduct={setShowSingleProduct} showProductsByCategory={showProductsByCategory} setShowProductsByCategory={setShowProductsByCategory} showAllProducts={showAllProducts} setShowAllProducts={setShowAllProducts} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
@@ -61,7 +62,13 @@ const App = () => {
 					<Cart userId={userId} username={username} userToken={userToken} baseURL={baseURL} userToken={userToken} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} showSingleProduct={showSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
 				</Route>
 				<Route path="/orders">
-					<Orders baseURL={baseURL} userId={userId} username={username} />
+					<ProfileOrders baseURL={baseURL} userId={userId} />
+				</Route>
+				<Route path="/product/:productId">
+					<SingleProduct baseURL={baseURL} userToken={userToken} userId={userId} />
+				</Route>
+				<Route path="/category/:categoryId">
+					<ProductsByCategory baseURL={baseURL} userToken={userToken} userId={userId} />
 				</Route>
 				<Route path="/admin">
 					<Admin baseURL={baseURL} userToken={userToken} />

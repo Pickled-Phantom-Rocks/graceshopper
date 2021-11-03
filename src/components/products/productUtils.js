@@ -1,5 +1,4 @@
 import {React, useState, useEffect} from 'react';
-import {fetchCategoriesByProductID, fetchCategoryById} from '../categories/categoryUtils'
 
 async function fetchProducts(baseURL) {
 	try {
@@ -8,23 +7,6 @@ async function fetchProducts(baseURL) {
 			headers: { 'Content-Type': 'application/json' }
 		})
 		const data = await result.json();
-
-		// data.map(async (p) => {
-		// 	const cats = await fetchCategoriesByProductID(baseURL, p.id);
-		// 	p.categories = cats;
-		// 	cats.map(async (categoryId) => {
-		// 		const result = await fetch(`${baseURL}/categories/${categoryId}`, {
-		// 			method: 'GET',
-		// 			headers: {'Content-Type': 'application/json'}
-		// 		})
-		// 		.then((result) => {
-		// 			console.log('result', result);
-		// 		})
-		// 		.catch(console.error)
-		// 	})
-		
-		// })
-
 		return data;
 	} catch (error) {
 		throw error
@@ -39,15 +21,41 @@ const fetchProductById = (baseURL, productId) => {
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(res => res.json())
-		.then(async (result) => {
-			const response = result;
-			const category = await fetchCategoriesByProductID(baseURL, response.id);
-			response.categories = category;
+		.then((res) => {
+			const response = res;
 			setProduct(response);
 		})
-		.catch(console.error)
+		.catch(error => console.error(error))
 	}, []);
 	return product
+}
+
+const fetchProductsByCategory = (baseURL, categoryId) => {
+	const [products, setProducts] = useState([]);
+	useEffect(() => {
+		fetch(`${baseURL}/category_products/category/${categoryId}`, {
+			method: 'GET',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(res => res.json())
+		.then((res) => {
+			const list = [];
+			res.map((p) => {
+				fetch(`${baseURL}/products/${p.productId}`, {
+					method: 'GET',
+					headers: {'Content-Type': 'application/json'}
+				})
+				.then(res => res.json())
+				.then((res) => {
+					console.log('from utils',res);
+					list.push(res);
+				})
+			})
+			setProducts(list);
+		})
+		.catch(error => console.error(error))
+	}, []);
+	return products
 }
 
 async function newProduct(baseURL, name, desc, quantity, price, photoName) {
@@ -188,6 +196,7 @@ async function removeProduct(baseURL, categoryId, productId){
 export {
 	fetchProducts,
 	fetchProductById,
+	fetchProductsByCategory,
 	newProduct,
 	editProduct,
 	deleteProduct,

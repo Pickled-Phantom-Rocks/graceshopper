@@ -16,7 +16,9 @@ export {
 	EditProduct,
 	DeleteProduct,
 	AddProduct,
-	RemoveProduct
+	RemoveProduct,
+	SingleProduct,
+	ProductsByCategory
 } from './products';
 
 export {
@@ -27,7 +29,7 @@ export {
 } from './categories';
 
 export {
-	Orders
+	ProfileOrders
 } from './ordersForProfile';
 
 export {

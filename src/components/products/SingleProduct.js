@@ -1,27 +1,78 @@
 import {React, useState, useEffect} from 'react';
+import { useParams, Link } from 'react-router-dom';
 import {fetchProductById} from '.';
-import {fetchCategoryById} from '../categories';
+import { getCartByUserId, getAllCartProductsByCartId, updateItemQuantityAvailable, addToUsersCart } from '../cart/cartUtils'
 
 const SingleProduct = (props) => {
-	const {baseURL, singleProductId, updateUsersCart} = props;
-	const product = fetchProductById(baseURL, singleProductId);
-	const {name, description, quantityAvailable, price, photoName} = product;
-	const photoURL = process.env.PUBLIC_URL + "images/Products/" + photoName + ".jpg";
+	const { baseURL, userToken, userId } = props;
+	const {productId} = useParams();
+	const product = fetchProductById(baseURL, productId);
 
-	return <div className="productList">
-		<h3>{name}</h3>
-		<div className="productListInner">
-		<img src={photoURL} />
-			<div className="productListInfo">
-				<label>Description:</label> {description}<br/>
-				<label>Quantity:</label> {quantityAvailable}<br/>
-				<label>Price:</label> {"$" + price}
-			</div>
+	const {name, description, quantityAvailable, price, photoName} = product;
+
+	async function updateUsersCart(productBeingAdded) {
+
+		try {
+
+		   console.log("PRoduct being added: ", productBeingAdded)
+
+		   const _cart = await getCartByUserId(userId, baseURL)
+		   const cart = _cart[0]
+		   console.log("CART", cart)
+
+
+		   const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
+		   console.log("Cart Products", cartProducts)
+
+
+		   const productIds = cartProducts.map(product => {
+			   return product.productId
+		   })
+
+		   console.log(productIds)
+		   
+
+		   if(productIds.includes(productBeingAdded.id)) {
+			   //remove matching productId from cart
+			   const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
+			   console.log("PRODUCT HERE", _product)
+			   
+			   const product = _product[0]
+			   const quantityInCart = product.quantityOfItem + 1
+			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
+			   await deleteProductFromCartByProductId(product.productId, baseURL)
+			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantityInCart, baseURL)
+			   location.reload()
+		   } else {
+			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
+			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
+			   location.reload()
+		   }
+	   } catch (error) {
+		   throw error
+	   }
+   }
+
+	return <div className="product">
+		<h1>Products</h1>
+		<Link to="/products"><button>Back to All Products</button></Link>
+		<div className="productList">
+			<h3>{name}</h3>
+			<section className="productListInner">
+				<img src={`/images/products/${photoName}.jpg`} />
+				<div className="productListInfo">
+					<label>Description:</label> {description}<br/>
+					<label>Quantity:</label> {quantityAvailable}<br/>
+					<label>Price:</label> {"$" + price}
+				</div>
+			</section>
+			<section className="userOptions">
+				<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
+				<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
+			</section>
 		</div>
-		<section className="userOptions">
-			<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
-			<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
-		</section>
 	</div>
 };
 

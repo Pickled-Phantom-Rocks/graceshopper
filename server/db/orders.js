@@ -125,7 +125,7 @@ async function getAllOrders() {
 async function getAllOrdersByUserId( userId ) {
     try {
     const { rows: orders } = await client.query(`
-        SELECT orders.id, orders."orderDate", orders."deliveryDate", orders."totalPrice"
+        SELECT *
         FROM orders
         JOIN users
         ON orders."userId"=users.id
