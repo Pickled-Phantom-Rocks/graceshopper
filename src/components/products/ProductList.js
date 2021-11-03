@@ -36,7 +36,7 @@ const ProductList = (props) => {
 		{
 			products.map((product) => {
 				const {id: productId, name, description, quantityAvailable, price, photoName, categories} = product;
-				console.log('from productList', categories);
+				//console.log('from productList', categories);
 
 				const photoURL = "images/Products/" + photoName + ".jpg";
 				return <div className="productList" key={productId}>

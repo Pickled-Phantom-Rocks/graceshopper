@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
-import { getCartByUserId, deleteProductFromCartByProductId, updateItemQuantityAvailable } from './cartUtils';
+import { getCartByUserId, deleteProductFromCartByProductId, addToUsersCart, updateItemQuantityAvailable } from './cartUtils';
 
 const Cart = (props) => {
 	
-	const {username, userId, baseURL, userToken, setShowSingleProduct, setSingleProductId, showSingleProduct, setShowAllProducts, setShowProductsByCategory, showSingleProductFromCart, setShowSingleProductFromCart } = props
+	const {username, userId, userToken, baseURL, setShowSingleProduct, setSingleProductId, showSingleProduct, setShowAllProducts, setShowProductsByCategory, showSingleProductFromCart, setShowSingleProductFromCart } = props
 	const [usersCart, setUsersCart] = useState([])
 	const [productList, setProductList] = useState([])
-	const [quantityCounter, setQuantityCounter] = useState(0)
+	//const [quantityCounter, setQuantityCounter] = useState(0)
 	
 
 	async function fetchUsersCart() {
@@ -33,23 +33,53 @@ const Cart = (props) => {
 	//console.log("user's cart: ", usersCart)
 	//console.log("Product List: ", productList)
 
-	async function incrementer() {
-		const oneMore = quantityCounter + 1
-		setQuantityCounter(oneMore)
-	}
+	// async function incrementer() {
+	// 	const oneMore = quantityCounter + 1
+	// 	setQuantityCounter(oneMore)
+	// }
 
-	async function decrementer() {
-		if(quantityCounter === 0) {
-			return
-		}
-		const oneLess = quantityCounter - 1
-		setQuantityCounter(oneLess)
-	}
+	// async function decrementer() {
+	// 	if(quantityCounter === 0) {
+	// 		return
+	// 	}
+	// 	const oneLess = quantityCounter - 1
+	// 	setQuantityCounter(oneLess)
+	// }
 
 	function renderCartProducts(prodList) {
-		const {id, name, photoName, price, quantityOfItem} = prodList
-
+		console.log("ProdList: ", prodList)
+		let {id, name, photoName, price, quantityOfItem, quantityAvailable} = prodList
 		const photoURL = "images/Products/" + photoName + ".jpg"
+		let quantityCounter = quantityOfItem
+
+		async function incrementer() {
+			quantityCounter++
+			const quantityTakenFromWarehouse = quantityAvailable - 1
+			await updateItemQuantityAvailable(userToken, id, quantityTakenFromWarehouse, baseURL)
+			await deleteProductFromCartByProductId(id, baseURL)
+			await addToUsersCart(usersCart.id, id, price, quantityCounter, baseURL)
+			location.reload()
+		}
+	
+		async function decrementer() {
+			quantityCounter--
+
+			if (quantityCounter !== 0) {
+				const quantityAddedToWarehourse = quantityAvailable + 1
+				await updateItemQuantityAvailable(userToken, id, quantityAddedToWarehourse, baseURL)
+				await deleteProductFromCartByProductId(id, baseURL)
+				await addToUsersCart(usersCart.id, id, price, quantityCounter, baseURL)
+
+				location.reload()
+			} else if (quantityCounter === 0) {
+				const quantityAddedToWarehourse = quantityAvailable + 1
+				await updateItemQuantityAvailable(userToken, id, quantityAddedToWarehourse, baseURL)
+				await deleteProductFromCartByProductId(id, baseURL)
+
+				location.reload()
+			}
+		}
+
 		return (<div key={id} style={{ display: "flex", border: "1px solid black", margin: "10px"}}> 
 
 				<Link to="/products" onClick={() => {
@@ -81,13 +111,17 @@ const Cart = (props) => {
 						const quantityToReturn = quantityAvailable + quantityRemoved
 
 						await updateItemQuantityAvailable(userToken, id, quantityToReturn, baseURL)
+						location.reload()
 					}}>Remove all {`${name}'s`}</button>
+					
 					<div className="PlusMinus">
-						<input type="button" onClick={decrementer} value="-" />
+						<input type="button" onClick={decrementer} value="-" style={{paddingLeft: "0.4em", paddingRight: "0.4em", marginRight: "1em", marginBottom: "1em"}} />
 
 						<input type="text" name="quantity" value={quantityCounter} readOnly={true} size="1" id="number" />
 
-						<input type="button" onClick={incrementer} value="+" />
+						<input type="button" onClick={incrementer} value="+" style={{paddingLeft: "0.4em", paddingRight: "0.4em", marginLeft: "1em", marginBottom: "1em"}} />
+
+						{/* <button>Update Product quantity</button> */}
 
 					</div>
 				</div>	
@@ -119,6 +153,18 @@ const Cart = (props) => {
 	const totalItemPrices = productList.map(product => quantityTimesPrice(product.quantityOfItem, product.price))
 
 	const totalPrice = totalPriceCalculator(totalItemPrices)
+
+	productList.sort((a, b) => {
+		const nameA = a.name.toLowerCase()
+		const nameB = b.name.toLowerCase()
+		if(nameA < nameB) {
+			return -1
+		}
+		if(nameA > nameB) {
+			return 1
+		}
+		return 0
+	})
 
 	return <div id="cart">
 		<h1>{username}'s Cart</h1>
