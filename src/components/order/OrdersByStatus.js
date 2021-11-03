@@ -2,7 +2,7 @@ import {React, useState, useEffect} from 'react';
 import { fetchOrdersByStatus, changeStatus } from '.';
 
 const OrdersByStatus = (props) => {
-	const {baseURL, orderListStatus } = props;
+	const {baseURL, orderListStatus, userToken } = props;
 	const [orders, setOrders] = useState([]);
 
 	async function fetchTheOrders () {
@@ -26,7 +26,7 @@ const OrdersByStatus = (props) => {
 
 	return <div className="orderList">
 		<h3>{orderListStatus} Orders</h3>
-		{/* {
+		{
 			orders.map((order) => {
 				const {id: orderId } = order;
 				return <div className="orderListItem" key={orderId}>
@@ -65,7 +65,7 @@ const OrdersByStatus = (props) => {
 					</div>
 				</div>
 			})
-		} */}
+		}
 	</div>
 }
 
