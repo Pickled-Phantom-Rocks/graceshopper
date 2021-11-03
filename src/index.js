@@ -59,16 +59,16 @@ const App = () => {
 					<Products baseURL={baseURL} userId={userId} userToken={userToken} singleProductId={singleProductId} setSingleProductId={setSingleProductId} showSingleProduct={showSingleProduct} setShowSingleProduct={setShowSingleProduct} showProductsByCategory={showProductsByCategory} setShowProductsByCategory={setShowProductsByCategory} showAllProducts={showAllProducts} setShowAllProducts={setShowAllProducts} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
 				</Route>
 				<Route path="/cart">
-					<Cart userId={userId} username={username} baseURL={baseURL} userToken={userToken} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} showSingleProduct={showSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
+					<Cart userId={userId} username={username} userToken={userToken} baseURL={baseURL} userToken={userToken} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} showSingleProduct={showSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
 				</Route>
 				<Route path="/orders">
 					<ProfileOrders baseURL={baseURL} userId={userId} />
 				</Route>
 				<Route path="/product/:productId">
-					<SingleProduct baseURL={baseURL} />
+					<SingleProduct baseURL={baseURL} userToken={userToken} userId={userId} />
 				</Route>
 				<Route path="/category/:categoryId">
-					<ProductsByCategory baseURL={baseURL} />
+					<ProductsByCategory baseURL={baseURL} userToken={userToken} userId={userId} />
 				</Route>
 				<Route path="/admin">
 					<Admin baseURL={baseURL} userToken={userToken} />
