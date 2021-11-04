@@ -39,19 +39,8 @@ const fetchProductsByCategory = (baseURL, categoryId) => {
 		})
 		.then(res => res.json())
 		.then((res) => {
-			const list = [];
-			res.map((p) => {
-				fetch(`${baseURL}/products/${p.productId}`, {
-					method: 'GET',
-					headers: {'Content-Type': 'application/json'}
-				})
-				.then(res => res.json())
-				.then((res) => {
-					console.log('from utils',res);
-					list.push(res);
-				})
-			})
-			setProducts(list);
+			setProducts(res);
+			console.log(res);
 		})
 		.catch(error => console.error(error))
 	}, []);
