@@ -92,7 +92,6 @@ const Products = (props) => {
 			}}>Return to cart!</button></Link> : null}
 		</section>
 		{showAllProducts ? <ProductList baseURL={baseURL} updateUsersCart={updateUsersCart} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
-		{showProductsByCategory ? <ProductsByCategory baseURL={baseURL} updateUsersCart={updateUsersCart} selectedCategory={selectedCategory}/> : null}
 
 	</div>
 }
