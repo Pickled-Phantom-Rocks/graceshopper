@@ -1,5 +1,6 @@
 import {React, useState, useEffect} from 'react';
-import {fetchAllOrders, changeStatus} from '.';
+import {changeStatus, fetchOrdersWithUsers} from '.';
+import { fetchUser } from './ordersUtils';
 
 const OrderList = (props) => {
 	const {baseURL, userToken} = props;
@@ -7,8 +8,11 @@ const OrderList = (props) => {
 
 	async function fetchTheOrders () {
 		try {
-            const orderList = await fetchAllOrders(baseURL);
+			const orderList = await fetchOrdersWithUsers(baseURL);
+			console.log(orderList);
             setOrders(orderList);
+			
+
         } catch (error) {
             console.error(error);
         }
