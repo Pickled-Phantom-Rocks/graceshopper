@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {
-    useHistory
-} from "react-router-dom";
 import { fetchOrderList, mapOrders } from './ordersUtils';
 
 const ProfileOrders = ({userId, baseURL}) => {
