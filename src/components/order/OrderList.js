@@ -8,6 +8,7 @@ const OrderList = (props) => {
 
 	async function fetchTheOrders () {
 		try {
+			
 			const orderList = await fetchOrdersWithUsers(baseURL);
 			console.log(orderList);
             setOrders(orderList);
