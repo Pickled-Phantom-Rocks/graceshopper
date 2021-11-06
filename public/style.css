@@ -19,6 +19,7 @@ h1, h2, h3, h4, .navLink {
 }
 h1 {
 	font-size: 40px;
+	font-family: 'Sigmar One', cursive;
 	color:purple;
 	margin:10px 10px 20px 10px;
 	border-bottom:1px solid orange;
@@ -26,6 +27,7 @@ h1 {
 }
 h2 {
 	font-size: 30px;
+
 	margin: 10px 0;
 	color:orange;
 	border-bottom:1px solid purple;
@@ -47,7 +49,7 @@ button {
 #app {
 	display:grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 5% 1fr 5%;
+    grid-template-rows: 50px 1fr 50px;
 	overflow: hidden;
     overflow-wrap: break-word;
 	height:100%;
@@ -86,7 +88,39 @@ main {
 	grid-row:2;
 	background-color:white;
 	padding:10px;
-	overflow-y: scroll;
+	overflow-y: auto;
+}
+.greeting {
+	text-align:center;
+	margin: 0 auto;
+	font-size: 20px;
+}
+.greeting img {
+	width:100px;
+	height:200px;
+}
+.greeting h1 {
+	border: 2px solid orange;
+	border-radius:10px;
+	background-color:purple;
+	padding:5px;
+	color:orange;
+	font-size:60px;
+	max-width:400px;
+}
+.greeting h2 {
+	border:none;
+}
+.greetingInner {
+	display:flex;
+	align-items: center;
+	max-width:600px;
+	margin: 0 auto;
+}
+#logReg {
+	margin: 0 auto;
+	max-width:500px;
+	text-align:center;
 }
 section {
 	margin-bottom: 10px;
@@ -102,6 +136,8 @@ section {
 }
 .form {
 	border:1px solid purple;
+	border-radius:10px;
+	overflow:hidden;
 	max-width: 400px;
 	margin: 0 auto 10px auto;
 }
@@ -128,6 +164,8 @@ select option:checked, select option:hover {
 }
 .listItem {
 	border: 1px solid purple;
+	border-radius:10px;
+	overflow:hidden;
 	margin-bottom:10px;
 }
 .userListItem, .orderListItemInner {
@@ -140,7 +178,9 @@ select option:checked, select option:hover {
 }
 .productList {
 	border: 1px solid purple;
+	border-radius:10px;
 	margin-bottom:10px;
+	overflow:hidden;
 }
 .productList img, .singleProduct img {
 	width:156px;
@@ -163,6 +203,8 @@ select option:checked, select option:hover {
 }
 .orderListItem {
 	border: 1px solid purple;
+	border-radius:10px;
+	overflow:hidden;
 	margin-bottom:10px;
 }
 .orderListItemInner {
@@ -171,6 +213,8 @@ select option:checked, select option:hover {
 .orderListItemProductSingle {
 	margin:10px 10%;
 	border:1px solid orange;
+	border-radius:10px;
+	overflow: hidden;
 }
 .orderListProductSingleInner {
 	display:flex;

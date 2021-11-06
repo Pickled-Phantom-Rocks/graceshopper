@@ -7,9 +7,11 @@ import {
 	Footer,
 	Login,
 	Register,
+	Greeting,
 	Profile,
 	Products,
 	Cart,
+	Checkout,
 	Admin,
 	SingleProduct,
 	ProductsByCategory,
@@ -18,7 +20,6 @@ import {
 
 const App = () => {
 	const baseURL = 'https://pickledphantomrocksserver.herokuapp.com/api';
-	//const baseURL = 'http://localhost:3007/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [username, setUsername] = useState(localStorage.getItem("username"));
@@ -31,14 +32,16 @@ const App = () => {
 	const [showAllProducts, setShowAllProducts] = useState(true);
 	const [showSingleProductFromCart, setShowSingleProductFromCart] = useState(false);
 	const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));
-	
+	const [productList, setProductList] = useState([])
+	const [totalCartPrice, setTotalCartPrice] = useState(0)
+
 
 	return <Router>
 		<Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} setUsername={setUsername} setUserToken={setUserToken} setUserId={setUserId} />
 		<main>
 			<Switch>
 				<Route exact path="/">
-					{isLoggedIn ? <div id="greeting">If you see this, Javascript is working and you're logged in.</div> : null}
+					{isLoggedIn ? <Greeting username={username} /> : null}
 					{isLoggedIn ? null : 
 						<div id="logReg">
 							{showLog ? <div>
@@ -60,10 +63,13 @@ const App = () => {
 					<Products baseURL={baseURL} userId={userId} userToken={userToken} singleProductId={singleProductId} setSingleProductId={setSingleProductId} showSingleProduct={showSingleProduct} setShowSingleProduct={setShowSingleProduct} showProductsByCategory={showProductsByCategory} setShowProductsByCategory={setShowProductsByCategory} showAllProducts={showAllProducts} setShowAllProducts={setShowAllProducts} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
 				</Route>
 				<Route path="/cart">
-					<Cart userId={userId} username={username} userToken={userToken} baseURL={baseURL} userToken={userToken} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} showSingleProduct={showSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
+					<Cart userId={userId} username={username} userToken={userToken} baseURL={baseURL} productList={productList} setTotalCartPrice={setTotalCartPrice} totalCartPrice={totalCartPrice} setProductList={setProductList} userToken={userToken} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} showSingleProduct={showSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
 				</Route>
 				<Route path="/orders">
 					<ProfileOrders baseURL={baseURL} userId={userId} />
+				</Route>
+				<Route path="/checkout">
+					<Checkout userId={userId} baseURL={baseURL} userToken={userToken} productList={productList} totalCartPrice={totalCartPrice} />
 				</Route>
 				<Route path="/product/:productId">
 					<SingleProduct baseURL={baseURL} userToken={userToken} userId={userId} />

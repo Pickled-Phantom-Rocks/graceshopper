@@ -41,7 +41,6 @@ async function fetchCategoriesByProductID(baseURL, productId) {
 		if(response.length > 0){
 			response.map((cat)=>{
 				cats.push(cat.categoryId);
-
 			})
 		}
 	})

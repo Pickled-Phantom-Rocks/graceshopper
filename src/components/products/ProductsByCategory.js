@@ -2,6 +2,8 @@ import {React, useState, useEffect} from 'react';
 import {useParams, Link} from 'react-router-dom';
 import {fetchCategoryById} from '../categories/categoryUtils';
 import {fetchProductsByCategory, fetchProductById} from '.';
+import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId, deleteProductFromCartByProductId } from '../cart/cartUtils';
+
 
 const ProductsByCategory = (props) => {
 	const {baseURL, userToken, userId} = props;
