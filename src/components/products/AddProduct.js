@@ -1,11 +1,14 @@
 import {React, useState, useEffect} from 'react';
 import {fetchProducts, addProduct} from '.';
 import {fetchCategories} from '..';
+import { fetchCategoriesByProductID } from '../categories';
 
 const AddProduct = (props) => {
 	const {baseURL} = props;
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
+	const [selectedProduct, setSelectedProduct] = useState('');
+	const [selectedCategory, setSelectedCategory] = useState('');
 
 	async function fetchTheProducts() {
 		try {
@@ -17,15 +20,23 @@ const AddProduct = (props) => {
 	}
 	async function fetchTheCategories() {
 		try {
-			const result = await fetchCategories(baseURL)
-			setCategories(result)
+			const cats = await fetchCategories(baseURL);
+			const catProd = await fetchCategoriesByProductID(baseURL, selectedProduct);
+			catProd.map((catId) => {
+				for(let cat of cats) {
+					if(cat.id === catId){
+						const dex = cats.indexOf(cat);
+						cats.splice(dex, 1);
+					}
+				}
+			});
+			setCategories(cats);
 		} catch (error) {
 			console.error(error);
 		}
 	}
 	useEffect(() => {
 		fetchTheProducts();
-		fetchTheCategories();
 	}, []);
 
 	async function createCategoryProduct(){
@@ -44,7 +55,10 @@ const AddProduct = (props) => {
 		<br/>
 		<form onSubmit={createCategoryProduct}>
 			<label>Products: </label><br />
-			<select id="productSelect" size="5">
+			<select id="productSelect" size="5" onChange={(event) => {
+				setSelectedProduct(event.target.value);
+				fetchTheCategories();
+			}}>
 				{
 					products.map((product) => {
 						const { id, name } = product;
@@ -54,7 +68,9 @@ const AddProduct = (props) => {
 			</select>
 			<br/><br/>
 			<label>Categories: </label>
-			<select id="categorySelect" size="5">
+			<select id="categorySelect" size="5" onChange={(event) => {
+				setSelectedCategory(event.target.value);
+			}}>
 				{
 					categories.map((category) => {
 						const { id, name } = category;

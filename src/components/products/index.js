@@ -12,6 +12,7 @@ export {
 	fetchProducts,
 	fetchProductById,
 	fetchProductsByCategory,
+	fetchProductsByCategoryID,
 	newProduct,
 	editProduct,
 	deleteProduct,

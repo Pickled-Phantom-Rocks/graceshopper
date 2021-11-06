@@ -8,7 +8,6 @@ const Profile = (props) => {
 	const [showEditBilling, setShowEditBilling] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
 
-
 	return <div id="profile">
 		<h1>Hello, {username}!</h1>
 		<section className="userOptions">

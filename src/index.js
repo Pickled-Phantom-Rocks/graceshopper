@@ -7,6 +7,7 @@ import {
 	Footer,
 	Login,
 	Register,
+	Greeting,
 	Profile,
 	Products,
 	Cart,
@@ -41,7 +42,7 @@ const App = () => {
 		<main>
 			<Switch>
 				<Route exact path="/">
-					{isLoggedIn ? <div id="greeting">If you see this, Javascript is working and you're logged in.</div> : null}
+					{isLoggedIn ? <Greeting username={username} /> : null}
 					{isLoggedIn ? null : 
 						<div id="logReg">
 							{showLog ? <div>
