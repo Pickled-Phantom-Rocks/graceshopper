@@ -40,11 +40,27 @@ const fetchProductsByCategory = (baseURL, categoryId) => {
 		.then(res => res.json())
 		.then((res) => {
 			setProducts(res);
-			console.log(res);
 		})
 		.catch(error => console.error(error))
 	}, []);
 	return products
+}
+
+async function fetchTheProductsByCategory(baseURL, categoryId) {
+	const prods = [];
+	const result = await fetch(`${baseURL}/category_products/category/${categoryId}`, {
+		method: 'GET',
+		headers: {'Content-Type': 'application/json'}
+	})
+	.then(res => res.json())
+	.then((response) => {
+		if(response.length > 0) {
+			response.map((prod) => {
+				prods.push(prod.productId);
+			})
+		}
+	})
+	return prods;
 }
 
 async function newProduct(baseURL, name, desc, quantity, price, photoName) {
@@ -186,6 +202,7 @@ export {
 	fetchProducts,
 	fetchProductById,
 	fetchProductsByCategory,
+	fetchTheProductsByCategory,
 	newProduct,
 	editProduct,
 	deleteProduct,

@@ -1,11 +1,13 @@
 import {React, useState, useEffect} from 'react';
-import {fetchProducts, removeProduct} from '.';
+import {fetchProducts, fetchTheProductsByCategory, removeProduct} from '.';
 import {fetchCategories} from '..';
 
 const RemoveProduct = (props) => {
 	const {baseURL} = props;
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
+	const [selectedProduct, setSelectedProduct] = useState('');
+	const [selectedCategory, setSelectedCategory] = useState('');
 
 	async function fetchTheCategories() {
 		try {
@@ -17,16 +19,23 @@ const RemoveProduct = (props) => {
 	}	
 	async function fetchTheProducts() {
 		try {
-			const results = await fetchProducts(baseURL)
-			setProducts(results)
+			const prods = [];
+			const catProds = await fetchTheProductsByCategory(baseURL, selectedCategory);
+			if(catProds.length > 0){
+				catProds.map((prod) => {
+					console.log(prod);
+					prods.push(prod);
+				})
+			}
+			setProducts(prods)
 		} catch (error) {
 			throw error
 		}
 	}
 	useEffect(() => {
 		fetchTheCategories();
-		fetchTheProducts();
 	}, []);
+
 
 	async function removeTheProduct(){
 		event.preventDefault();
@@ -40,17 +49,15 @@ const RemoveProduct = (props) => {
 		const result= await removeProduct(baseURL, categoryId, productId);
 	}
 
-	//fetch the list of categories
-	//when a catefory is selected, fetch the products in it
-	//select product
-	//delete category_product with the productID and categoryID
-
 	return <div className="form">
 		<h3>Remove a Product from a Category</h3>
 		<br/>
 		<form onSubmit={removeTheProduct}>
 			<label>Categories</label>
-			<select id="categorySelect" size="5">
+			<select id="categorySelect" size="5" onChange={(event) => {
+				setSelectedCategory(event.target.value);
+				fetchTheProducts();
+			}}>
 				{
 					categories.map((category) => {
 						const { id, name } = category;
@@ -60,7 +67,9 @@ const RemoveProduct = (props) => {
 			</select>
 			<br/><br/>
 			<label>Products: </label>
-			<select id="productSelect" size="5">
+			<select id="productSelect" size="5" onChange={(event) => {
+				setSelectedProduct(event.target.value);
+			}}>
 				{
 					products.map((product) => {
 						const { id, name } = product;

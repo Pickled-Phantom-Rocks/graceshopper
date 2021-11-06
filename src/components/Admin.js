@@ -19,7 +19,7 @@ const Admin = (props) => {
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
 	const [showAddToCategory, setShowAddToCategory] = useState(false);
-	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(false);
+	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(true);
 	const [showNewCategory, setShowNewCategory] = useState(false);
 	const [showEditCategory, setShowEditCategory] = useState(false);
 	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
@@ -147,7 +147,7 @@ const Admin = (props) => {
 			</div>}
 		</section>
 		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} userToken={userToken} /> }
-		<p>Add pagination so only ten items at a time are shown.</p>
+		<p>Add pagination so only 5 items at a time are shown.</p>
 	</div>
 }
 

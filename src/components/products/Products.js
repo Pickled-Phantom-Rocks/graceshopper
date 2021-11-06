@@ -81,8 +81,7 @@ const Products = (props) => {
 						return <option value={categoryId} name={name} key={categoryId}>{name}</option>
 						})
 					}
-				</select> 
-					<button><Link to={`/category/${selectedCategory}`}>Search</Link></button>
+				</select> <button><Link to={`/category/${selectedCategory}`}>Search</Link></button>
 			</form>
 			{showAllProducts && !showSingleProductFromCart ? null: <button onClick={()=>{
 				setShowAllProducts(true);			

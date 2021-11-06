@@ -1,5 +1,6 @@
 export {default as Header} from './Header';
 export {default as Footer} from './Footer';
+export {default as Greeting} from './Greeting';
 export {default as Cart} from './cart/Cart';
 export {default as Admin} from './Admin';
 
