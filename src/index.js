@@ -10,6 +10,7 @@ import {
 	Profile,
 	Products,
 	Cart,
+	Checkout,
 	Admin,
 	SingleProduct,
 	ProductsByCategory,
@@ -30,7 +31,9 @@ const App = () => {
 	const [showAllProducts, setShowAllProducts] = useState(true);
 	const [showSingleProductFromCart, setShowSingleProductFromCart] = useState(false);
 	const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));
-	
+	const [productList, setProductList] = useState([])
+	const [totalCartPrice, setTotalCartPrice] = useState(0)
+
 
 	return <Router>
 		<Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} setUsername={setUsername} setUserToken={setUserToken} setUserId={setUserId} />
@@ -59,10 +62,13 @@ const App = () => {
 					<Products baseURL={baseURL} userId={userId} userToken={userToken} singleProductId={singleProductId} setSingleProductId={setSingleProductId} showSingleProduct={showSingleProduct} setShowSingleProduct={setShowSingleProduct} showProductsByCategory={showProductsByCategory} setShowProductsByCategory={setShowProductsByCategory} showAllProducts={showAllProducts} setShowAllProducts={setShowAllProducts} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
 				</Route>
 				<Route path="/cart">
-					<Cart userId={userId} username={username} userToken={userToken} baseURL={baseURL} userToken={userToken} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} showSingleProduct={showSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
+					<Cart userId={userId} username={username} userToken={userToken} baseURL={baseURL} productList={productList} setTotalCartPrice={setTotalCartPrice} totalCartPrice={totalCartPrice} setProductList={setProductList} userToken={userToken} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} showSingleProduct={showSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
 				</Route>
 				<Route path="/orders">
 					<ProfileOrders baseURL={baseURL} userId={userId} />
+				</Route>
+				<Route path="/checkout">
+					<Checkout userId={userId} baseURL={baseURL} userToken={userToken} productList={productList} totalCartPrice={totalCartPrice} />
 				</Route>
 				<Route path="/product/:productId">
 					<SingleProduct baseURL={baseURL} userToken={userToken} userId={userId} />
