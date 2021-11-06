@@ -59,8 +59,27 @@ async function changeStatus(baseURL, userToken, orderId, newStatus){
 		throw error
 	}
 }
+
+async function fetchOrdersWithUsers(baseURL) {
+	try {
+		const response = await fetch(`${baseURL}/orders/users`, {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
+		})
+		.then(res => res.json())
+		.then((result) => {
+			return result;
+		})
+		return response;
+	} catch (error) {
+		throw error
+	}
+}
+
+
 export {
 	fetchAllOrders,
 	fetchOrdersByStatus,
-	changeStatus
+	changeStatus,
+	fetchOrdersWithUsers
 };

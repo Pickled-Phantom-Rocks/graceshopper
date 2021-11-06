@@ -1,5 +1,6 @@
 import {React, useState, useEffect} from 'react';
-import {fetchAllOrders, changeStatus} from '.';
+import {changeStatus, fetchOrdersWithUsers} from '.';
+import { fetchUser } from './ordersUtils';
 
 const OrderList = (props) => {
 	const {baseURL, userToken} = props;
@@ -7,8 +8,11 @@ const OrderList = (props) => {
 
 	async function fetchTheOrders () {
 		try {
-            const orderList = await fetchAllOrders(baseURL);
+			const orderList = await fetchOrdersWithUsers(baseURL);
+			console.log(orderList);
             setOrders(orderList);
+			
+
         } catch (error) {
             console.error(error);
         }
@@ -36,6 +40,11 @@ const OrderList = (props) => {
 							<p><label>Order Date:</label> {order.orderDate ? order.orderDate.slice(0, 10) : null}</p>
 							<p><label>Delivery Date:</label> {order.deliveryDate ? order.deliveryDate.slice(0, 10) : null}</p>
 							<p><label>Total Price:</label> {`$`+ order.totalPrice}</p>
+							<p><label>Name:</label> {order.owner.name}</p>
+							<p><label>Address:</label> {order.owner.address}</p>
+							<p><label>City:</label> {order.owner.city}</p>
+							<p><label>State:</label> {order.owner.state}</p>
+							<p><label>Email:</label> {order.owner.email}</p>
 						</div>
 						<div className="right">		
 						<label>Change Status:</label><br/>

@@ -4,5 +4,6 @@ export {default as OrdersByStatus} from './OrdersByStatus';
 export {
 	fetchAllOrders,
 	fetchOrdersByStatus,
-	changeStatus
+	changeStatus,
+	fetchOrdersWithUsers
 } from './ordersUtils';

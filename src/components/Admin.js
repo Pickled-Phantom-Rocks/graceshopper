@@ -14,7 +14,7 @@ import {NewProduct,
 } from '.';
 
 const Admin = (props) => {
-	const {baseURL, userToken } = props;
+	const {baseURL, userToken, userId } = props;
 	const [showNewProduct, setShowNewProduct] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
@@ -146,8 +146,8 @@ const Admin = (props) => {
 				}}>Completed</button> : null}
 			</div>}
 		</section>
-		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} userToken={userToken} /> }
-		<p>Add pagination so only 5 items at a time are shown.</p>
+		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} userToken={userToken} userId={userId}/> }
+		<p>Add pagination so only ten items at a time are shown.</p>
 	</div>
 }
 
