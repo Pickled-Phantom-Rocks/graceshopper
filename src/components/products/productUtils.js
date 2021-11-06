@@ -46,7 +46,7 @@ const fetchProductsByCategory = (baseURL, categoryId) => {
 	return products
 }
 
-async function fetchTheProductsByCategory(baseURL, categoryId) {
+async function fetchProductsByCategoryID(baseURL, categoryId) {
 	const prods = [];
 	const result = await fetch(`${baseURL}/category_products/category/${categoryId}`, {
 		method: 'GET',
@@ -55,9 +55,10 @@ async function fetchTheProductsByCategory(baseURL, categoryId) {
 	.then(res => res.json())
 	.then((response) => {
 		if(response.length > 0) {
-			response.map((prod) => {
-				prods.push(prod.productId);
-			})
+			console.log(response);
+			// response.map((prod) => {
+			// 	prods.push(prod.productId);
+			// })
 		}
 	})
 	return prods;
@@ -202,7 +203,7 @@ export {
 	fetchProducts,
 	fetchProductById,
 	fetchProductsByCategory,
-	fetchTheProductsByCategory,
+	fetchProductsByCategoryID,
 	newProduct,
 	editProduct,
 	deleteProduct,

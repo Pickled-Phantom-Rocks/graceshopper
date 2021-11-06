@@ -5,7 +5,11 @@ const Greeting = (props) => {
 	return <div className="greeting">
 		<h2>Hello, {username}!</h2><br/>
 		Welcome to
-		<h1>Pickled Phantom Rocks</h1>
+		<div className="greetingInner">
+			<img src="images/pickleL.jpg" />
+			<h1>Pickled Phantom Rocks</h1>
+			<img src="images/pickleR.jpg" />
+		</div>
 		Your one stop shop for all things Pet Rocks
 	</div>
 }

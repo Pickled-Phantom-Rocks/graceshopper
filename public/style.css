@@ -88,12 +88,10 @@ main {
 	grid-row:2;
 	background-color:white;
 	padding:10px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 .greeting {
 	text-align:center;
-	width:50%;
-	min-width:400px;
 	margin: 0 auto;
 	font-size: 20px;
 }
@@ -101,12 +99,15 @@ main {
 	border: 2px solid orange;
 	border-radius:10px;
 	background-color:purple;
-	padding:10px;
+	padding:5px;
 	color:orange;
 	font-size:60px;
 }
 .greeting h2 {
 	border:none;
+}
+.greetingInner {
+	display:flex;
 }
 #logReg {
 	margin: 0 auto;

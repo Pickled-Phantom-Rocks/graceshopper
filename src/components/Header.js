@@ -16,15 +16,15 @@ const Header = (props) => {
 	return <header>
 		<nav>
 			<div>
-			<Link className="navLink" to="/">Home</Link>
-			<Link className="navLink" to="/products">Products</Link>
+				<Link className="navLink" to="/">Home</Link>
+				<Link className="navLink" to="/products">Products</Link>
 			</div>
 			<div>
-			{isLoggedIn ? <Link className="navLink" to="/profile">Profile</Link> : null}
-			{isLoggedIn ? <Link className="navLink" to="/cart">Cart</Link> : null}
-			{isLoggedIn ? <Link className="navLink" to="/orders">Orders</Link> : null}
-			{isAdmin ? <Link className="navLink" to="/admin">Admin</Link> : null}
-			{isLoggedIn ? <Link to="/"><button onClick={() => logOut()} className="navLink">Logout</button></Link> : null }
+				{isLoggedIn ? <Link className="navLink" to="/profile">Profile</Link> : null}
+				{isLoggedIn ? <Link className="navLink" to="/cart">Cart</Link> : null}
+				{isLoggedIn ? <Link className="navLink" to="/orders">Orders</Link> : null}
+				{isAdmin ? <Link className="navLink" to="/admin">Admin</Link> : null}
+				{isLoggedIn ? <Link to="/"><button onClick={() => logOut()} className="navLink">Logout</button></Link> : null }
 			</div>
 		</nav>
 	</header>;

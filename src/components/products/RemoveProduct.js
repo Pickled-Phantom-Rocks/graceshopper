@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react';
-import {fetchProducts, fetchTheProductsByCategory, removeProduct} from '.';
+import {fetchProducts, fetchProductsByCategoryID, removeProduct} from '.';
 import {fetchCategories} from '..';
 
 const RemoveProduct = (props) => {
@@ -20,7 +20,8 @@ const RemoveProduct = (props) => {
 	async function fetchTheProducts() {
 		try {
 			const prods = [];
-			const catProds = await fetchTheProductsByCategory(baseURL, selectedCategory);
+			const catProds = await fetchProductsByCategoryID(baseURL, selectedCategory);
+			console.log(catProds)
 			if(catProds.length > 0){
 				catProds.map((prod) => {
 					console.log(prod);

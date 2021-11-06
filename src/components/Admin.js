@@ -19,12 +19,14 @@ const Admin = (props) => {
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
 	const [showAddToCategory, setShowAddToCategory] = useState(false);
-	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(true);
+	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(false);
 	const [showNewCategory, setShowNewCategory] = useState(false);
 	const [showEditCategory, setShowEditCategory] = useState(false);
 	const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 	const [showUsers, setShowUsers] = useState(false);
-	const [showAllOrders, setShowAllOrders] = useState(true);
+	const [showOrders, setShowOrders] = useState(false);
+	const [showAllOrders, setShowAllOrders] = useState(false);
+	const [showByStatus, setShowByStatus] = useState(false);
 	const [orderListStatus, setOrderListStatus] = useState('');
 	const [completed, setCompleted] = useState(true);
 	const [cancelled, setCancelled] = useState(true);
@@ -107,7 +109,8 @@ const Admin = (props) => {
 		{!showUsers ? null : <UserList baseURL={baseURL} userToken={userToken} />}
 		<h2>Orders</h2>
 		<section className="userOptions">
-			{<div>
+		{!showOrders ? <button onClick={()=> setShowOrders(true)} >Show Orders</button> : <button onClick={()=> setShowOrders(false)}>Hide Orders</button>}
+		{showOrders ? <div>
 				<br/>
 				<button onClick={() => {
 					setShowAllOrders(true);
@@ -144,9 +147,10 @@ const Admin = (props) => {
 					setCreated(false);
 					setCancelled(false);
 				}}>Completed</button> : null}
-			</div>}
+			</div> : null}
 		</section>
-		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} userToken={userToken} userId={userId}/> }
+		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : null}
+		{showByStatus ? <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} userToken={userToken} userId={userId}/> : null}
 		<p>Add pagination so only ten items at a time are shown.</p>
 	</div>
 }
