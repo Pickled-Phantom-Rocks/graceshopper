@@ -18,7 +18,7 @@ import {
 } from './components';
 
 const App = () => {
-	const baseURL = 'http://localhost:3007/api';
+	const baseURL = 'https://pickledphantomrocksserver.herokuapp.com/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [username, setUsername] = useState(localStorage.getItem("username"));
@@ -77,7 +77,7 @@ const App = () => {
 					<ProductsByCategory baseURL={baseURL} userToken={userToken} userId={userId} />
 				</Route>
 				<Route path="/admin">
-					<Admin baseURL={baseURL} userToken={userToken} />
+					<Admin baseURL={baseURL} userToken={userToken} userId={userId}/>
 				</Route>
 				<Route>
 					<h1>404 Page Not Found</h1>

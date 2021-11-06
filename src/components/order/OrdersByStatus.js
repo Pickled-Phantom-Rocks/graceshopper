@@ -1,13 +1,14 @@
 import {React, useState, useEffect} from 'react';
-import { fetchOrdersByStatus, changeStatus } from '.';
+import { fetchOrdersByStatus, changeStatus, fetchOrderOwner } from '.';
 
 const OrdersByStatus = (props) => {
-	const {baseURL, orderListStatus, userToken } = props;
+	const {baseURL, orderListStatus, userToken, userId } = props;
 	const [orders, setOrders] = useState([]);
 
 	async function fetchTheOrders () {
 		try {
             const orderList = await fetchOrdersByStatus(baseURL, orderListStatus);
+
             setOrders(orderList);
         } catch (error) {
             console.error(error);
@@ -37,6 +38,11 @@ const OrdersByStatus = (props) => {
 							<p><label>Order Date:</label> {order.orderDate ? order.orderDate.slice(0, 10) : null}</p>
 							<p><label>Delivery Date:</label> {order.deliveryDate ? order.deliveryDate.slice(0, 10) : null}</p>
 							<p><label>Total Price:</label> {`$`+ order.totalPrice}</p>
+							<p><label>Name:</label> {order.owner.name}</p>
+							<p><label>Address:</label> {order.owner.address}</p>
+							<p><label>City:</label> {order.owner.city}</p>
+							<p><label>State:</label> {order.owner.state}</p>
+							<p><label>Email:</label> {order.owner.email}</p>
 						</div>
 						<div className="right">		
 						<label>Change Status:</label><br/>
