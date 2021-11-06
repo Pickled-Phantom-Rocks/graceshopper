@@ -142,46 +142,6 @@ async function getAllOrdersByUserId( userId ) {
     }
 }
 
-// async function getAllOrdersWithUsers() {
-//     try {
-//         const { rows: orders } = await client.query(`
-//         SELECT *
-//         FROM orders;
-//      `) 
-//      for (const order of orders) {
-//         const { rows: orderProducts } = await client.query(`
-//             SELECT *
-//             FROM order_products
-//             JOIN orders ON order_products."orderId" = orders.id
-//             WHERE orders.id = $1;
-//         `, [order.id]);
-//             order.orderProducts = orderProducts;
-//         }
-//     for (const order of orders) {
-//         const { rows: [user] } = await client.query(`
-//             SELECT *
-//             FROM users
-//             JOIN orders ON users.id = orders."userId"
-//             WHERE orders."userId" = $1;
-//         `, [order.userId]);
-//             order.owner = user;
-//         }
-//     for (const order of orders) {
-//         delete order.owner.userId;
-//         delete order.owner.totalPrice;
-//         delete order.owner.password;
-//         delete order.owner.orderStatus;
-//         delete order.owner.orderDate;
-//         delete order.owner.isAdmin;
-//         delete order.owner.deliveryDate;
-//         }
-
-//         return orders;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
-
 async function getAllOrdersWithUsers() {
     try {
         const { rows: orders } = await client.query(`
@@ -192,8 +152,7 @@ async function getAllOrdersWithUsers() {
         const { rows: orderProducts } = await client.query(`
             SELECT *
             FROM order_products
-            JOIN orders ON order_products."orderId" = orders.id
-            WHERE orders.id = $1;
+            WHERE order_products."orderId" = $1;
         `, [order.id]);
             order.orderProducts = orderProducts;
         }
@@ -204,8 +163,10 @@ async function getAllOrdersWithUsers() {
             WHERE users.id = $1;
         `, [order.userId]);
             order.owner = user;
+            delete order.owner.password;
+            delete order.owner.billingInfo;    
         }
-
+        
         return orders;
     } catch (error) {
         throw error;
@@ -224,10 +185,19 @@ async function getOrdersByStatus(orderStatus) {
             const { rows: orderProducts } = await client.query(`
                 SELECT *
                 FROM order_products
-                JOIN orders ON order_products."orderId" = orders.id
-                WHERE orders.id = $1;
+                WHERE order_products."orderId" = $1;
             `, [order.id]);
                 order.orderProducts = orderProducts;
+            }
+        for (const order of orders) {
+            const { rows: [user] } = await client.query(`
+                SELECT *
+                FROM users
+                WHERE users.id = $1;
+            `, [order.userId]);
+                order.owner = user;
+                delete order.owner.password;
+                delete order.owner.billingInfo;    
             }
         return orders;
     } catch (error) {

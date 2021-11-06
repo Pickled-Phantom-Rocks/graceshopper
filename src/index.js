@@ -71,7 +71,7 @@ const App = () => {
 					<ProductsByCategory baseURL={baseURL} userToken={userToken} userId={userId} />
 				</Route>
 				<Route path="/admin">
-					<Admin baseURL={baseURL} userToken={userToken} />
+					<Admin baseURL={baseURL} userToken={userToken} userId={userId}/>
 				</Route>
 				<Route>
 					<h1>404 Page Not Found</h1>
