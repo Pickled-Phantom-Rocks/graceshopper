@@ -15,7 +15,7 @@ const EditUserBilling = (props) => {
 	return <div className="form">
 		<h3>Update Billing Info</h3>
 		<form onSubmit={sendEditBilling}>
-			<label>Card Number: </label><br />
+			<label>Card Number: (Please include dashes - )</label><br />
 			<input
 				className="newInputLine"
 				type="card"
@@ -32,6 +32,7 @@ const EditUserBilling = (props) => {
 				onChange={(event) => {
 					setCVV(event.target.value);
 				}}
+				maxLength="3"
 			></input><br/>
 			<button className="submit">Submit</button>
 		</form>

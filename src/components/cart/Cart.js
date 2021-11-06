@@ -4,19 +4,15 @@ import { getCartByUserId, deleteProductFromCartByProductId, addToUsersCart, upda
 
 const Cart = (props) => {
 	
-	const {username, userId, userToken, baseURL, setShowSingleProduct, setSingleProductId, showSingleProduct, setShowAllProducts, setShowProductsByCategory, showSingleProductFromCart, setShowSingleProductFromCart } = props
+	const {username, userId, userToken, baseURL, setShowSingleProduct, setSingleProductId, setShowAllProducts, setShowProductsByCategory, setShowSingleProductFromCart, productList, setProductList, setTotalCartPrice, totalCartPrice } = props
 	const [usersCart, setUsersCart] = useState([])
-	const [productList, setProductList] = useState([])
-	//const [quantityCounter, setQuantityCounter] = useState(0)
+	//const [productList, setProductList] = useState([])
 	
 
 	async function fetchUsersCart() {
 		try {
-			//console.log("USERID", userId)
 			const result = await getCartByUserId(userId, baseURL)
-			//console.log("RESULT", result)
 			setUsersCart(result[0])
-			//console.log("RESULT SOMETHING: ", result[0].products)
 			setProductList(result[0].products)
 
 		} catch (error) {
@@ -25,29 +21,11 @@ const Cart = (props) => {
 		}
 	}
 
-	useEffect(() => {
-		fetchUsersCart()
-	}, [])
 
-	
-	//console.log("user's cart: ", usersCart)
-	//console.log("Product List: ", productList)
 
-	// async function incrementer() {
-	// 	const oneMore = quantityCounter + 1
-	// 	setQuantityCounter(oneMore)
-	// }
-
-	// async function decrementer() {
-	// 	if(quantityCounter === 0) {
-	// 		return
-	// 	}
-	// 	const oneLess = quantityCounter - 1
-	// 	setQuantityCounter(oneLess)
-	// }
 
 	function renderCartProducts(prodList) {
-		console.log("ProdList: ", prodList)
+		//console.log("ProdList: ", prodList)
 		let {id, name, photoName, price, quantityOfItem, quantityAvailable} = prodList
 		const photoURL = "images/Products/" + photoName + ".jpg"
 		let quantityCounter = quantityOfItem
@@ -153,6 +131,11 @@ const Cart = (props) => {
 	const totalItemPrices = productList.map(product => quantityTimesPrice(product.quantityOfItem, product.price))
 
 	const totalPrice = totalPriceCalculator(totalItemPrices)
+	useEffect(() => {
+		fetchUsersCart(),
+		setTotalCartPrice(totalPrice)
+	}, [totalPrice])
+	console.log("total price sent to the checkout: ", totalCartPrice)
 
 	productList.sort((a, b) => {
 		const nameA = a.name.toLowerCase()
@@ -168,10 +151,12 @@ const Cart = (props) => {
 
 	return <div id="cart">
 		<h1>{username}'s Cart</h1>
-		<div style={{border: "2px solid darkGreen"}}>
+		<div style={{}}>
 			{productList.map(product => renderCartProducts(product))}
 			<div>
 				<h2>Total Price: {`$${totalPrice}`}</h2>
+				{productList[0] ? <><h5>Have everything you need?</h5> <Link to="/checkout"><button>Check Out</button></Link></> : null}
+				
 			</div>
 		</div>
 		
