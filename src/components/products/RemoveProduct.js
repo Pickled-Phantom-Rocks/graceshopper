@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react';
+import {React, useState, useEffect, useRef} from 'react';
 import {fetchProducts, fetchProductsByCategoryID, removeProduct} from '.';
 import {fetchCategories} from '..';
 
@@ -6,8 +6,9 @@ const RemoveProduct = (props) => {
 	const {baseURL} = props;
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
-	const [selectedProduct, setSelectedProduct] = useState('');
-	const [selectedCategory, setSelectedCategory] = useState('');
+	const selectedProductRef = useRef('');
+	const selectedCategoryRef = useRef('');
+
 
 	async function fetchTheCategories() {
 		try {
@@ -19,13 +20,16 @@ const RemoveProduct = (props) => {
 	}	
 	async function fetchTheProducts() {
 		try {
+			const fetchedProds = await fetchProducts(baseURL);
+			const catProds = await fetchProductsByCategoryID(baseURL, selectedCategoryRef.current);
 			const prods = [];
-			const catProds = await fetchProductsByCategoryID(baseURL, selectedCategory);
-			console.log(catProds)
-			if(catProds.length > 0){
-				catProds.map((prod) => {
-					console.log(prod);
-					prods.push(prod);
+			if(catProds.length > 0) {
+				catProds.map((catID) => {
+					for(let prod of fetchedProds){
+						if(catID == prod.id){
+							prods.push(prod);
+						}
+					}
 				})
 			}
 			setProducts(prods)
@@ -56,7 +60,7 @@ const RemoveProduct = (props) => {
 		<form onSubmit={removeTheProduct}>
 			<label>Categories</label>
 			<select id="categorySelect" size="5" onChange={(event) => {
-				setSelectedCategory(event.target.value);
+				selectedCategoryRef.current = event.target.value;
 				fetchTheProducts();
 			}}>
 				{
@@ -69,7 +73,7 @@ const RemoveProduct = (props) => {
 			<br/><br/>
 			<label>Products: </label>
 			<select id="productSelect" size="5" onChange={(event) => {
-				setSelectedProduct(event.target.value);
+				selectedProductRef.current = event.target.value;
 			}}>
 				{
 					products.map((product) => {

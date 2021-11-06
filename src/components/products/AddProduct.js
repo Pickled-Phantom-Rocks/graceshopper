@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react';
+import {React, useState, useEffect, useRef} from 'react';
 import {fetchProducts, addProduct} from '.';
 import {fetchCategories} from '..';
 import { fetchCategoriesByProductID } from '../categories';
@@ -7,21 +7,22 @@ const AddProduct = (props) => {
 	const {baseURL} = props;
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
-	const [selectedProduct, setSelectedProduct] = useState('');
-	const [selectedCategory, setSelectedCategory] = useState('');
+	const selectedProductRef = useRef('');
+	const selectedCategoryRef = useRef('');
 
 	async function fetchTheProducts() {
 		try {
-			const results = await fetchProducts(baseURL)
-			setProducts(results)
+			const results = await fetchProducts(baseURL);
+			setProducts(results);
 		} catch (error) {
 			throw error
 		}
 	}
 	async function fetchTheCategories() {
 		try {
+
 			const cats = await fetchCategories(baseURL);
-			const catProd = await fetchCategoriesByProductID(baseURL, selectedProduct);
+			const catProd = await fetchCategoriesByProductID(baseURL, selectedProductRef.current);
 			catProd.map((catId) => {
 				for(let cat of cats) {
 					if(cat.id === catId){
@@ -42,12 +43,8 @@ const AddProduct = (props) => {
 	async function createCategoryProduct(){
 		event.preventDefault();
 
-		const pselector = document.getElementById("productSelect");
-		const productId = pselector.options[pselector.selectedIndex].value;
-
-		const cselector = document.getElementById("categorySelect");
-		const categoryId = cselector.options[cselector.selectedIndex].value;
-
+		const categoryId = selectedCategoryRef.current;
+		const productId = selectedProductRef.current;
 		const result= await addProduct(baseURL, categoryId, productId);
 	}
 	return <div className="form">
@@ -56,7 +53,7 @@ const AddProduct = (props) => {
 		<form onSubmit={createCategoryProduct}>
 			<label>Products: </label><br />
 			<select id="productSelect" size="5" onChange={(event) => {
-				setSelectedProduct(event.target.value);
+				selectedProductRef.current = event.target.value;
 				fetchTheCategories();
 			}}>
 				{
@@ -69,7 +66,7 @@ const AddProduct = (props) => {
 			<br/><br/>
 			<label>Categories: </label>
 			<select id="categorySelect" size="5" onChange={(event) => {
-				setSelectedCategory(event.target.value);
+				selectedCategoryRef.current = event.target.value;
 			}}>
 				{
 					categories.map((category) => {

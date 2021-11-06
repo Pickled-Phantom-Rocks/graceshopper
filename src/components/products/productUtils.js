@@ -55,10 +55,9 @@ async function fetchProductsByCategoryID(baseURL, categoryId) {
 	.then(res => res.json())
 	.then((response) => {
 		if(response.length > 0) {
-			console.log(response);
-			// response.map((prod) => {
-			// 	prods.push(prod.productId);
-			// })
+			response.map((prod) => {
+				prods.push(prod.productId);
+			})
 		}
 	})
 	return prods;
