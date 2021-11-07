@@ -1,9 +1,13 @@
 const express = require('express');
-const { deleteOrder } = require('../db');
 const orderProductsRouter = express.Router();
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const { JWT_SECRET } = process.env;
 
+const { deleteOrder } = require('../db');
 const {    
     createOrder_Product,
+    getAllOrderProducts,
     getOrder_ProductById,
     getOrder_ProductsByOrderId,
     updateOrder_Product,
@@ -17,6 +21,15 @@ orderProductsRouter.use((req, res, next) => {
     } catch (error) {
         throw error
     }
+})
+
+orderProductsRouter.get('/', async (req, res, next) => {
+	try {
+		const categoryProducts = await getAllOrderProducts();
+		res.send(categoryProducts);
+	} catch(error) {
+		next(error);
+	}
 })
 
 orderProductsRouter.get('/:order_productId', async (req, res, next) => {
@@ -36,6 +49,18 @@ orderProductsRouter.get('/:orderId', async (req, res, next) => {
         res.send(orderProducts);
     } catch (error) {
         next(error);
+    }
+})
+
+orderProductsRouter.post('/', async (req, res, next) => {
+    const {orderId, productId, quantityOrdered, priceWhenOrdered, name, description, photoName } = req.body;
+    const sent = {orderId, productId, quantityOrdered, priceWhenOrdered, name, description, photoName};
+    const result = await createOrder_Product(sent);
+    if(result) {
+        res.send({
+            status: 204,
+            message: "Order product successfully created."
+        });
     }
 })
 
@@ -89,6 +114,4 @@ orderProductsRouter.delete('/:orderProductsId', async (req, res, next) => {
     }
 })
 
-module.exports = {
-    orderProductsRouter
-}
+module.exports = orderProductsRouter;

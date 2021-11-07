@@ -1,31 +1,8 @@
-//const usersBaseUrl = 'http://localhost:3134/api/users'
-//const cartsBaseUrl = 'http://localhost:3139/api/carts'
-
-
-// export async function getUserByUsername(username) {
-//     try {
-//         const result = await fetch(`${usersBaseUrl}/${username}`)
-
-//         const user = result.json()
-
-//         return user
-
-//     } catch (error) {
-//         throw error
-//     }
-// }
-
 export async function getCartByUserId(userId, baseURL) {
 
     try {
-
-        //console.log("userIdPassed into utils", userId)
         const result = await fetch(`${baseURL}/carts/${userId}`)
-        //console.log("RESULT CART UTIL", result)
-
         const data = await result.json()
-        //console.log("CART from CARUTIL ", data)
-
         return data
 
     } catch (error) {
@@ -43,9 +20,7 @@ export async function createCartForUser(userId, baseURL) {
                 "Content-Type": "application/json"
             }
         })
-
         const data = await result.json()
-
         return data
     } catch (error) {
         throw error
@@ -53,9 +28,7 @@ export async function createCartForUser(userId, baseURL) {
 }
 
 export async function addToUsersCart(cartId, productId, productPrice, quantityOfItem, baseUrl) {
-
     try {
-
         const result = await fetch(`${baseUrl}/cart-products/${cartId}`, {
             method: "POST",
             headers: {
@@ -65,11 +38,8 @@ export async function addToUsersCart(cartId, productId, productPrice, quantityOf
                 productId, productPrice, quantityOfItem
             })
         })
-
         const data = await result.json()
-
         return data
-
     } catch (error) {
         console.log(error)
         throw error
@@ -78,12 +48,10 @@ export async function addToUsersCart(cartId, productId, productPrice, quantityOf
 
 export async function updateItemQuantityAvailable(userToken, productId, quantityAvailable, baseUrl) {
     try {
-
         const fields = {}
         if (quantityAvailable) {
             fields.quantity = quantityAvailable
         }
-
         const result = await fetch (`${baseUrl}/products/${productId}`, {
             method: "PATCH",
             headers: {
@@ -94,11 +62,8 @@ export async function updateItemQuantityAvailable(userToken, productId, quantity
                 fields
             })
         })
-
         const data = await result.json()
-
         return data
-
     } catch (error) {
         throw error
     }
@@ -107,9 +72,7 @@ export async function updateItemQuantityAvailable(userToken, productId, quantity
 export async function getAllCartProductsByCartId(cartId, baseUrl) {
     try {
         const result = await fetch(`${baseUrl}/cart-products/${cartId}`)
-
         const data = await result.json()
-
         return data
     } catch (error) {
         throw error
@@ -124,11 +87,58 @@ export async function deleteProductFromCartByProductId(ProductId, baseUrl) {
                 'Content-Type': 'application/json'
             }
         })
-
         const data = await result.json()
-
         return data
     } catch (error) {
         throw error
     }
+}
+
+export async function convertToOrder(baseURL, userId, userToken, orderDate, totalCartPrice, productList){
+    try {
+        const orderStatus = 'Created';
+        const totalPrice = totalCartPrice;
+        const cart = {orderDate, totalPrice, orderStatus};
+        const result = await fetch(`${baseURL}/orders/${userId}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${userToken}`
+            },
+            body: JSON.stringify(cart)
+        })
+        .then(res => res.json())
+        .then((result) => {
+            const orderId = result.id;
+            productList.map(async (prod) => {
+                const {description, id: productId, name, photoName, productPrice: priceWhenOrdered, quantityOfItem: quantityOrdered} = prod;
+                const sent = {orderId, productId, quantityOrdered, priceWhenOrdered, name, description, photoName};
+
+                const prodResult = await fetch(`${baseURL}/order_products/`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${userToken}`
+                    },
+                    body: JSON.stringify(sent)
+                })
+                .then(res => res.json())
+                .then((result) => {
+                    if(result.status == 204){
+                        alert("Your order has been created.");
+
+
+                    } else {
+                        alert("Something went wrong. Please try again.");
+                    }
+                })
+                .catch(err => console.error(err))
+            })
+        })
+        return result;
+    } catch(error){
+        throw error
+    }
+
+
 }

@@ -125,8 +125,8 @@ const Admin = (props) => {
 						setCreated(false);
 						setCancelled(false);
 						setCompleted(false);}}>Hide All Orders</button>}
-		{showOrders ?
-		<div>
+		</section>
+			{!showOrders ? null : <section className="userOptions">
 				<br/>
 				<button onClick={() => {
 					setShowByStatus(false);
@@ -167,11 +167,12 @@ const Admin = (props) => {
 					setProcessing(false);
 					setCreated(false);
 					setCancelled(false);
-				}}>Completed</button> : null}		
+				}}>Completed</button>  : null}
+			</section> 
+			}
 		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : null}
 		{showByStatus ? <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} userToken={userToken} userId={userId}/> : null}
 		<p>Add pagination so only ten items at a time are shown.</p>
-	</div> : null}</section>
 	</div>
 }
 

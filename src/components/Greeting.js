@@ -10,7 +10,7 @@ const Greeting = (props) => {
 			<h1>Pickled Phantom Rocks</h1>
 			<img src="images/pickleR.jpg" />
 		</div>
-		Your one stop shop for all things Pet Rocks
+		Your one stop shop for Pet Rocks with Personality
 	</div>
 }
 

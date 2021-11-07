@@ -3,11 +3,8 @@ import {Link} from 'react-router-dom';
 import { getCartByUserId, deleteProductFromCartByProductId, addToUsersCart, updateItemQuantityAvailable } from './cartUtils';
 
 const Cart = (props) => {
-	
 	const {username, userId, userToken, baseURL, setShowSingleProduct, setSingleProductId, setShowAllProducts, setShowProductsByCategory, setShowSingleProductFromCart, productList, setProductList, setTotalCartPrice, totalCartPrice } = props
 	const [usersCart, setUsersCart] = useState([])
-	//const [productList, setProductList] = useState([])
-	
 
 	async function fetchUsersCart() {
 		try {
@@ -21,11 +18,7 @@ const Cart = (props) => {
 		}
 	}
 
-
-
-
 	function renderCartProducts(prodList) {
-		//console.log("ProdList: ", prodList)
 		let {id, name, photoName, price, quantityOfItem, quantityAvailable} = prodList
 		const photoURL = "images/Products/" + photoName + ".jpg"
 		let quantityCounter = quantityOfItem
@@ -94,19 +87,11 @@ const Cart = (props) => {
 					
 					<div className="PlusMinus">
 						<input type="button" onClick={decrementer} value="-" style={{paddingLeft: "0.4em", paddingRight: "0.4em", marginRight: "1em", marginBottom: "1em"}} />
-
 						<input type="text" name="quantity" value={quantityCounter} readOnly={true} size="1" id="number" />
-
 						<input type="button" onClick={incrementer} value="+" style={{paddingLeft: "0.4em", paddingRight: "0.4em", marginLeft: "1em", marginBottom: "1em"}} />
-
-						{/* <button>Update Product quantity</button> */}
-
 					</div>
 				</div>	
-
 			</div>)
-		
-
 	}
 
 	function quantityTimesPrice(quantity, price) {
@@ -114,28 +99,22 @@ const Cart = (props) => {
 	}
 
 	const reducer = (accumulator, curr) => accumulator + curr
-
 	function totalPriceCalculator(itemPrices) {
-
 		let totalPrice
-
 		if(!itemPrices[0]) {
 			totalPrice = 0.00
 			return totalPrice
 		}
-
 		totalPrice = itemPrices.reduce(reducer)
 		return totalPrice
 	}
 
 	const totalItemPrices = productList.map(product => quantityTimesPrice(product.quantityOfItem, product.price))
-
 	const totalPrice = totalPriceCalculator(totalItemPrices)
 	useEffect(() => {
 		fetchUsersCart(),
 		setTotalCartPrice(totalPrice)
 	}, [totalPrice])
-	console.log("total price sent to the checkout: ", totalCartPrice)
 
 	productList.sort((a, b) => {
 		const nameA = a.name.toLowerCase()

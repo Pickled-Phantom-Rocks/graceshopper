@@ -40,7 +40,7 @@ const OrderList = (props) => {
                             <p><label>Order Status:</label> {order.orderStatus}</p>
 							<p><label>Order Date:</label> {order.orderDate ? order.orderDate.slice(0, 10) : null}</p>
 							<p><label>Delivery Date:</label> {order.deliveryDate ? order.deliveryDate.slice(0, 10) : null}</p>
-							<p><label>Total Price:</label> {`$`+ order.totalPrice}</p>
+							<p><label>Total Price:</label> {`$`+ order.totalPrice}</p><br/>
 							<p><label>Name:</label> {order.owner.name}</p>
 							<p><label>Address:</label> {order.owner.address}</p>
 							<p><label>City:</label> {order.owner.city}</p>

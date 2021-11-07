@@ -125,7 +125,7 @@ async function deleteCategory(baseURL, categoryId){
 			alert("Category successfully deleted.");
 			location.reload();
 		} else {
-			alert("Unable to delete category.")
+			alert("Unable to delete, the category has an item in it.")
 		}
 	})
 	.catch(console.error);

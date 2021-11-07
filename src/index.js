@@ -14,13 +14,12 @@ import {
 	Checkout,
 	Admin,
 	SingleProduct,
-	ProductsByCategory,
-	ProfileOrders
+	ProductsByCategory
 } from './components';
 
 const App = () => {
-	const baseURL = 'https://pickledphantomrocksserver.herokuapp.com/api';
-
+	//const baseURL = 'https://pickledphantomrocksserver.herokuapp.com/api';
+	const baseURL = 'http://localhost:3009/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [username, setUsername] = useState(localStorage.getItem("username"));
@@ -65,9 +64,6 @@ const App = () => {
 				</Route>
 				<Route path="/cart">
 					<Cart userId={userId} username={username} userToken={userToken} baseURL={baseURL} productList={productList} setTotalCartPrice={setTotalCartPrice} totalCartPrice={totalCartPrice} setProductList={setProductList} userToken={userToken} setSingleProductId={setSingleProductId} setShowSingleProduct={setShowSingleProduct} showSingleProduct={showSingleProduct} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
-				</Route>
-				<Route path="/orders">
-					<ProfileOrders baseURL={baseURL} userId={userId} />
 				</Route>
 				<Route path="/checkout">
 					<Checkout userId={userId} baseURL={baseURL} userToken={userToken} productList={productList} totalCartPrice={totalCartPrice} />
