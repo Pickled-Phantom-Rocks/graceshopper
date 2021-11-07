@@ -72,12 +72,13 @@ export default function Checkout(props) {
         setError("")
 
         //this is where the order will be created
-        //reference "productList" for list of products in cart
         const newDate = new Date();
         const orderDate = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + newDate.getDate();
         
         const result = await convertToOrder(baseURL, userId, userToken, orderDate, totalCartPrice, productList);
-        
+        if(result == true){
+            
+        }
     
     }
 

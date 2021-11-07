@@ -113,7 +113,6 @@ export async function convertToOrder(baseURL, userId, userToken, orderDate, tota
             productList.map(async (prod) => {
                 const {description, id: productId, name, photoName, productPrice: priceWhenOrdered, quantityOfItem: quantityOrdered} = prod;
                 const sent = {orderId, productId, quantityOrdered, priceWhenOrdered, name, description, photoName};
-
                 const prodResult = await fetch(`${baseURL}/order_products/`, {
                     method: "POST",
                     headers: {
@@ -125,9 +124,9 @@ export async function convertToOrder(baseURL, userId, userToken, orderDate, tota
                 .then(res => res.json())
                 .then((result) => {
                     if(result.status == 204){
-                        alert("Your order has been created.");
-
-
+                        deleteProductFromCartByProductId(productId, baseURL);
+                        alert("Your order was successfully created.");
+                        return true;
                     } else {
                         alert("Something went wrong. Please try again.");
                     }
