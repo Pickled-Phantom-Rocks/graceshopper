@@ -13,6 +13,7 @@ export default function Checkout(props) {
     const [error, setError] = useState("");
     const [showEditAddress, setShowEditAddress] = useState(false);
     const [showEditBilling, setShowEditBilling] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     async function getCurrentUserById(Id) {
         const userObject = await fetch(`${baseURL}/users/${Id}`);
@@ -71,15 +72,10 @@ export default function Checkout(props) {
 
         setError("")
 
-        //this is where the order will be created
         const newDate = new Date();
         const orderDate = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + newDate.getDate();
         
-        const result = await convertToOrder(baseURL, userId, userToken, orderDate, totalCartPrice, productList);
-        if(result == true){
-            
-        }
-    
+        const result = await convertToOrder(baseURL, userId, userToken, orderDate, totalCartPrice, productList, setShowConfirm);
     }
 
     function renderBillingInfo(userObj) {
@@ -112,6 +108,10 @@ export default function Checkout(props) {
                 <div>
                     {showEditBilling ? <EditUserBilling baseURL={baseURL} userToken={userToken} userId={userId} /> : null}
                 </div>
+                {showConfirm ? <div className="confirm">
+                    <p>Your order has been placed.</p><br/>
+                    <Link to="/"><button>Back to Home</button></Link>
+                </div> : null}
             </div>
         )
     }
@@ -135,7 +135,6 @@ export default function Checkout(props) {
         )
     }
 
-    //console.log("Total cart price in checkout: ", totalCartPrice)
     return (
         <>
         <div>

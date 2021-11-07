@@ -222,6 +222,13 @@ select option:checked, select option:hover {
 .orderListItemProductInfo {
 	padding:5px;
 }
+.confirm {
+	max-width:500px;
+	margin: 10px auto;
+	border: 1px solid purple;
+	text-align:center;
+	padding:10px;
+}
 footer {
 	grid-row:3;
 	border-top:2px solid orange;

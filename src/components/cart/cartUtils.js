@@ -94,7 +94,7 @@ export async function deleteProductFromCartByProductId(ProductId, baseUrl) {
     }
 }
 
-export async function convertToOrder(baseURL, userId, userToken, orderDate, totalCartPrice, productList){
+export async function convertToOrder(baseURL, userId, userToken, orderDate, totalCartPrice, productList, setShowConfirm){
     try {
         const orderStatus = 'Created';
         const totalPrice = totalCartPrice;
@@ -125,14 +125,14 @@ export async function convertToOrder(baseURL, userId, userToken, orderDate, tota
                 .then((result) => {
                     if(result.status == 204){
                         deleteProductFromCartByProductId(productId, baseURL);
-                        alert("Your order was successfully created.");
-                        return true;
                     } else {
                         alert("Something went wrong. Please try again.");
                     }
                 })
                 .catch(err => console.error(err))
             })
+            alert("Your order was successfully created.");
+            setShowConfirm(true);
         })
         return result;
     } catch(error){
