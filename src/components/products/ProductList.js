@@ -41,7 +41,7 @@ const ProductList = (props) => {
 				return <div className="productList" key={productId}>
 					<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
 					<div className="productListInner">
-						<Link to={ `/product/${productId}`} ><img src={process.env.PUBLIC_URL + photoURL} /></Link>
+						<Link to={ `/product/${productId}`} ><img src={photoURL} /></Link>
 						<div className="productListInfo">
 							<label>Description:</label> {description}<br/>
 							<label>Quantity:</label> {quantityAvailable}<br/>
