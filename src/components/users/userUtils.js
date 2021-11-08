@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState, useEffect} from 'react';
 
 async function fetchUsers(baseURL) {
 	try {
@@ -16,6 +16,22 @@ async function fetchUsers(baseURL) {
 	}
 }
 
+const fetchCurrentUserInfo = (baseURL, userId) => {
+	const [info, setInfo] = useState([]);
+	useEffect(() => {
+		fetch(`${baseURL}/users/${userId}`, {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json'}
+		})
+		 .then(res => res.json())
+		 .then((res) => {
+			const response = res;
+			setInfo(response);
+		 })
+		 .catch(error => console.error(error))
+	}, []);
+	return info;
+}
 
 async function newPassword(baseURL, userToken, userId, current, newPass) {
 	const response = await fetch(`${baseURL}/users/${userId}/password`, {
@@ -31,7 +47,6 @@ async function newPassword(baseURL, userToken, userId, current, newPass) {
 		})
 		.then(res => res.json())
 		.then((result) => {
-			console.log(result);
 			const status = result.status;
 			if(status == 204) {
 				alert("You have successfully updated your password.");
@@ -145,6 +160,7 @@ async function deleteUser(baseURL, userId) {
 
 export {
 	fetchUsers,
+	fetchCurrentUserInfo,
 	newPassword,
 	newInfo,
 	newBilling,

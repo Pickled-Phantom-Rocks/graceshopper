@@ -145,6 +145,9 @@ form {
 	padding:10px;
 	width:auto;
 }
+.formInfo {
+	padding:10px;
+}
 label {
 	font-weight:bold;
 }

@@ -8,6 +8,7 @@ export {default as UserList} from './UserList';
 
 export {
 	fetchUsers,
+	fetchCurrentUserInfo,
 	newPassword,
 	newInfo,
 	newBilling,

@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import {newInfo} from '.';
+import {newInfo, fetchCurrentUserInfo} from '.';
 
 const EditUser = (props) => {
 	const {baseURL, userToken, userId} = props;
@@ -8,15 +8,21 @@ const EditUser = (props) => {
 	const [address, setAddress] = useState('');
 	const [city, setCity] = useState('');
 	const [state, setState] = useState('');
+	const userInfo = fetchCurrentUserInfo(baseURL, userId);
 
 	async function sendEditUser() {
 		event.preventDefault();
 		newInfo(baseURL, userToken, userId, newName, address, city, state);
 	}
 
-
 	return <div className="form">
 		<h3>Update Info</h3>
+		<div className="formInfo">
+			<label>Current Info:</label><br/>
+			{userInfo.name}<br/>
+			{userInfo.address}<br/>
+			{userInfo.city}, {userInfo.state}
+		</div>
 		<form onSubmit={sendEditUser}>
 			<label>Name: </label><br/>
 			<input
