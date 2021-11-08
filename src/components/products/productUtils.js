@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 
 async function fetchProducts(baseURL) {
 	try {
@@ -198,6 +198,8 @@ async function removeProduct(baseURL, categoryId, productId){
 		}
 	})
 }
+
+
 export {
 	fetchProducts,
 	fetchProductById,

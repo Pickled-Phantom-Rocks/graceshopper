@@ -1,5 +1,4 @@
 export async function getCartByUserId(userId, baseURL) {
-
     try {
         const result = await fetch(`${baseURL}/carts/${userId}`)
         const data = await result.json()
@@ -138,6 +137,31 @@ export async function convertToOrder(baseURL, userId, userToken, orderDate, tota
     } catch(error){
         throw error
     }
+}
 
+export async function updateUsersCart(baseURL, userId, userToken, productBeingAdded) {
+	try {
+	   const _cart = await getCartByUserId(userId, baseURL)
+	   const cart = _cart[0]
+	   const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
+	   const productIds = cartProducts.map(product => {
+		   return product.productId
+	   })
 
+	   if(productIds.includes(productBeingAdded.id)) {
+		   const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
+		   const product = _product[0]
+		   const quantityInCart = product.quantityOfItem + 1
+		   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+		   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
+		   await deleteProductFromCartByProductId(product.productId, baseURL)
+		   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantityInCart, baseURL)
+	   } else {
+		   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
+		   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
+		   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
+	   }
+   } catch (error) {
+	   throw error
+   }
 }

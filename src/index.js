@@ -19,7 +19,6 @@ import {
 
 const App = () => {
 	const baseURL = 'https://pickledphantomrocksserver.herokuapp.com/api';
-	//const baseURL = 'http://localhost:3009/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [username, setUsername] = useState(localStorage.getItem("username"));

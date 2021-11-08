@@ -7,7 +7,7 @@ const ProfileOrders = ({userId, baseURL}) => {
 	const [ordersProcessing, setOrdersProcessing] = useState([]);
 	const [ordersCancelled, setOrdersCancelled] = useState([]);
 	const [ordersCreated, setOrdersCreated] = useState([]);
-	const [showCurrentOrders, setShowCurrentOrders] = useState(true);
+	const [showCurrentOrders, setShowCurrentOrders] = useState(false);
 	const [showPastOrders, setShowPastOrders] = useState(false);
 
 	async function getOrders () {
@@ -22,15 +22,12 @@ const ProfileOrders = ({userId, baseURL}) => {
             console.error(error);
         }
 	}
-
 	useEffect(getOrders, []);
-
-	
 
 	return <div id="orders">
 		<div className="userOptions">
-			{showCurrentOrders ? <button onClick={() => setShowCurrentOrders(false)}>Hide Current Orders</button> : <button onClick={()=> setShowCurrentOrders(true)}>Show Current Orders</button>}
-			{showPastOrders ? <button onClick={() => setShowPastOrders(false)}>Hide Past Orders</button> : <button onClick={() => setShowPastOrders(true)}>Show Post Orders</button>}
+			{showCurrentOrders ? <button onClick={() => setShowCurrentOrders(false)}>Hide Current Orders</button> : <button onClick={()=> {setShowCurrentOrders(true); setShowPastOrders(false);}}>Show Current Orders</button>}
+			{showPastOrders ? <button onClick={() => setShowPastOrders(false)}>Hide Past Orders</button> : <button onClick={() => {setShowPastOrders(true); setShowCurrentOrders(false)}}>Show Post Orders</button>}
 		</div>
 			{!showCurrentOrders ? null : <div>
 				<h2>Orders: Created</h2>

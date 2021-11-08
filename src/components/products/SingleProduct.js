@@ -1,76 +1,31 @@
-import {React, useState, useEffect} from 'react';
-import { useParams, Link } from 'react-router-dom';
+import {React} from 'react';
+import {useParams, Link} from 'react-router-dom';
 import {fetchProductById} from '.';
-import { getCartByUserId, getAllCartProductsByCartId, updateItemQuantityAvailable, addToUsersCart } from '../cart/cartUtils'
+import {updateUsersCart} from '../cart/cartUtils';
 
 const SingleProduct = (props) => {
-	const { baseURL, userToken, userId } = props;
+	const {baseURL, userId, userToken} = props;
 	const {productId} = useParams();
 	const product = fetchProductById(baseURL, productId);
 
 	const {name, description, quantityAvailable, price, photoName} = product;
-
-	async function updateUsersCart(productBeingAdded) {
-
-		try {
-
-		   console.log("PRoduct being added: ", productBeingAdded)
-
-		   const _cart = await getCartByUserId(userId, baseURL)
-		   const cart = _cart[0]
-		   console.log("CART", cart)
-
-
-		   const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
-		   console.log("Cart Products", cartProducts)
-
-
-		   const productIds = cartProducts.map(product => {
-			   return product.productId
-		   })
-
-		   console.log(productIds)
-		   
-
-		   if(productIds.includes(productBeingAdded.id)) {
-			   //remove matching productId from cart
-			   const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
-			   console.log("PRODUCT HERE", _product)
-			   
-			   const product = _product[0]
-			   const quantityInCart = product.quantityOfItem + 1
-			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
-			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
-			   await deleteProductFromCartByProductId(product.productId, baseURL)
-			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantityInCart, baseURL)
-			   location.reload()
-		   } else {
-			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
-			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
-			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
-			   location.reload()
-		   }
-	   } catch (error) {
-		   throw error
-	   }
-   }
+	const photoURL = "images/Products/" + photoName + ".jpg";
 
 	return <div className="product">
 		<h1>Products</h1>
 		<Link to="/products"><button>Back to All Products</button></Link>
-		<div className="productList">
-			<h3>{name}</h3>
-			<section className="productListInner">
-				<img src={`/images/products/${photoName}.jpg`} />
-				<div className="productListInfo">
-					<label>Description:</label> {description}<br/>
-					<label>Quantity:</label> {quantityAvailable}<br/>
-					<label>Price:</label> {"$" + price}
+		<div className="productList" key={productId}>
+				<h3>{name}</h3>
+				<div className="productListInner">
+					<img src={`/images/products/${photoName}.jpg`} />
+					<div className="productListInfo">
+						<label>Description:</label> {description}<br/>
+						<label>Quantity:</label> {quantityAvailable}<br/>
+						<label>Price:</label> {"$" + price}
+					</div>
 				</div>
-			</section>
 			<section className="userOptions">
-				<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
-				<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
+				<button onClick={async e => await updateUsersCart(baseURL, userId, userToken, product)} style={{marginTop: "0.8em"}}>Add to Cart</button>
 			</section>
 		</div>
 	</div>

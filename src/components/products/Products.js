@@ -1,11 +1,10 @@
-import { React, useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import {ProductList, ProductsByCategory, SingleProduct} from '.'
-import { fetchCategories } from '..';
-import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId, deleteProductFromCartByProductId } from '../cart/cartUtils';
+import {React, useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
+import {ProductList} from '.'
+import {fetchCategories} from '..';
 
 const Products = (props) => {
-	const {baseURL, userId, userToken, showProductsByCategory, setShowProductsByCategory, showAllProducts, setShowAllProducts, showSingleProductFromCart, setShowSingleProductFromCart} = props;
+	const {baseURL, userId, userToken, setShowProductsByCategory, showAllProducts, setShowAllProducts, showSingleProductFromCart} = props;
 	const [categories, setCategories] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState('1');
 	
@@ -20,51 +19,6 @@ const Products = (props) => {
 	useEffect(() => {
 		fetchTheCategories();
 	}, [])
-
-	async function updateUsersCart(productBeingAdded) {
-
-	 	try {
-
-			console.log("PRoduct being added: ", productBeingAdded)
-
-			const _cart = await getCartByUserId(userId, baseURL)
-			const cart = _cart[0]
-			console.log("CART", cart)
-
-
-			const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
-			console.log("Cart Products", cartProducts)
-
-
-			const productIds = cartProducts.map(product => {
-				return product.productId
-			})
-
-			console.log(productIds)
-			
-
-			if(productIds.includes(productBeingAdded.id)) {
-				//remove matching productId from cart
-				const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
-				console.log("PRODUCT HERE", _product)
-				
-				const product = _product[0]
-				const quantityInCart = product.quantityOfItem + 1
-				const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
-				await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
-				await deleteProductFromCartByProductId(product.productId, baseURL)
-				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantityInCart, baseURL)
-				location.reload()
-			} else {
-				const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
-				await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
-				await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
-				location.reload()
-			}
-		} catch (error) {
-			throw error
-		}
-	}
 
 	return <div id="products">
 		<h1>Products</h1>
@@ -90,7 +44,7 @@ const Products = (props) => {
 				setShowAllProducts(true)
 			}}>Return to cart!</button></Link> : null}
 		</section>
-		{showAllProducts ? <ProductList baseURL={baseURL} updateUsersCart={updateUsersCart} setShowAllProducts={setShowAllProducts} setShowProductsByCategory={setShowProductsByCategory} /> : null}
+		{showAllProducts ? <ProductList baseURL={baseURL} userId={userId} userToken={userToken} /> : null}
 
 	</div>
 }

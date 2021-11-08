@@ -1,9 +1,10 @@
 import { React, useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import {fetchProducts} from '.'
+import {updateUsersCart} from '../cart/cartUtils';
 
 const ProductList = (props) => {
-	const {baseURL, updateUsersCart, setSingleProductId, setShowSingleProduct, setShowAllProducts, setShowProductsByCategory} = props;
+	const {baseURL, userId, userToken} = props;
 	const [products, setProducts] = useState([]);
 
 	async function fetchTheProducts() {
@@ -48,8 +49,7 @@ const ProductList = (props) => {
 						</div>
 					</div>
 					<section className="userOptions">
-						<button onClick={async e => await updateUsersCart(product)} style={{marginTop: "0.8em"}}>Add to Cart</button>
-						{/* <button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button> */}
+					<button onClick={async e => await updateUsersCart(baseURL, userId, userToken, product)} style={{marginTop: "0.8em"}}>Add to Cart</button>
 					</section>
 				</div>
 			})
