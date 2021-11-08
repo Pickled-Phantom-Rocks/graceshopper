@@ -7,8 +7,6 @@ const NewCategory = (props) => {
 
 	async function sendNewCategory() {
 		event.preventDefault();
-
-		console.log('from NewCat:', newName);
 		const result = await newCategory(baseURL, newName);
 	}
 

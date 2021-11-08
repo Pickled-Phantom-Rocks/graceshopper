@@ -9,7 +9,6 @@ const DeleteCategory = (props) => {
 		try {
 			const result = await fetchCategories(baseURL)
 			setCategories(result)
-
 		} catch (error) {
 			console.error(error);
 		}
@@ -20,11 +19,22 @@ const DeleteCategory = (props) => {
 
 	async function deleteTheCategory() {
 		event.preventDefault();
-
 		const selector = document.getElementById("categorySelect");
 		const categoryId = selector.options[selector.selectedIndex].value;
 		await deleteCategory(baseURL, categoryId);
 	}
+
+	categories.sort((a, b) => {
+		const nameA = a.name.toLowerCase()
+		const nameB = b.name.toLowerCase()
+		if(nameA < nameB) {
+			return -1
+		}
+		if(nameA > nameB) {
+			return 1
+		}
+		return 0
+	})
 
 	return <div className="form">
 		<h3>Delete a Category</h3>

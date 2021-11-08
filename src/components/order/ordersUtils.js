@@ -107,7 +107,7 @@ function mapOrders (order) {
 						<div key={orderProduct.productId} className="orderListItemProductSingle">
 							<h4>{orderProduct.name}</h4>
 							<div className="orderListProductSingleInner">
-								<img src={process.env.PUBLIC_URL + "images/Products/" + orderProduct.photoName + ".jpg"} width="150px" height="100px"/>
+								<img src={"images/Products/" + orderProduct.photoName + ".jpg"} width="150px" height="100px"/>
 								<div className="orderListItemProductInfo">
 									<p><label>Description:</label> {orderProduct.description}</p>
 									<p><label>Quantity:</label> {orderProduct.quantityOrdered}</p>

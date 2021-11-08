@@ -118,7 +118,6 @@ async function editProduct(baseURL, userToken, productId, name, desc, quantity, 
 	})
 	.then(res => res.json())
 	.then(result => {
-		console.log('result: ',result);
 		if(result.status == 204) {
 			alert("Product was updated.");
 			location.reload();
@@ -184,7 +183,6 @@ async function removeProduct(baseURL, categoryId, productId){
 			})
 			.then(res => res.json())
 			.then((result) => {
-				console.log('result: ', result);
 				if(result.status == 204){
 					alert("Product was removed from the category.");
 					location.reload();

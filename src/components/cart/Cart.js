@@ -13,7 +13,6 @@ const Cart = (props) => {
 			setProductList(result[0].products)
 
 		} catch (error) {
-			console.log("Error fetching user's cart!")
 			throw error
 		}
 	}
@@ -59,9 +58,7 @@ const Cart = (props) => {
 						Price per item: {`$${price}`}
 					</div>
 					<button onClick={async e => {
-						console.log("Product: ", prodList)
 						const _removedProduct = await deleteProductFromCartByProductId(id, baseURL)
-						console.log("first", _removedProduct)
 						const removedProduct = await _removedProduct[0]
 						
 						const quantityRemoved = removedProduct.quantityOfItem

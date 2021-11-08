@@ -5,7 +5,6 @@ export async function getCartByUserId(userId, baseURL) {
         return data
 
     } catch (error) {
-        console.log("Error in the cartUtil")
         throw error
     }
 
@@ -40,7 +39,6 @@ export async function addToUsersCart(cartId, productId, productPrice, quantityOf
         const data = await result.json()
         return data
     } catch (error) {
-        console.log(error)
         throw error
     }
 }

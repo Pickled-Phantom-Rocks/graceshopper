@@ -136,9 +136,6 @@ async function deleteUser(baseURL, userId) {
 		}
 	})
 	.then(res => res.json())
-	.then((result) => {
-		console.log('delete cart: ', result)
-	})
 	.catch(err => console.error(err));
 
 	// const ordersResponse = await fetch(`${baseURL}/orders/${id}`, {

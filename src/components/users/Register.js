@@ -29,7 +29,6 @@ const Register = (props) => {
 		})
 		.then(response => response.json())
 		.then(result => {
-			console.log("RESULT", result);
 			const token = result.token;
 			const id = result.userId
 			if(token){
