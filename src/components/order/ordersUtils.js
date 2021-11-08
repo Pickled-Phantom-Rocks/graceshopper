@@ -37,7 +37,7 @@ async function fetchOrdersByStatus(baseURL, orderStatus) {
 async function changeStatus(baseURL, userToken, orderId, newStatus){
 	try {
 		const orderStatus = newStatus;
-		const response = await fetch(`${baseURL}/orders/${orderId}/status`, {
+		await fetch(`${baseURL}/orders/${orderId}/status`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
