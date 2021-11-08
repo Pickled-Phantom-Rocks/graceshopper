@@ -52,16 +52,8 @@ const Cart = (props) => {
 		}
 
 		return (<div key={id} style={{ display: "flex", border: "1px solid black", margin: "10px"}}> 
-
-				<Link to="/products" onClick={() => {
-					setShowSingleProduct(true)
-					setSingleProductId(id)
-					setShowAllProducts(false)
-					setShowProductsByCategory(false)
-					setShowSingleProductFromCart(true)
-				}}> 
 				<img src={process.env.PUBLIC_URL + photoURL} width="150px" height="100px"/>
-				</Link>
+	
 				
 
 				<div>

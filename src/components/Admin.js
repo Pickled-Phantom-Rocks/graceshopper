@@ -171,7 +171,7 @@ const Admin = (props) => {
 			</section> 
 			}
 		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : null}
-		{showByStatus ? <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} userToken={userToken} userId={userId}/> : null}
+		{showByStatus ? <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} userToken={userToken}/> : null}
 		<p>Add pagination so only ten items at a time are shown.</p>
 	</div>
 }
