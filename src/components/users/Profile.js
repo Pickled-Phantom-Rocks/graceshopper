@@ -1,6 +1,6 @@
 import {React, useState} from 'react';
 import {EditUser, EditUserBilling, EditPassword} from './';
-import { ProfileOrders } from '../ordersForProfile';
+import { ProfileOrders } from '../order';
 
 const Profile = (props) => {
 	const {baseURL, username, userToken, userId } = props;

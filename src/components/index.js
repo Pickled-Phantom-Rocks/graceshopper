@@ -31,11 +31,8 @@ export {
 } from './categories';
 
 export {
-	ProfileOrders
-} from './ordersForProfile';
-
-export {
 	OrderList,
-	OrdersByStatus
+	OrdersByStatus,
+	ProfileOrders
 } from './order';
 
