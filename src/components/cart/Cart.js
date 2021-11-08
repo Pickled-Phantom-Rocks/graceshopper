@@ -34,7 +34,6 @@ const Cart = (props) => {
 	
 		async function decrementer() {
 			quantityCounter--
-
 			if (quantityCounter !== 0) {
 				const quantityAddedToWarehourse = quantityAvailable + 1
 				await updateItemQuantityAvailable(userToken, id, quantityAddedToWarehourse, baseURL)
@@ -52,13 +51,9 @@ const Cart = (props) => {
 		}
 
 		return (<div key={id} style={{ display: "flex", border: "1px solid black", margin: "10px"}}> 
-				<img src={process.env.PUBLIC_URL + photoURL} width="150px" height="100px"/>
-	
-				
-
+				<img src={`/images/products/${photoName}.jpg`} width="150px" height="100px"/>
 				<div>
 					<h3>{name} x {quantityOfItem}</h3>
-
 					<div> 
 						<br/>
 						Price per item: {`$${price}`}
@@ -127,7 +122,6 @@ const Cart = (props) => {
 			<div>
 				<h2>Total Price: {`$${totalPrice}`}</h2>
 				{productList[0] ? <><h5>Have everything you need?</h5> <Link to="/checkout"><button>Check Out</button></Link></> : null}
-				
 			</div>
 		</div>
 		
