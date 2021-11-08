@@ -1,60 +1,28 @@
-import {React, useState, useEffect} from 'react';
+import {React} from 'react';
 import {useParams, Link} from 'react-router-dom';
 import {fetchCategoryById} from '../categories/categoryUtils';
-import {fetchProductsByCategory, fetchProductById} from '.';
-import { getCartByUserId, updateItemQuantityAvailable, addToUsersCart, getAllCartProductsByCartId, deleteProductFromCartByProductId } from '../cart/cartUtils';
-
+import {fetchProductsByCategory} from '.';
+import {updateUsersCart} from '../cart/cartUtils';
 
 const ProductsByCategory = (props) => {
-	const {baseURL, userToken, userId} = props;
+	const {baseURL, userId, userToken} = props;
 	const {categoryId} = useParams();
 	const category = fetchCategoryById(baseURL, categoryId);
 	const categoryProducts = fetchProductsByCategory(baseURL, categoryId);
 
-	async function updateUsersCart(productBeingAdded) {
-
-		try {
-
-		   console.log("PRoduct being added: ", productBeingAdded)
-
-		   const _cart = await getCartByUserId(userId, baseURL)
-		   const cart = _cart[0]
-		   console.log("CART", cart)
-
-
-		   const cartProducts = await getAllCartProductsByCartId(cart.id, baseURL)
-		   console.log("Cart Products", cartProducts)
+	categoryProducts.sort((a, b) => {
+		const nameA = a.name.toLowerCase()
+		const nameB = b.name.toLowerCase()
+		if(nameA < nameB) {
+			return -1
+		}
+		if(nameA > nameB) {
+			return 1
+		}
+		return 0
+	})
 
 
-		   const productIds = cartProducts.map(product => {
-			   return product.productId
-		   })
-
-		   console.log(productIds)
-		   
-
-		   if(productIds.includes(productBeingAdded.id)) {
-			   //remove matching productId from cart
-			   const _product = cartProducts.filter(prod => prod.productId === productBeingAdded.id)
-			   console.log("PRODUCT HERE", _product)
-			   
-			   const product = _product[0]
-			   const quantityInCart = product.quantityOfItem + 1
-			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
-			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
-			   await deleteProductFromCartByProductId(product.productId, baseURL)
-			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, quantityInCart, baseURL)
-			   location.reload()
-		   } else {
-			   const quantityTakenFromWarehouse = productBeingAdded.quantityAvailable - 1
-			   await updateItemQuantityAvailable(userToken, productBeingAdded.id, quantityTakenFromWarehouse, baseURL)
-			   await addToUsersCart(cart.id, productBeingAdded.id, productBeingAdded.price, 1, baseURL)
-			   location.reload()
-		   }
-	   } catch (error) {
-		   throw error
-	   }
-   }
 
 	return <div>
 		<h1>{category.name} Rocks</h1>
@@ -62,7 +30,7 @@ const ProductsByCategory = (props) => {
 		<div className="productPageList">
 			{
 			categoryProducts.map((product) => {
-				const {id: productId, name, description, quantityAvailable, price, photoName} = product;;
+				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				return <div className="productList" key={productId}>
 					<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
 					<div className="productListInner">
@@ -74,8 +42,7 @@ const ProductsByCategory = (props) => {
 						</div>
 					</div>
 					<section className="userOptions">
-						<button onClick={async e => await updateUsersCart(product)}>Add to Cart</button>
-						<button  style={{marginLeft: "1em", marginTop: "1em"}} onClick={e => console.log(product)}>Remove from Cart</button>
+						<button onClick={async e => await updateUsersCart(baseURL, userId, userToken, product)} style={{marginTop: "0.8em"}}>Add to Cart</button>
 					</section>
 				</div>
 			})

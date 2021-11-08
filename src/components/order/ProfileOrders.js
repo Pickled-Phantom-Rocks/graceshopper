@@ -7,7 +7,7 @@ const ProfileOrders = ({userId, baseURL}) => {
 	const [ordersProcessing, setOrdersProcessing] = useState([]);
 	const [ordersCancelled, setOrdersCancelled] = useState([]);
 	const [ordersCreated, setOrdersCreated] = useState([]);
-	const [showCurrentOrders, setShowCurrentOrders] = useState(true);
+	const [showCurrentOrders, setShowCurrentOrders] = useState(false);
 	const [showPastOrders, setShowPastOrders] = useState(false);
 
 	async function getOrders () {
@@ -22,10 +22,7 @@ const ProfileOrders = ({userId, baseURL}) => {
             console.error(error);
         }
 	}
-
 	useEffect(getOrders, []);
-
-	
 
 	return <div id="orders">
 		<div className="userOptions">
