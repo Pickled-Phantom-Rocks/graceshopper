@@ -18,6 +18,7 @@ const UserList = (props) => {
 	}, []);
 
 	async function deleteTheUser(id) {
+		event.preventDefault();
 		const deleted = await deleteUser(baseURL, id);
 		location.reload();
 	}

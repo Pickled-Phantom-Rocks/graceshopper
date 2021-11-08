@@ -131,25 +131,24 @@ async function deleteUser(baseURL, userId) {
 
 	await fetch(`${baseURL}/carts/${id}`, {
 		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',	
-		}
+		headers: {'Content-Type': 'application/json'}
 	})
 	.then(res => res.json())
 	.catch(err => console.error(err));
 
-	// const ordersResponse = await fetch(`${baseURL}/orders/${id}`, {
-	// 	//delete orders once the router for it has been set up
-	// })
-
-	const response = await fetch(`${baseURL}/users/${id}`, {
+	await fetch(`${baseURL}/orders/${id}/orders`, {
 		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',	
-		}
+		headers: {'Content-Type': 'application/json'}
 	})
 	.then(res => res.json())
-	.then((result) => {
+	.catch(err => console.error(err));
+
+	await fetch(`${baseURL}/users/${id}`, {
+		method: 'DELETE',
+		headers: {'Content-Type': 'application/json'}
+	})
+	.then(res => res.json())
+	.then((res) => {
 		alert("User has been deleted.")
 	})
 	.catch(err => console.error(err));
