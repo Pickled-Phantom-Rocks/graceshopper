@@ -78,7 +78,6 @@ async function fetchOrdersWithUsers(baseURL) {
 
 async function fetchOrderList (userId, baseURL) {
 	try {
-		console.log("fetch Order List is running", userId);
 		const result = await fetch(`${baseURL}/orders/${userId}/pastorders`, {
 			method: "GET",
 			headers: {
@@ -86,7 +85,6 @@ async function fetchOrderList (userId, baseURL) {
 			}
 		  });
 		const data = await result.json();
-		console.log("FROM UTILS:", data);
 		return data;
 	} catch (error) {
 		console.error(error);

@@ -4,7 +4,7 @@ import {ProfileOrders} from '../order';
 
 const Profile = (props) => {
 	const {baseURL, username, userToken, userId } = props;
-	const [showEditUser, setShowEditUser] = useState(true)
+	const [showEditUser, setShowEditUser] = useState(false);
 	const [showEditBilling, setShowEditBilling] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
 
@@ -31,7 +31,7 @@ const Profile = (props) => {
 		{!showEditBilling ? null: <EditUserBilling baseURL={baseURL} userToken={userToken} userId={userId} userId={userId}/>}
 		{!showNewPassword ? null : <EditPassword baseURL={baseURL} userToken={userToken} userId={userId}/>}
 		<section>
-			{/* <ProfileOrders baseURL={baseURL} userId={userId}/> */}
+			<ProfileOrders baseURL={baseURL} userId={userId}/>
 		</section>
 	</div>
 }
