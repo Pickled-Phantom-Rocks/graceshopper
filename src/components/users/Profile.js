@@ -9,7 +9,7 @@ const Profile = (props) => {
 	const [showNewPassword, setShowNewPassword] = useState(false);
 
 	return <div id="profile">
-		<h2>Hello, {username}!</h2>
+		<h1>Hello, {username}!</h1>
 		<section className="userOptions">
 			{showEditUser ? <button onClick={()=> setShowEditUser(false)}>Hide Edit Info</button> : <button onClick={()=> {
 				setShowEditUser(true);
