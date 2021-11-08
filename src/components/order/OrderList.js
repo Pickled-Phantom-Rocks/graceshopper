@@ -1,6 +1,5 @@
 import {React, useState, useEffect} from 'react';
 import {changeStatus, fetchOrdersWithUsers} from '.';
-import { fetchUser } from './ordersUtils';
 
 const OrderList = (props) => {
 	const {baseURL, userToken} = props;
