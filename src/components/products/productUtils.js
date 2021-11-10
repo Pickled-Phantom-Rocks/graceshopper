@@ -17,7 +17,7 @@ async function fetchProductById(baseURL, productId) {
 
 	try {
 
-		const result = fetch(`${baseURL}/products/${productId}`, {
+		const result = await fetch(`${baseURL}/products/${productId}`, {
 			method: 'GET',
 			headers: {'Content-Type': 'application/json'}
 		})
