@@ -14,20 +14,18 @@ async function fetchProducts(baseURL) {
 }
 
 const fetchProductById = (baseURL, productId) => {
-	const [product, setProduct] = useState([]);
-	useEffect(() => {
-		fetch(`${baseURL}/products/${productId}`, {
-			method: 'GET',
-			headers: {'Content-Type': 'application/json'}
-		})
-		.then(res => res.json())
-		.then((res) => {
-			const response = res;
-			setProduct(response);
-		})
-		.catch(error => console.error(error))
-	}, []);
-	return product
+
+	try {
+
+		const result = fetch(`${baseURL}/products/${productId}`)
+
+		const product = await result.json()
+
+		return product
+		
+	} catch (error) {
+		throw error
+	}
 }
 
 const fetchProductsByCategory = (baseURL, categoryId) => {
