@@ -98,7 +98,7 @@ const Cart = (props) => {
 	useEffect(() => {
 		fetchUsersCart(),
 		setTotalCartPrice(totalPrice)
-	}, [totalPrice])
+	}, [totalPrice, productList])
 
 	productList.sort((a, b) => {
 		const nameA = a.name.toLowerCase()
