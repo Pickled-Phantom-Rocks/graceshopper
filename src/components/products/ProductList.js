@@ -10,6 +10,7 @@ const ProductList = (props) => {
 	async function fetchTheProducts() {
 		try {
 			const results = await fetchProducts(baseURL);
+			console.log("results: ", results)
 			setProducts(results);
 
 		} catch (error) {
@@ -33,25 +34,64 @@ const ProductList = (props) => {
 		return 0
 	})
 
+
+
 	return <div className="productPageList">
 		{
 			products.map((product) => {
 				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
-				return <div className="productList" key={productId}>
+				let quantityCounter = 1
+
+				async function incrementer() {
+					quantityCounter++
+				}
+			
+				async function decrementer() {
+					quantityCounter--
+				}
+
+				if (quantityAvailable > 1) {
+					return <div className="productList" key={productId}>
+						<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
+						<div className="productListInner">
+							<Link to={ `/product/${productId}`} ><img src={photoURL} /></Link>
+							<div className="productListInfo">
+								<label>Description:</label> {description}<br/>
+								<label>Quantity:</label> {quantityAvailable}<br/>
+								<label>Price:</label> {"$" + price}
+							</div>
+						</div>
+							<section className="userOptions">
+
+								<input type="button" onClick={decrementer} value="-" style={{paddingLeft: "0.4em", paddingRight: "0.4em", marginRight: "1em", marginBottom: "1em"}} />
+								<input type="text" name="quantity" value={quantityCounter} readOnly={true} size="1" id="number" />
+								<input type="button" onClick={incrementer} value="+" style={{paddingLeft: "0.4em", paddingRight: "0.4em", marginLeft: "1em", marginBottom: "1em"}} />
+
+								<button onClick={async e => {
+									await updateUsersCart(baseURL, userId, userToken, product)
+									await fetchTheProducts()
+									alert(`${name} has been added to your cart`)
+									}} style={{marginTop: "0.8em"}}>Add to Cart</button>
+							</section>
+						</div>
+				} else {
+					return <div className="productList" key={productId}>
 					<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
 					<div className="productListInner">
 						<Link to={ `/product/${productId}`} ><img src={photoURL} /></Link>
 						<div className="productListInfo">
 							<label>Description:</label> {description}<br/>
-							<label>Quantity:</label> {quantityAvailable}<br/>
+							<label>Quantity:</label> Sold Out!<br/>
 							<label>Price:</label> {"$" + price}
 						</div>
 					</div>
 					<section className="userOptions">
-					<button onClick={async e => await updateUsersCart(baseURL, userId, userToken, product)} style={{marginTop: "0.8em"}}>Add to Cart</button>
+					<button disabled={true}>Add to Cart</button>
 					</section>
-				</div>
+					</div>
+				}
+				
 			})
 		}
 	</div>

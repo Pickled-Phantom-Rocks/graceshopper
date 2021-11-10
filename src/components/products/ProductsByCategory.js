@@ -1,4 +1,4 @@
-import {React} from 'react';
+import {React, useEffect, useState} from 'react';
 import {useParams, Link} from 'react-router-dom';
 import {fetchCategoryById} from '../categories/categoryUtils';
 import {fetchProductsByCategory} from '.';
@@ -8,7 +8,22 @@ const ProductsByCategory = (props) => {
 	const {baseURL, userId, userToken} = props;
 	const {categoryId} = useParams();
 	const category = fetchCategoryById(baseURL, categoryId);
-	const categoryProducts = fetchProductsByCategory(baseURL, categoryId);
+	const [categoryProducts, setCategoryProducts] = useState([])
+
+	async function getCategoryProducts() {
+		try {
+
+			const results = await fetchProductsByCategory(baseURL, categoryId)
+			setCategoryProducts(results)
+
+		} catch (error) {
+			throw error
+		}
+	}
+
+	useEffect(() => {
+		getCategoryProducts()
+	}, [category])
 
 	categoryProducts.sort((a, b) => {
 		const nameA = a.name.toLowerCase()
@@ -31,20 +46,43 @@ const ProductsByCategory = (props) => {
 			{
 			categoryProducts.map((product) => {
 				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
-				return <div className="productList" key={productId}>
-					<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
-					<div className="productListInner">
-						<Link to={ `/product/${productId}`} ><img src={`/images/products/${photoName}.jpg`} /></Link>
-						<div className="productListInfo">
-							<label>Description:</label> {description}<br/>
-							<label>Quantity:</label> {quantityAvailable}<br/>
-							<label>Price:</label> {"$" + price}
+
+				if(quantityAvailable > 1) {
+					return <div className="productList" key={productId}>
+						<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
+						<div className="productListInner">
+							<Link to={ `/product/${productId}`} ><img src={`/images/products/${photoName}.jpg`} /></Link>
+							<div className="productListInfo">
+								<label>Description:</label> {description}<br/>
+								<label>Quantity:</label> {quantityAvailable}<br/>
+								<label>Price:</label> {"$" + price}
+							</div>
 						</div>
-					</div>
-					<section className="userOptions">
-						<button onClick={async e => await updateUsersCart(baseURL, userId, userToken, product)} style={{marginTop: "0.8em"}}>Add to Cart</button>
-					</section>
-				</div>
+						<section className="userOptions">
+							<button onClick={async e => {
+								await updateUsersCart(baseURL, userId, userToken, product)
+								await getCategoryProducts()
+								}} style={{marginTop: "0.8em"}}>Add to Cart</button>
+						</section>
+						</div>
+				} else {
+					return <div className="productList" key={productId}>
+						<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
+						<div className="productListInner">
+							<Link to={ `/product/${productId}`} ><img src={`/images/products/${photoName}.jpg`} /></Link>
+							<div className="productListInfo">
+								<label>Description:</label> {description}<br/>
+								<label>Quantity:</label> Sold Out!<br/>
+								<label>Price:</label> {"$" + price}
+							</div>
+						</div>
+						<section className="userOptions">
+							<button disabled={true} style={{marginTop: "0.8em"}}>Add to Cart</button>
+						</section>
+						</div>
+				}
+
+
 			})
 			}
 		</div>

@@ -28,7 +28,6 @@ const Cart = (props) => {
 			await updateItemQuantityAvailable(userToken, id, quantityTakenFromWarehouse, baseURL)
 			await deleteProductFromCartByProductId(id, baseURL)
 			await addToUsersCart(usersCart.id, id, price, quantityCounter, baseURL)
-			location.reload()
 		}
 	
 		async function decrementer() {
@@ -39,13 +38,11 @@ const Cart = (props) => {
 				await deleteProductFromCartByProductId(id, baseURL)
 				await addToUsersCart(usersCart.id, id, price, quantityCounter, baseURL)
 
-				location.reload()
 			} else if (quantityCounter === 0) {
 				const quantityAddedToWarehourse = quantityAvailable + 1
 				await updateItemQuantityAvailable(userToken, id, quantityAddedToWarehourse, baseURL)
 				await deleteProductFromCartByProductId(id, baseURL)
 
-				location.reload()
 			}
 		}
 
@@ -58,15 +55,12 @@ const Cart = (props) => {
 						Price per item: {`$${price}`}
 					</div>
 					<button onClick={async e => {
-						const _removedProduct = await deleteProductFromCartByProductId(id, baseURL)
-						const removedProduct = await _removedProduct[0]
-						
+						const removedProduct = await deleteProductFromCartByProductId(id, baseURL)
 						const quantityRemoved = removedProduct.quantityOfItem
 						const quantityAvailable = prodList.quantityAvailable
 						const quantityToReturn = quantityAvailable + quantityRemoved
 
 						await updateItemQuantityAvailable(userToken, id, quantityToReturn, baseURL)
-						location.reload()
 					}}>Remove all {`${name}'s`}</button>
 					
 					<div className="PlusMinus">
@@ -81,7 +75,7 @@ const Cart = (props) => {
 	function quantityTimesPrice(quantity, price) {
 		return quantity * price
 	}
-
+	
 	const reducer = (accumulator, curr) => accumulator + curr
 	function totalPriceCalculator(itemPrices) {
 		let totalPrice
@@ -95,10 +89,11 @@ const Cart = (props) => {
 
 	const totalItemPrices = productList.map(product => quantityTimesPrice(product.quantityOfItem, product.price))
 	const totalPrice = totalPriceCalculator(totalItemPrices)
+
 	useEffect(() => {
 		fetchUsersCart(),
 		setTotalCartPrice(totalPrice)
-	}, [totalPrice])
+	}, [totalPrice, productList])
 
 	productList.sort((a, b) => {
 		const nameA = a.name.toLowerCase()
