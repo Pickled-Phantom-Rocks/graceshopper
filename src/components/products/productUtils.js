@@ -130,7 +130,7 @@ async function editProduct(baseURL, userToken, productId, name, desc, quantity, 
 
 async function deleteProduct(baseURL, productId) {
 
-	await fetch(`${baseURL}/cart_products/${productId}`, {
+	await fetch(`${baseURL}/cart-products/${productId}`, {
 		method: 'DELETE',
 		headers: {'Content-Type': 'application/json'}
 	})
@@ -138,24 +138,25 @@ async function deleteProduct(baseURL, productId) {
 	.catch(err => console.error(err));
 
 
-	// const catProds = await fetch(`${baseURL}/category_products/${productId}/products`, {
-	// 	method: 'GET',
-	// 	headers: {'Content-Type': 'application/json'}
-	// })
-	// .then(res => res.json())
-	// .then((res) => {
-	// 	const response = res;
-	// 	if(response.length > 0){
-	// 		response.map(async (catProd) => {
-	// 			await fetch(`${baseURL}/category_products/${catProd.id}`, {
-	// 				method: 'DELETE',
-	// 				headers: {'Content-Type': 'application/json'}
-	// 			})
-	// 			.then(res => res.json())
-	// 			.catch(err => console.error(err))
-	// 		})
-	// 	}
-	// })
+	await fetch(`${baseURL}/category_products/${productId}`, {
+		method: 'GET',
+		headers: {'Content-Type': 'application/json'}
+	})
+	.then(res => res.json())
+	.then((res) => {
+		const response = res;
+		console.log(response);
+		if(response.length > 0){
+			response.map(async (catProd) => {	
+				await fetch(`${baseURL}/category_products/${catProd.id}`, {
+					method: 'DELETE',
+					headers: {'Content-Type': 'application/json'}
+				})
+				.then(res => res.json())
+				.catch(err => console.error(err))
+		 	})
+		}
+	})
 
 	await fetch(`${baseURL}/products/${productId}`, {
 		method: 'DELETE',
