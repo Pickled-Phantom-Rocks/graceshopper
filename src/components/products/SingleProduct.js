@@ -22,7 +22,7 @@ const SingleProduct = (props) => {
 
 	useEffect(() => {
 		getTheProduct()
-	}, [product])
+	}, [])
 	console.log(product)
 	const {name, description, quantityAvailable, price, photoName} = product;
 	const photoURL = "images/Products/" + photoName + ".jpg";
@@ -41,7 +41,10 @@ const SingleProduct = (props) => {
 					</div>
 				</div>
 			<section className="userOptions">
-				<button onClick={async e => await updateUsersCart(baseURL, userId, userToken, product)} style={{marginTop: "0.8em"}}>Add to Cart</button>
+				<button onClick={async e => {
+					await updateUsersCart(baseURL, userId, userToken, product)
+					await getTheProduct()
+					}} style={{marginTop: "0.8em"}}>Add to Cart</button>
 			</section>
 		</div>
 	</div>
