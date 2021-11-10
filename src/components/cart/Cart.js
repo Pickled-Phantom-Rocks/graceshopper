@@ -28,7 +28,6 @@ const Cart = (props) => {
 			await updateItemQuantityAvailable(userToken, id, quantityTakenFromWarehouse, baseURL)
 			await deleteProductFromCartByProductId(id, baseURL)
 			await addToUsersCart(usersCart.id, id, price, quantityCounter, baseURL)
-			location.reload()
 		}
 	
 		async function decrementer() {
@@ -62,7 +61,6 @@ const Cart = (props) => {
 						const quantityToReturn = quantityAvailable + quantityRemoved
 
 						await updateItemQuantityAvailable(userToken, id, quantityToReturn, baseURL)
-						location.reload()
 					}}>Remove all {`${name}'s`}</button>
 					
 					<div className="PlusMinus">
@@ -91,6 +89,7 @@ const Cart = (props) => {
 
 	const totalItemPrices = productList.map(product => quantityTimesPrice(product.quantityOfItem, product.price))
 	const totalPrice = totalPriceCalculator(totalItemPrices)
+
 	useEffect(() => {
 		fetchUsersCart(),
 		setTotalCartPrice(totalPrice)

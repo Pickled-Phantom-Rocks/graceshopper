@@ -34,6 +34,14 @@ const ProductList = (props) => {
 		return 0
 	})
 
+	async function incrementer() {
+
+	}
+
+	async function decrementer() {
+		
+	}
+
 	return <div className="productPageList">
 		{
 			products.map((product) => {
