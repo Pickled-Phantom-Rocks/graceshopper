@@ -56,6 +56,7 @@ const ProductList = (props) => {
 
 							await updateUsersCart(baseURL, userId, userToken, product)
 							await fetchTheProducts()
+							alert(`${name} has been added to your cart`)
 							}} style={{marginTop: "0.8em"}}>Add to Cart</button>
 						</section>
 						</div>
