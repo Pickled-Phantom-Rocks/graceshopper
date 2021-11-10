@@ -11,7 +11,7 @@ const SingleProduct = (props) => {
 	async function getTheProduct() {
 		try {
 
-			const result = fetchProductById(baseURL, productId);
+			const result = await fetchProductById(baseURL, productId);
 			setProduct(result)
 
 		} catch (error) {
