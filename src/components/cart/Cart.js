@@ -60,7 +60,8 @@ const Cart = (props) => {
 					<button onClick={async e => {
 						const _removedProduct = await deleteProductFromCartByProductId(id, baseURL)
 						const removedProduct = await _removedProduct[0]
-						
+						console.log("first", _removedProduct)
+						console.log("Second", removedProduct)
 						const quantityRemoved = removedProduct.quantityOfItem
 						const quantityAvailable = prodList.quantityAvailable
 						const quantityToReturn = quantityAvailable + quantityRemoved
