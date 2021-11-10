@@ -12,6 +12,7 @@ const SingleProduct = (props) => {
 		try {
 
 			const result = await fetchProductById(baseURL, productId);
+			console.log("result", result)
 			setProduct(result)
 
 		} catch (error) {
