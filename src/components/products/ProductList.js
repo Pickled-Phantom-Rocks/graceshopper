@@ -19,7 +19,7 @@ const ProductList = (props) => {
 
 	useEffect(() => {
 		fetchTheProducts();
-	}, [])
+	}, [products])
 
 	products.sort((a, b) => {
 		const nameA = a.name.toLowerCase()
