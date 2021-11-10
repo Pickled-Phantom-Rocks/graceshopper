@@ -22,7 +22,7 @@ const SingleProduct = (props) => {
 	useEffect(() => {
 		getTheProduct()
 	}, [product])
-
+	console.log(product)
 	const {name, description, quantityAvailable, price, photoName} = product;
 	const photoURL = "images/Products/" + photoName + ".jpg";
 
