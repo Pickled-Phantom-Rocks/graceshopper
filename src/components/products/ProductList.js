@@ -40,7 +40,7 @@ const ProductList = (props) => {
 				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
 
-				if (quantityAvailable > 0) {
+				if (quantityAvailable > 1) {
 					return <div className="productList" key={productId}>
 						<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
 						<div className="productListInner">
@@ -59,7 +59,7 @@ const ProductList = (props) => {
 							}} style={{marginTop: "0.8em"}}>Add to Cart</button>
 						</section>
 						</div>
-				} else if (quantityAvailable === 0) {
+				} else {
 					return <div className="productList" key={productId}>
 					<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
 					<div className="productListInner">
