@@ -62,7 +62,7 @@ const ProductList = (props) => {
 								<label>Price:</label> {"$" + price}
 							</div>
 						</div>
-							<section className="userOptions" style={{display: "flex"}}>
+							<section className="userOptions">
 
 								<input type="button" onClick={decrementer} value="-" style={{paddingLeft: "0.4em", paddingRight: "0.4em", marginRight: "1em", marginBottom: "1em"}} />
 								<input type="text" name="quantity" value={quantityCounter} readOnly={true} size="1" id="number" />
