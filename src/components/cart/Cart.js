@@ -79,7 +79,7 @@ const Cart = (props) => {
 	function quantityTimesPrice(quantity, price) {
 		return quantity * price
 	}
-
+	console.log("The site has updated! ;)")
 	const reducer = (accumulator, curr) => accumulator + curr
 	function totalPriceCalculator(itemPrices) {
 		let totalPrice
