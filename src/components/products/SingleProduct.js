@@ -23,7 +23,7 @@ const SingleProduct = (props) => {
 		getTheProduct()
 	}, [product])
 
-	const {name, description, quantityAvailable, price, photoName} = product[0];
+	const {name, description, quantityAvailable, price, photoName} = product;
 	const photoURL = "images/Products/" + photoName + ".jpg";
 
 	return <div className="product">
