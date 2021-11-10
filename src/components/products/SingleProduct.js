@@ -26,27 +26,50 @@ const SingleProduct = (props) => {
 	const {name, description, quantityAvailable, price, photoName} = product;
 	const photoURL = "images/Products/" + photoName + ".jpg";
 
-	return <div className="product">
-		<h1>Products</h1>
-		<Link to="/products"><button>Back to All Products</button></Link>
-		<div className="productList" key={productId}>
-				<h3>{name}</h3>
-				<div className="productListInner">
-					<img src={`/images/products/${photoName}.jpg`} />
-					<div className="productListInfo">
-						<label>Description:</label> {description}<br/>
-						<label>Quantity:</label> {quantityAvailable}<br/>
-						<label>Price:</label> {"$" + price}
+	if (quantityAvailable > 1) {
+		return <div className="product">
+			<h1>Products</h1>
+			<Link to="/products"><button>Back to All Products</button></Link>
+			<div className="productList" key={productId}>
+					<h3>{name}</h3>
+					<div className="productListInner">
+						<img src={`/images/products/${photoName}.jpg`} />
+						<div className="productListInfo">
+							<label>Description:</label> {description}<br/>
+							<label>Quantity:</label> {quantityAvailable}<br/>
+							<label>Price:</label> {"$" + price}
+						</div>
 					</div>
-				</div>
-			<section className="userOptions">
-				<button onClick={async e => {
-					await updateUsersCart(baseURL, userId, userToken, product)
-					await getTheProduct()
-					}} style={{marginTop: "0.8em"}}>Add to Cart</button>
-			</section>
-		</div>
-	</div>
+				<section className="userOptions">
+					<button onClick={async e => {
+						await updateUsersCart(baseURL, userId, userToken, product)
+						await getTheProduct()
+						}} style={{marginTop: "0.8em"}}>Add to Cart</button>
+				</section>
+			</div>
+			</div>
+	} else {
+		return <div className="product">
+			<h1>Products</h1>
+			<Link to="/products"><button>Back to All Products</button></Link>
+			<div className="productList" key={productId}>
+					<h3>{name}</h3>
+					<div className="productListInner">
+						<img src={`/images/products/${photoName}.jpg`} />
+						<div className="productListInfo">
+							<label>Description:</label> {description}<br/>
+							<label>Quantity:</label> Sold Out!<br/>
+							<label>Price:</label> {"$" + price}
+						</div>
+					</div>
+				<section className="userOptions">
+					<button disabled={true} style={{marginTop: "0.8em"}}>Add to Cart</button>
+				</section>
+			</div>
+			</div>
+	}
+
+
 };
 
 export default SingleProduct;
