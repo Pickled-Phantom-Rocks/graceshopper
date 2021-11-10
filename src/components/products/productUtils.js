@@ -31,20 +31,22 @@ async function fetchProductById(baseURL, productId) {
 	}
 }
 
-const fetchProductsByCategory = (baseURL, categoryId) => {
-	const [products, setProducts] = useState([]);
-	useEffect(() => {
-		fetch(`${baseURL}/category_products/category/${categoryId}`, {
+async function fetchProductsByCategory(baseURL, categoryId) {
+
+	try {
+
+		const result = await fetch(`${baseURL}/category_products/category/${categoryId}`, {
 			method: 'GET',
 			headers: {'Content-Type': 'application/json'}
 		})
-		.then(res => res.json())
-		.then((res) => {
-			setProducts(res);
-		})
-		.catch(error => console.error(error))
-	}, []);
-	return products
+
+		const products = await result.json()
+
+		return products
+
+	} catch (error) {
+		throw error
+	}
 }
 
 async function fetchProductsByCategoryID(baseURL, categoryId) {

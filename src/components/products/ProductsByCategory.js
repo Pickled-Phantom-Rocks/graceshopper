@@ -1,4 +1,4 @@
-import {React} from 'react';
+import {React, useEffect} from 'react';
 import {useParams, Link} from 'react-router-dom';
 import {fetchCategoryById} from '../categories/categoryUtils';
 import {fetchProductsByCategory} from '.';
@@ -8,7 +8,22 @@ const ProductsByCategory = (props) => {
 	const {baseURL, userId, userToken} = props;
 	const {categoryId} = useParams();
 	const category = fetchCategoryById(baseURL, categoryId);
-	const categoryProducts = fetchProductsByCategory(baseURL, categoryId);
+	const [categoryProducts, setCategoryProducts] = useState([])
+
+	async function getCategoryProducts() {
+		try {
+
+			const results = await fetchProductsByCategory(baseURL, categoryId)
+			setCategoryProducts(results)
+
+		} catch (error) {
+			throw error
+		}
+	}
+
+	useEffect(() => {
+		getCategoryProducts()
+	}, [category])
 
 	categoryProducts.sort((a, b) => {
 		const nameA = a.name.toLowerCase()
