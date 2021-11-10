@@ -10,6 +10,7 @@ const ProductList = (props) => {
 	async function fetchTheProducts() {
 		try {
 			const results = await fetchProducts(baseURL);
+			console.log("results: ", results)
 			setProducts(results);
 
 		} catch (error) {
