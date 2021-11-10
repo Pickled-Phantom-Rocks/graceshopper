@@ -39,13 +39,11 @@ const Cart = (props) => {
 				await deleteProductFromCartByProductId(id, baseURL)
 				await addToUsersCart(usersCart.id, id, price, quantityCounter, baseURL)
 
-				location.reload()
 			} else if (quantityCounter === 0) {
 				const quantityAddedToWarehourse = quantityAvailable + 1
 				await updateItemQuantityAvailable(userToken, id, quantityAddedToWarehourse, baseURL)
 				await deleteProductFromCartByProductId(id, baseURL)
 
-				location.reload()
 			}
 		}
 
@@ -118,7 +116,6 @@ const Cart = (props) => {
 				<h2>Total Price: {`$${totalPrice}`}</h2>
 				{productList[0] ? <><h5>Have everything you need?</h5> <Link to="/checkout"><button>Check Out</button></Link></> : null}
 			</div>
-			<button onClick={() => console.log("The site has updated! ;)")}>Testing page update? Ignore this</button>
 		</div>
 		
 	</div>
