@@ -13,7 +13,7 @@ async function fetchProducts(baseURL) {
 	}
 }
 
-const fetchProductById = (baseURL, productId) => {
+async function fetchProductById(baseURL, productId) {
 
 	try {
 
