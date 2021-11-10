@@ -71,11 +71,7 @@ const ProductList = (props) => {
 						</div>
 					</div>
 					<section className="userOptions">
-					<button onClick={async e => {
-
-						await updateUsersCart(baseURL, userId, userToken, product)
-						await fetchTheProducts()
-						}} style={{marginTop: "0.8em"}}>Add to Cart</button>
+					<button disabled={true}>Add to Cart</button>
 					</section>
 					</div>
 				}
