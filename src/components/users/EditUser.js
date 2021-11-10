@@ -17,12 +17,12 @@ const EditUser = (props) => {
 
 	return <div className="form">
 		<h3>Update Info</h3>
-		<div className="formInfo">
+		{userInfo.address ? <div className="formInfo">
 			<label>Current Info:</label><br/>
 			{userInfo.name}<br/>
 			{userInfo.address}<br/>
 			{userInfo.city}, {userInfo.state}
-		</div>
+		</div> : null}
 		<form onSubmit={sendEditUser}>
 			<label>Name: </label><br/>
 			<input
