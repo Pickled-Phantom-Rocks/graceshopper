@@ -79,7 +79,7 @@ const Cart = (props) => {
 	function quantityTimesPrice(quantity, price) {
 		return quantity * price
 	}
-	console.log("The site has updated! ;)")
+	
 	const reducer = (accumulator, curr) => accumulator + curr
 	function totalPriceCalculator(itemPrices) {
 		let totalPrice
@@ -118,6 +118,7 @@ const Cart = (props) => {
 				<h2>Total Price: {`$${totalPrice}`}</h2>
 				{productList[0] ? <><h5>Have everything you need?</h5> <Link to="/checkout"><button>Check Out</button></Link></> : null}
 			</div>
+			<button onClick={() => console.log("The site has updated! ;)")}>Testing page update? Ignore this</button>
 		</div>
 		
 	</div>
