@@ -1,4 +1,4 @@
-import {React} from 'react';
+import {React, useState, useEffect} from 'react';
 import {useParams, Link} from 'react-router-dom';
 import {fetchProductById} from '.';
 import {updateUsersCart} from '../cart/cartUtils';
@@ -6,9 +6,24 @@ import {updateUsersCart} from '../cart/cartUtils';
 const SingleProduct = (props) => {
 	const {baseURL, userId, userToken} = props;
 	const {productId} = useParams();
-	const product = fetchProductById(baseURL, productId);
+	const [product, setProduct] = useState([])
 
-	const {name, description, quantityAvailable, price, photoName} = product;
+	async function getTheProduct() {
+		try {
+
+			const result = fetchProductById(baseURL, productId);
+			setProduct(result)
+
+		} catch (error) {
+			throw error
+		}
+	}
+
+	useEffect(() => {
+		getTheProduct()
+	}, [product])
+
+	const {name, description, quantityAvailable, price, photoName} = product[0];
 	const photoURL = "images/Products/" + photoName + ".jpg";
 
 	return <div className="product">
