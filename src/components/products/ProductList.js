@@ -39,23 +39,30 @@ const ProductList = (props) => {
 			products.map((product) => {
 				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
-				return <div className="productList" key={productId}>
-					<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
-					<div className="productListInner">
-						<Link to={ `/product/${productId}`} ><img src={photoURL} /></Link>
-						<div className="productListInfo">
-							<label>Description:</label> {description}<br/>
-							<label>Quantity:</label> {quantityAvailable}<br/>
-							<label>Price:</label> {"$" + price}
+
+				if (quantityAvailable > 0) {
+					return <div className="productList" key={productId}>
+						<h3><Link to={ `/product/${productId}`} >{name}</Link></h3>
+						<div className="productListInner">
+							<Link to={ `/product/${productId}`} ><img src={photoURL} /></Link>
+							<div className="productListInfo">
+								<label>Description:</label> {description}<br/>
+								<label>Quantity:</label> {quantityAvailable}<br/>
+								<label>Price:</label> {"$" + price}
+							</div>
 						</div>
-					</div>
-					<section className="userOptions">
-					<button onClick={async e => {
-						await updateUsersCart(baseURL, userId, userToken, product)
-						await fetchTheProducts()
-						}} style={{marginTop: "0.8em"}}>Add to Cart</button>
-					</section>
-				</div>
+						<section className="userOptions">
+						<button onClick={async e => {
+
+							await updateUsersCart(baseURL, userId, userToken, product)
+							await fetchTheProducts()
+							}} style={{marginTop: "0.8em"}}>Add to Cart</button>
+						</section>
+						</div>
+				} else if (quantityAvailable === 0) {
+					return
+				}
+				
 			})
 		}
 	</div>
