@@ -53,7 +53,7 @@ const ProductList = (props) => {
 					<button onClick={async e => {
 						await updateUsersCart(baseURL, userId, userToken, product)
 						await fetchTheProducts()
-						console.log("quanAvail: ", quantityAvailable)
+						console.log("quanAvail: ", quantityAvailable--)
 						}} style={{marginTop: "0.8em"}}>Add to Cart</button>
 					</section>
 				</div>
