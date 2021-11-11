@@ -28,6 +28,8 @@ const Cart = (props) => {
 			await updateItemQuantityAvailable(userToken, id, quantityTakenFromWarehouse, baseURL)
 			await deleteProductFromCartByProductId(id, baseURL)
 			await addToUsersCart(usersCart.id, id, price, quantityCounter, baseURL)
+			await fetchUsersCart(),
+			await setTotalCartPrice(totalPrice)
 		}
 	
 		async function decrementer() {
@@ -37,11 +39,15 @@ const Cart = (props) => {
 				await updateItemQuantityAvailable(userToken, id, quantityAddedToWarehourse, baseURL)
 				await deleteProductFromCartByProductId(id, baseURL)
 				await addToUsersCart(usersCart.id, id, price, quantityCounter, baseURL)
+				await fetchUsersCart(),
+				await setTotalCartPrice(totalPrice)
 
 			} else if (quantityCounter === 0) {
 				const quantityAddedToWarehourse = quantityAvailable + 1
 				await updateItemQuantityAvailable(userToken, id, quantityAddedToWarehourse, baseURL)
 				await deleteProductFromCartByProductId(id, baseURL)
+				await fetchUsersCart(),
+				await setTotalCartPrice(totalPrice)
 
 			}
 		}
@@ -61,6 +67,8 @@ const Cart = (props) => {
 						const quantityToReturn = quantityAvailable + quantityRemoved
 
 						await updateItemQuantityAvailable(userToken, id, quantityToReturn, baseURL)
+						await fetchUsersCart()
+						await setTotalCartPrice(totalPrice)
 					}}>Remove all {`${name}'s`}</button>
 					
 					<div className="PlusMinus">
@@ -93,7 +101,7 @@ const Cart = (props) => {
 	useEffect(() => {
 		fetchUsersCart(),
 		setTotalCartPrice(totalPrice)
-	}, [totalPrice, productList])
+	}, [])
 
 	productList.sort((a, b) => {
 		const nameA = a.name.toLowerCase()
