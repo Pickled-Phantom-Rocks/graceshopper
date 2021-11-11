@@ -1,6 +1,8 @@
 import {React, useState, useEffect, useRef} from 'react';
-import {fetchProducts, fetchProductsByCategoryID, removeProduct} from '.';
+import {fetchProducts, removeProduct} from '.';
 import {fetchCategories} from '..';
+import {fetchCategoriesByProductID} from '../categories';
+
 
 const RemoveProduct = (props) => {
 	const {baseURL} = props;
@@ -9,36 +11,33 @@ const RemoveProduct = (props) => {
 	const selectedProductRef = useRef('');
 	const selectedCategoryRef = useRef('');
 
-
-	async function fetchTheCategories() {
-		try {
-			const result = await fetchCategories(baseURL)
-			setCategories(result)
-		} catch (error) {
-			console.error(error);
-		}
-	}	
 	async function fetchTheProducts() {
 		try {
-			const fetchedProds = await fetchProducts(baseURL);
-			const catProds = await fetchProductsByCategoryID(baseURL, selectedCategoryRef.current);
-			const prods = [];
-			if(catProds.length > 0) {
-				catProds.map((catID) => {
-					for(let prod of fetchedProds){
-						if(catID == prod.id){
-							prods.push(prod);
-						}
-					}
-				})
-			}
-			setProducts(prods)
+			const results = await fetchProducts(baseURL);
+			setProducts(results);
 		} catch (error) {
 			throw error
 		}
 	}
+	async function fetchTheCategories() {
+		try {
+			const result = await fetchCategories(baseURL);
+			const catProd = await fetchCategoriesByProductID(baseURL, selectedProductRef.current);
+			const catList = [];
+			catProd.map((catId) => {
+				for(let cat of result) {
+					if(cat.id === catId){
+						catList.push(cat);
+					}
+				}
+			});
+			setCategories(catList);
+		} catch(error) {
+			console.error(error);
+		}
+	}
 	useEffect(() => {
-		fetchTheCategories();
+		fetchTheProducts();
 	}, []);
 
 	categories.sort((a, b) => {
@@ -81,25 +80,25 @@ const RemoveProduct = (props) => {
 		<h3>Remove a Product from a Category</h3>
 		<br/>
 		<form onSubmit={removeTheProduct}>
-			<label>Categories</label>
-			<select id="categorySelect" size="5" onChange={(event) => {
-				selectedCategoryRef.current = event.target.value;
-				fetchTheProducts();
+			<label>Products: </label>
+			<select id="productSelect" size="5" onChange={(event) => {
+				selectedProductRef.current = event.target.value;
+				fetchTheCategories();
 			}}>
 				{
-					categories.map((category) => {
+					products.map((category) => {
 						const { id, name } = category;
 						return <option value={id} key={id}>{name}</option>
 					})
 				}
 			</select>
 			<br/><br/>
-			<label>Products: </label>
-			<select id="productSelect" size="5" onChange={(event) => {
-				selectedProductRef.current = event.target.value;
+			<label>Categories: </label>
+			<select id="categorySelect" size="5" onChange={(event) => {
+				selectedCategoryRef.current = event.target.value;
 			}}>
 				{
-					products.map((product) => {
+					categories.map((product) => {
 						const { id, name } = product;
 						return <option value={id} key={id}>{name}</option>
 					})

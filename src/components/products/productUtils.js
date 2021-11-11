@@ -138,6 +138,7 @@ async function deleteProduct(baseURL, productId) {
 		headers: {'Content-Type': 'application/json'}
 	})
 	.then(res => res.json())
+	.then(res => console.log('cart', res))
 	.catch(err => console.error(err));
 
 
@@ -148,7 +149,7 @@ async function deleteProduct(baseURL, productId) {
 	.then(res => res.json())
 	.then((res) => {
 		const response = res;
-		console.log(response);
+		console.log('fetch:', response)
 		if(response.length > 0){
 			response.map(async (catProd) => {	
 				await fetch(`${baseURL}/category_products/${catProd.id}`, {
@@ -156,27 +157,28 @@ async function deleteProduct(baseURL, productId) {
 					headers: {'Content-Type': 'application/json'}
 				})
 				.then(res => res.json())
+				.then(res => console.log(res))
 				.catch(err => console.error(err))
 		 	})
 		}
 	})
 
-	await fetch(`${baseURL}/products/${productId}`, {
-		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',	
-		}
-	})
-	.then(res => res.json())
-	.then((result) => {
-		if(result.status == 204){
-			alert("Product was deleted.");
-			location.reload();
-		} else {
-			alert("There was a problem, please try again");
-		}
-	})
-	.catch(err => console.error(err));
+	// await fetch(`${baseURL}/products/${productId}`, {
+	// 	method: 'DELETE',
+	// 	headers: {
+	// 		'Content-Type': 'application/json',	
+	// 	}
+	// })
+	// .then(res => res.json())
+	// .then((result) => {
+	// 	if(result.status == 204){
+	// 		alert("Product was deleted.");
+	// 		location.reload();
+	// 	} else {
+	// 		alert("There was a problem, please try again");
+	// 	}
+	// })
+	// .catch(err => console.error(err));
 }
 
 async function addProduct(baseURL, categoryId, productId){

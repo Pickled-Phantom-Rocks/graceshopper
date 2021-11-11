@@ -17,7 +17,7 @@ const Admin = (props) => {
 	const {baseURL, userToken, userId } = props;
 	const [showNewProduct, setShowNewProduct] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
-	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
+	const [showDeleteProduct, setShowDeleteProduct] = useState(true);
 	const [showAddToCategory, setShowAddToCategory] = useState(false);
 	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(false);
 	const [showNewCategory, setShowNewCategory] = useState(false);
