@@ -41,15 +41,7 @@ const ProductList = (props) => {
 			products.map((product) => {
 				const {id: productId, name, description, quantityAvailable, price, photoName} = product;
 				const photoURL = "images/Products/" + photoName + ".jpg";
-				let quantityCounter = 1
 
-				async function incrementer() {
-					quantityCounter++
-				}
-			
-				async function decrementer() {
-					quantityCounter--
-				}
 
 				if (quantityAvailable > 1) {
 					return <div className="productList" key={productId}>
@@ -64,14 +56,9 @@ const ProductList = (props) => {
 						</div>
 							<section className="userOptions">
 
-								<input type="button" onClick={decrementer} value="-" style={{paddingLeft: "0.4em", paddingRight: "0.4em", marginRight: "1em", marginBottom: "1em"}} />
-								<input type="text" name="quantity" value={quantityCounter} readOnly={true} size="1" id="number" />
-								<input type="button" onClick={incrementer} value="+" style={{paddingLeft: "0.4em", paddingRight: "0.4em", marginLeft: "1em", marginBottom: "1em"}} />
-
 								<button onClick={async e => {
 									await updateUsersCart(baseURL, userId, userToken, product)
 									await fetchTheProducts()
-									alert(`${name} has been added to your cart`)
 									}} style={{marginTop: "0.8em"}}>Add to Cart</button>
 							</section>
 						</div>
