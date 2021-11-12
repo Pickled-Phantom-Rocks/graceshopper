@@ -18,8 +18,7 @@ import {
 } from './components';
 
 const App = () => {
-	//const baseURL = 'https://pickledphantomrocksserver.herokuapp.com/api';
-	const baseURL = 'http://localhost:3014/api';
+	const baseURL = 'https://pickledphantomrocksserver.herokuapp.com/api';
 
 	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 	const [username, setUsername] = useState(localStorage.getItem("username"));
@@ -57,7 +56,7 @@ const App = () => {
 					}
 				</Route>
 				<Route path="/profile/">
-					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId} />
+					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId} setUserName={setUsername}/>
 				</Route>
 				<Route path="/products">
 					<Products baseURL={baseURL} userId={userId} userToken={userToken} singleProductId={singleProductId} setSingleProductId={setSingleProductId} showSingleProduct={showSingleProduct} setShowSingleProduct={setShowSingleProduct} showProductsByCategory={showProductsByCategory} setShowProductsByCategory={setShowProductsByCategory} showAllProducts={showAllProducts} setShowAllProducts={setShowAllProducts} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>

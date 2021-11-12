@@ -2,7 +2,7 @@ import {React, useState} from 'react';
 import {newInfo, fetchCurrentUserInfo} from '.';
 
 const EditUser = (props) => {
-	const {baseURL, userToken, userId} = props;
+	const {baseURL, userToken, userId, setUsername} = props;
 
 	const [newName, setNewName] = useState('');
 	const [address, setAddress] = useState('');
@@ -13,6 +13,10 @@ const EditUser = (props) => {
 	async function sendEditUser() {
 		event.preventDefault();
 		newInfo(baseURL, userToken, userId, newName, address, city, state);
+		if(newName){
+			setUsername(newName);
+			localStorage.setItem('username', newName);
+		}
 	}
 
 	return <div className="form">
