@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import {newInfo, fetchCurrentUserInfo} from '.';
 
 const EditUser = (props) => {
@@ -8,7 +8,17 @@ const EditUser = (props) => {
 	const [address, setAddress] = useState('');
 	const [city, setCity] = useState('');
 	const [state, setState] = useState('');
-	const userInfo = fetchCurrentUserInfo(baseURL, userId);
+	const [userInfo, setUserInfo] = useState({})
+
+	async function getCurrentUserInformation() {
+		const userData = await fetchCurrentUserInfo(baseURL, userId)
+		setUserInfo(userData)
+	}
+
+	useEffect(() => {
+		getCurrentUserInformation()
+	}, [])
+
 
 	async function sendEditUser() {
 		event.preventDefault();
