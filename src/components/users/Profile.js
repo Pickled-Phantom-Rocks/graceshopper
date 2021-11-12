@@ -3,7 +3,7 @@ import {EditUser, EditUserBilling, EditPassword} from './';
 import {ProfileOrders} from '../order';
 
 const Profile = (props) => {
-	const {baseURL, username, userToken, userId, setUsername } = props;
+	const {baseURL, username, userToken, userId, setUserName } = props;
 	const [showEditUser, setShowEditUser] = useState(false);
 	const [showEditBilling, setShowEditBilling] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
@@ -27,7 +27,7 @@ const Profile = (props) => {
 				setShowEditUser(false);
 			}}>Set New Password</button>}
 		</section>
-		{!showEditUser ? null : <EditUser baseURL={baseURL} userToken={userToken} userId={userId} setUsername={setUsername}/>	}
+		{!showEditUser ? null : <EditUser baseURL={baseURL} userToken={userToken} userId={userId} setUsername={setUserName}/>	}
 		{!showEditBilling ? null: <EditUserBilling baseURL={baseURL} userToken={userToken} userId={userId} userId={userId}/>}
 		{!showNewPassword ? null : <EditPassword baseURL={baseURL} userToken={userToken} userId={userId}/>}
 		<section>
