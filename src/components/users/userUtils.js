@@ -20,10 +20,7 @@ async function fetchCurrentUserInfo(baseURL, userId) {
 
 	try {
 
-		const response = await fetch(`${baseURL}/users/${userId}`, {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json'}
-		})
+		const response = await fetch(`${baseURL}/users/${userId}`)
 
 		const data = await response.json()
 

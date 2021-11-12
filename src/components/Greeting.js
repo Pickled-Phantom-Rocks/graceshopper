@@ -3,17 +3,6 @@ import { fetchCurrentUserInfo } from './users/userUtils'
 
 const Greeting = (props) => {
 
-	const [userData, setUserData] = useState([])
-
-	async function getTheUserInfo() {
-		const userInfo = await fetchCurrentUserInfo()
-		setUserData(userInfo)
-		console.log("UserInfo: ", userInfo)
-	}
-
-	useEffect(() => {
-		await getTheUserInfo()
-	}, [])
 
 	const {username} = props;
 	return <div className="greeting">
