@@ -12,7 +12,7 @@ const Greeting = (props) => {
 	}
 
 	useEffect(() => {
-		getTheUserInfo()
+		await getTheUserInfo()
 	}, [])
 
 	const {username} = props;
