@@ -56,7 +56,7 @@ const App = () => {
 					}
 				</Route>
 				<Route path="/profile/">
-					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId} />
+					<Profile baseURL={baseURL} username={username} userToken={userToken} userId={userId} setUserName={setUsername}/>
 				</Route>
 				<Route path="/products">
 					<Products baseURL={baseURL} userId={userId} userToken={userToken} singleProductId={singleProductId} setSingleProductId={setSingleProductId} showSingleProduct={showSingleProduct} setShowSingleProduct={setShowSingleProduct} showProductsByCategory={showProductsByCategory} setShowProductsByCategory={setShowProductsByCategory} showAllProducts={showAllProducts} setShowAllProducts={setShowAllProducts} showSingleProductFromCart={showSingleProductFromCart} setShowSingleProductFromCart={setShowSingleProductFromCart}/>
