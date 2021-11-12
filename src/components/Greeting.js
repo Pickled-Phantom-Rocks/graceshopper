@@ -11,6 +11,10 @@ const Greeting = (props) => {
 		console.log("UserInfo: ", userInfo)
 	}
 
+	useEffect(() => {
+		getTheUserInfo()
+	}, [])
+
 	const {username} = props;
 	return <div className="greeting">
 		<h2>Hello, {username}!</h2><br/>
