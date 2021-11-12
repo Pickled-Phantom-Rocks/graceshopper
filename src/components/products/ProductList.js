@@ -74,7 +74,7 @@ const ProductList = (props) => {
 						</div>
 					</div>
 					<section className="userOptions">
-					<button disabled={true}>Add to Cart</button>
+					{userId ? <button disabled={true}>Add to Cart</button> : <p>Please register or log in to add to cart</p>}
 					</section>
 					</div>
 				}

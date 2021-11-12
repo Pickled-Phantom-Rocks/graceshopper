@@ -41,10 +41,10 @@ const SingleProduct = (props) => {
 						</div>
 					</div>
 				<section className="userOptions">
-					<button onClick={async e => {
+					{userId ? <button onClick={async e => {
 						await updateUsersCart(baseURL, userId, userToken, product)
 						await getTheProduct()
-						}} style={{marginTop: "0.8em"}}>Add to Cart</button>
+						}} style={{marginTop: "0.8em"}}>Add to Cart</button> : <p>Please register or log in to add to cart</p>}
 				</section>
 			</div>
 			</div>
@@ -63,7 +63,7 @@ const SingleProduct = (props) => {
 						</div>
 					</div>
 				<section className="userOptions">
-					<button disabled={true} style={{marginTop: "0.8em"}}>Add to Cart</button>
+					{userId ? <button disabled={true} style={{marginTop: "0.8em"}}>Add to Cart</button> : <p>Please register or log in to add to cart</p>}
 				</section>
 			</div>
 			</div>
