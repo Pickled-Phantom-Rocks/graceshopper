@@ -132,7 +132,6 @@ async function editProduct(baseURL, userToken, productId, name, desc, quantity, 
 }
 
 async function deleteProduct(baseURL, productId) {
-
 	await fetch(`${baseURL}/cart-products/${productId}`, {
 		method: 'DELETE',
 		headers: {'Content-Type': 'application/json'}
@@ -163,22 +162,22 @@ async function deleteProduct(baseURL, productId) {
 		}
 	})
 
-	// await fetch(`${baseURL}/products/${productId}`, {
-	// 	method: 'DELETE',
-	// 	headers: {
-	// 		'Content-Type': 'application/json',	
-	// 	}
-	// })
-	// .then(res => res.json())
-	// .then((result) => {
-	// 	if(result.status == 204){
-	// 		alert("Product was deleted.");
-	// 		location.reload();
-	// 	} else {
-	// 		alert("There was a problem, please try again");
-	// 	}
-	// })
-	// .catch(err => console.error(err));
+	await fetch(`${baseURL}/products/${productId}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',	
+		}
+	})
+	.then(res => res.json())
+	.then((result) => {
+		if(result.status == 204){
+			alert("Product was deleted.");
+			location.reload();
+		} else {
+			alert("There was a problem, please try again");
+		}
+	})
+	.catch(err => console.error(err));
 }
 
 async function addProduct(baseURL, categoryId, productId){
