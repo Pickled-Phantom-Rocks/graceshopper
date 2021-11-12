@@ -17,7 +17,7 @@ const Admin = (props) => {
 	const {baseURL, userToken, userId } = props;
 	const [showNewProduct, setShowNewProduct] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
-	const [showDeleteProduct, setShowDeleteProduct] = useState(true);
+	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
 	const [showAddToCategory, setShowAddToCategory] = useState(false);
 	const [showRemoveFromCategory, setshowRemoveFromCategory] = useState(false);
 	const [showNewCategory, setShowNewCategory] = useState(false);
@@ -172,7 +172,6 @@ const Admin = (props) => {
 			}
 		{showAllOrders ? <OrderList baseURL={baseURL} userToken={userToken} /> : null}
 		{showByStatus ? <OrdersByStatus baseURL={baseURL} orderListStatus={orderListStatus} userToken={userToken}/> : null}
-		<p>Add pagination so only ten items at a time are shown.</p>
 	</div>
 }
 
