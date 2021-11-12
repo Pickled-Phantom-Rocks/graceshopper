@@ -16,21 +16,23 @@ async function fetchUsers(baseURL) {
 	}
 }
 
-const fetchCurrentUserInfo = (baseURL, userId) => {
-	const [info, setInfo] = useState([]);
-	useEffect(() => {
-		fetch(`${baseURL}/users/${userId}`, {
+async function fetchCurrentUserInfo(baseURL, userId) {
+
+	try {
+
+		const response = await fetch(`${baseURL}/users/${userId}`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json'}
 		})
-		 .then(res => res.json())
-		 .then((res) => {
-			const response = res;
-			setInfo(response);
-		 })
-		 .catch(error => console.error(error))
-	}, []);
-	return info;
+
+		const data = await response.json()
+
+		return data
+
+	} catch (error) {
+		throw error
+	}
+
 }
 
 async function newPassword(baseURL, userToken, userId, current, newPass) {
@@ -57,29 +59,36 @@ async function newPassword(baseURL, userToken, userId, current, newPass) {
 }
 
 async function newInfo(baseURL, userToken, userId, newName, address, city, state) {
-	const response = await fetch(`${baseURL}/users/${userId}/info`, {
-		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${userToken}`
-		},
-		body: JSON.stringify({
-			name: newName,
-			address: address,
-			city: city,
-			state: state
+
+	try {
+
+		const response = await fetch(`${baseURL}/users/${userId}/info`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${userToken}`
+			},
+			body: JSON.stringify({
+				name: newName,
+				address: address,
+				city: city,
+				state: state
+			})
 		})
-	}).then(res => res.json())
-	.then((result) => { 
-		const status = result.status;
-		if(status == 204){
+
+		const data = await response.json()
+
+		const status = data.status
+		if(status === 204) {
 			alert("You have successfully updated your info.")
-			return location.reload();
+			return location.reload()
 		} else {
 			alert("Something went wrong. Please try again.")
 		}
-	})
-		.catch(err => console.error(err));
+
+	} catch (error) {
+		throw error
+	}
 
 }
 

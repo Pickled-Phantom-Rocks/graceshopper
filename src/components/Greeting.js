@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetchCurrentUserInfo } from './users/userUtils'
 
 const Greeting = (props) => {
+
+	const [userData, setUserData] = useState([])
+
+	async function getTheUserInfo() {
+		const userInfo = await fetchCurrentUserInfo()
+		setUserData(userInfo)
+		console.log("UserInfo: ", userInfo)
+	}
+
 	const {username} = props;
 	return <div className="greeting">
 		<h2>Hello, {username}!</h2><br/>
